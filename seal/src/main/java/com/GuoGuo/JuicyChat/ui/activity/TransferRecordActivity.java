@@ -269,7 +269,7 @@ public class TransferRecordActivity extends BaseActivity {
 				headUrl = item.getFromuserheadico();
 			}
 			Picasso.with(parent.getContext()).load(headUrl).into(vh.header);
-			vh.date.setText(item.getCreatetime().replace("T", " ").substring(0, 19));
+			vh.date.setText(StringUtils.sTimeToString(item.getCreatetime()));
 			return convertView;
 		}
 		

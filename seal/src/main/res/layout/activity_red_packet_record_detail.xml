@@ -4,6 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	tools:context="com.GuoGuo.JuicyChat.ui.activity.TransferDetailActivity"
 	android:orientation="vertical"
 	android:background="@color/background">
@@ -16,11 +17,15 @@
 		android:padding="@dimen/middle_space"
 		android:gravity="center_vertical">
 		
-		<ImageView
+		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
 			android:id="@+id/redpacket_record_detail_head_iv"
 			android:layout_width="30dp"
 			android:layout_height="30dp"
-			android:scaleType="centerCrop"/>
+			android:scaleType="centerCrop"
+			app:sriv_left_bottom_corner_radius="30dp"
+			app:sriv_right_top_corner_radius="30dp"
+			app:sriv_left_top_corner_radius="30dp"
+			app:sriv_right_bottom_corner_radius="30dp"/>
 		
 		<TextView
 			android:id="@+id/redpacket_record_detail_type_tv"
@@ -91,6 +96,7 @@
 			android:layout_marginTop="@dimen/middle_space">
 			
 			<TextView
+				android:id="@+id/redpacket_record_detail_send_title_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="发包人"

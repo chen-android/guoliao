@@ -1,10 +1,12 @@
 package com.GuoGuo.JuicyChat.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -128,6 +130,38 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 			@Override
 			public void onRefresh(RefreshLayout refreshLayout) {
 				request(REQUEST_REDPACK_RECEIVE_LIST_REFRESH);
+			}
+		});
+		
+		sendSfl.setOnRefreshLoadmoreListener(new OnRefreshLoadmoreListener() {
+			@Override
+			public void onLoadmore(RefreshLayout refreshLayout) {
+				request(REQUEST_REDPACK_SEND_LIST_MORE);
+			}
+			
+			@Override
+			public void onRefresh(RefreshLayout refreshLayout) {
+				request(REQUEST_REDPACK_SEND_LIST_REFRESH);
+			}
+		});
+		
+		receiveLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(MyRedPacketActivity.this, RedPacketRecordDetailActivity.class);
+				intent.putExtra("type", 1);
+				intent.putExtra("data", receiveAdapter.getItem(position - 1));
+				startActivity(intent);
+			}
+		});
+		
+		sendLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(MyRedPacketActivity.this, RedPacketRecordDetailActivity.class);
+				intent.putExtra("type", 2);
+				intent.putExtra("data", sendAdapter.getItem(position - 1));
+				startActivity(intent);
 			}
 		});
 	}
@@ -322,7 +356,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 			RedPacketReceiveData item = getItem(position);
 			vh.name.setText(item.getFromuser());
 			vh.money.setText(StringUtils.getFormatMoney(item.getUnpackmoney() + ""));
-			vh.date.setText(item.getCreatetime().replace("T", " ").substring(0, 19));
+			vh.date.setText(StringUtils.sTimeToString(item.getCreatetime()));
 			vh.group.setVisibility(item.getType() == 2 ? View.VISIBLE : View.GONE);
 			return convertView;
 		}
@@ -388,7 +422,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 			RedPacketSendData item = getItem(position);
 			vh.name.setText(item.getFromuser());
 			vh.money.setText(StringUtils.getFormatMoney(item.getMoney() + ""));
-			vh.date.setText(item.getCreatetime().replace("T", " ").substring(0, 19));
+			vh.date.setText(StringUtils.sTimeToString(item.getCreatetime()));
 			String status;
 			if (item.getCount() == item.getUnpackcount()) {
 				status = "已领完" + item.getUnpackcount() + "/" + item.getCount() + "个";

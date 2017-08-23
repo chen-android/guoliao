@@ -20,6 +20,8 @@ public class RedPacketReceiveData implements Parcelable {
 	private long redpacketmoney;
 	private String fromuser;
 	private String tomember;
+	private String fromuserico;
+	private String note;
 	
 	public long getId() {
 		return id;
@@ -117,6 +119,22 @@ public class RedPacketReceiveData implements Parcelable {
 		this.tomember = tomember;
 	}
 	
+	public String getFromuserico() {
+		return fromuserico;
+	}
+	
+	public void setFromuserico(String fromuserico) {
+		this.fromuserico = fromuserico;
+	}
+	
+	public String getNote() {
+		return note;
+	}
+	
+	public void setNote(String note) {
+		this.note = note;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -136,6 +154,8 @@ public class RedPacketReceiveData implements Parcelable {
 		dest.writeLong(this.redpacketmoney);
 		dest.writeString(this.fromuser);
 		dest.writeString(this.tomember);
+		dest.writeString(this.fromuserico);
+		dest.writeString(this.note);
 	}
 	
 	public RedPacketReceiveData() {
@@ -154,6 +174,8 @@ public class RedPacketReceiveData implements Parcelable {
 		this.redpacketmoney = in.readLong();
 		this.fromuser = in.readString();
 		this.tomember = in.readString();
+		this.fromuserico = in.readString();
+		this.note = in.readString();
 	}
 	
 	public static final Parcelable.Creator<RedPacketReceiveData> CREATOR = new Parcelable.Creator<RedPacketReceiveData>() {

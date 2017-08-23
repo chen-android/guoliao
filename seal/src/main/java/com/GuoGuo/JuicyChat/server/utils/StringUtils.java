@@ -21,6 +21,10 @@ public class StringUtils {
 		return updateAtDate;
 	}
 	
+	public static String sTimeToString(String dateTime) {
+		return dateTime.replace("T", " ").substring(0, 19);
+	}
+	
 	public static String sTimeToTimeStr(String dateTime) {
 		return dateTime.substring(11, 16);
 	}
@@ -45,5 +49,18 @@ public class StringUtils {
 			sb.insert(length - 8, "亿");
 		}
 		return sb.toString();
+	}
+	
+	public static String redPacketState2String(int state) {
+		switch (state) {
+			case 1:
+				return "可领取";
+			case 2:
+				return "已领取";
+			case 3:
+				return "已过期";
+			default:
+				return "";
+		}
 	}
 }
