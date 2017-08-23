@@ -8,9 +8,11 @@ import android.text.TextUtils;
 
 import com.GuoGuo.JuicyChat.message.TestMessage;
 import com.GuoGuo.JuicyChat.message.provider.ContactNotificationMessageProvider;
+import com.GuoGuo.JuicyChat.message.provider.GGRedPacketMessageProvider;
+import com.GuoGuo.JuicyChat.message.provider.RedPacketNotificationMessageProvider;
 import com.GuoGuo.JuicyChat.message.provider.TestMessageProvider;
 import com.GuoGuo.JuicyChat.model.GGRedPacketMessage;
-import com.GuoGuo.JuicyChat.model.GGRedPacketMessageProvider;
+import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
 import com.GuoGuo.JuicyChat.model.MyExtensionModule;
 import com.GuoGuo.JuicyChat.server.utils.NLog;
 import com.GuoGuo.JuicyChat.stetho.RongDatabaseDriver;
@@ -111,6 +113,8 @@ public class App extends MultiDexApplication {
 				RongIM.registerMessageType(GGRedPacketMessage.class);
 				RongIM.registerMessageTemplate(new GGRedPacketMessageProvider());
 				RongIM.registerMessageTemplate(new TestMessageProvider());
+				RongIM.registerMessageType(GGRedPacketNotifyMessage.class);
+				RongIM.registerMessageTemplate(new RedPacketNotificationMessageProvider());
 				
 				
 			} catch (Exception e) {

@@ -38,6 +38,13 @@
 				android:hint="0"
 				android:inputType="numberSigned"
 				android:textCursorDrawable="@drawable/selector_cursor"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="00"
+				android:textColor="@color/black"
+				android:textSize="16sp"/>
 			
 			<TextView
 				style="@style/text_black_16"

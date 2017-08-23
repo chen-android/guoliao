@@ -1,4 +1,4 @@
-package com.GuoGuo.JuicyChat.model;
+package com.GuoGuo.JuicyChat.message.provider;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.GuoGuo.JuicyChat.R;
+import com.GuoGuo.JuicyChat.model.GGRedPacketMessage;
 import com.GuoGuo.JuicyChat.server.SealAction;
 import com.GuoGuo.JuicyChat.server.network.async.AsyncTaskManager;
 import com.GuoGuo.JuicyChat.server.network.async.OnDataListener;

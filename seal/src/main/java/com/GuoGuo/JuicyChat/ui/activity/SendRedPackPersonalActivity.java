@@ -84,7 +84,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 				if (s.length() == 0) {
 					moneyTv.setText("0");
 				} else {
-					moneyTv.setText(StringUtils.getFormatMoney(s.toString()));
+					moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
 				}
 			}
 		});

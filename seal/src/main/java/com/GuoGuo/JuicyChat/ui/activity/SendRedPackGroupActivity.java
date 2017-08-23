@@ -94,7 +94,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 				if (s.length() == 0) {
 					moneyTv.setText("0");
 				} else {
-					moneyTv.setText(StringUtils.getFormatMoney(s.toString()));
+					moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
 				}
 				checkCanSubmitClick();
 			}
@@ -228,7 +228,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 									
 									@Override
 									public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-										
+										NToast.shortToast(mContext, message.getExtra());
 									}
 								});
 					} else if (redPacketResponse.getCode() == 66006) {
