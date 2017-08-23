@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="240dp"
+              android:layout_height="match_parent"
+              android:background="@drawable/shape_bg_white_5r"
+              android:paddingTop="@dimen/large_space"
+              android:padding="@dimen/middle_space">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="转账用户："
+			android:gravity="right"
+			android:textColor="@color/black"/>
+		
+		<TextView
+			android:id="@+id/dialog_recharge_from_user_tv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			tools:text="啊说懒得放"
+			android:textColor="@color/black"/>
+	</LinearLayout>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginTop="@dimen/middle_space">
+		
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="接收用户："
+			android:gravity="right"
+			android:textColor="@color/black"/>
+		
+		<TextView
+			android:id="@+id/dialog_recharge_to_user_tv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			tools:text="啊说懒得放"
+			android:textColor="@color/black"/>
+	</LinearLayout>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginTop="@dimen/middle_space">
+		
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="转账果币："
+			android:gravity="right"
+			android:textColor="@color/black"/>
+		
+		<TextView
+			android:id="@+id/dialog_recharge_money_tv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			tools:text="12341234"
+			android:textColor="@color/black"/>
+	</LinearLayout>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_marginTop="@dimen/middle_space">
+		
+		<TextView
+			android:layout_width="80dp"
+			android:layout_height="wrap_content"
+			android:text="时间："
+			android:gravity="right"
+			android:textColor="@color/black"/>
+		
+		<TextView
+			android:id="@+id/dialog_recharge_date_tv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			tools:text="12341234"
+			android:textColor="@color/black"/>
+	</LinearLayout>
+	
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/large_space">
+		
+		<TextView
+			android:id="@+id/dialog_recharge_close_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="确定"
+			android:textSize="14sp"
+			android:textColor="@color/white"
+			android:background="@drawable/shape_bg_blue_5r"
+			android:paddingLeft="30dp"
+			android:paddingRight="30dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+			android:layout_centerInParent="true"/>
+		
+		<ImageView
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:scaleType="fitXY"
+			android:src="@drawable/icon_recharge_success"
+			android:layout_alignParentRight="true"/>
+	</RelativeLayout>
+
+</LinearLayout>

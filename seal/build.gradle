@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '25.0.0'
+
+    defaultConfig {
+        applicationId "com.GuoGuo.JuicyChat"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 102
+        versionName "1.0.2"
+
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
+    }
+
+    signingConfigs {
+        config {
+            storeFile file("keystore.jks")
+            storePassword "xGtJ4RjAzX"
+            keyAlias "guoliaokey"
+            keyPassword "xGtJ4RjAzX"
+        }
+    }
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    packagingOptions {
+        exclude 'AndroidManifest.xml'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.config //for release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.config //for release
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    greendao {
+        schemaVersion 2
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':Recognizer')
+    compile project(':contactcard')
+    compile project(':sticker')
+    compile files('libs/MiPush_SDK_Client_3_1_2.jar')
+    compile project(':IMKit')
+    compile project(':CallKit')
+    //    compile project(':RedPacket')
+    compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.facebook.stetho:stetho:1.4.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.lovedise:permissiongen:0.0.6'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.3.5'
+    compile 'com.blankj:utilcode:1.7.1'
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+}
+apply plugin: 'com.google.gms.google-services'

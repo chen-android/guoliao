@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/seal_bg">
+	
+	<LinearLayout
+		android:id="@+id/pay_pwd_edit_old_ll"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+		
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="10dp"
+			android:text="原密码"/>
+		
+		<EditText
+			android:id="@+id/pay_pwd_edit_old_et"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:padding="10dp"
+			android:textSize="14sp"
+			android:inputType="numberPassword"
+			android:maxLength="6"
+			android:hint="请输入原密码"/>
+	</LinearLayout>
+	
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:text="支付密码"/>
+	
+	<EditText
+		android:id="@+id/pay_pwd_edit_new_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:padding="10dp"
+		android:textSize="14sp"
+		android:inputType="numberPassword"
+		android:maxLength="6"
+		android:hint="请输入6位支付密码"/>
+	
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:text="重复支付密码"/>
+	
+	<EditText
+		android:id="@+id/pay_pwd_edit_confirm_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:padding="10dp"
+		android:textSize="14sp"
+		android:inputType="numberPassword"
+		android:maxLength="6"
+		android:hint="请重复支付密码"/>
+	
+	<Button
+		android:id="@+id/pay_pwd_edit_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/shape_bg_blue_5r"
+		android:text="确认"
+		android:layout_margin="50dp"
+		android:textColor="@color/white"/>
+</LinearLayout>

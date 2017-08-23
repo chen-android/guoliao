@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:background="@color/white">
+	
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		
+		<TextView
+			android:id="@+id/dialog_red_packet_close_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/small_space"
+			android:padding="@dimen/large_space"
+			android:text="X"/>
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:text="请输入支付密码"
+			android:textSize="18sp"
+			android:textStyle="bold"/>
+	</RelativeLayout>
+	
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="0.5dp"
+		android:background="@color/blue"/>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="@dimen/large_space">
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			
+			<LinearLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_centerInParent="true"
+				android:gravity="center_vertical"
+				android:layout_margin="15dp">
+				
+				<ImageView
+					android:layout_width="25dp"
+					android:layout_height="30dp"
+					android:src="@drawable/icon_guobi"/>
+				
+				<TextView
+					android:id="@+id/dialog_red_packet_pay_money_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					tools:text="4"
+					android:textSize="18sp"
+					android:layout_marginLeft="@dimen/middle_space"/>
+			</LinearLayout>
+		</RelativeLayout>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="0.5dp"
+			android:background="@color/gray"/>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="@dimen/large_space">
+			
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="剩余果币"/>
+			
+			<TextView
+				android:id="@+id/dialog_red_packet_pay_remain_money_tv"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				tools:text="123412"
+				android:layout_alignParentRight="true"/>
+		</RelativeLayout>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="0.5dp"
+			android:background="@color/gray"/>
+		
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			
+			<LinearLayout
+				android:id="@+id/dialog_red_packet_pwd_ll"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:background="@drawable/shape_border_blue_0r"
+				android:divider="@drawable/shape_divider_vertical_blue"
+				android:showDividers="middle">
+				
+				<TextView
+					android:id="@+id/pay_dot_tv1"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="50dp"
+					tools:text="●"
+					android:textColor="@color/black"
+					android:gravity="center"
+					android:textSize="25sp"/>
+				
+				<TextView
+					android:id="@+id/pay_dot_tv2"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="50dp"
+					tools:text="●"
+					android:textColor="@color/black"
+					android:gravity="center"
+					android:textSize="25sp"/>
+				
+				<TextView
+					android:id="@+id/pay_dot_tv3"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="50dp"
+					tools:text="●"
+					android:textColor="@color/black"
+					android:gravity="center"
+					android:textSize="25sp"/>
+				
+				<TextView
+					android:id="@+id/pay_dot_tv4"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="50dp"
+					tools:text="●"
+					android:textColor="@color/black"
+					android:gravity="center"
+					android:textSize="25sp"/>
+				
+				<TextView
+					android:id="@+id/pay_dot_tv5"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="50dp"
+					tools:text="●"
+					android:textColor="@color/black"
+					android:gravity="center"
+					android:textSize="25sp"/>
+				
+				<TextView
+					android:id="@+id/pay_dot_tv6"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="50dp"
+					tools:text="●"
+					android:textColor="@color/black"
+					android:gravity="center"
+					android:textSize="25sp"/>
+			</LinearLayout>
+			
+			<EditText
+				android:id="@+id/dialog_red_packet_pay_et"
+				android:layout_width="match_parent"
+				android:layout_height="50dp"
+				android:background="@color/transparent"
+				android:inputType="numberSigned"
+				android:cursorVisible="false"
+				android:focusable="true"
+				android:focusableInTouchMode="true"/>
+		</FrameLayout>
+	</LinearLayout>
+</LinearLayout>

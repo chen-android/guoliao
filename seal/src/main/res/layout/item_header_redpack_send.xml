@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@color/white"
+	android:orientation="vertical">
+	
+	<ImageView
+		android:id="@+id/my_red_packet_head_iv"
+		android:layout_width="60dp"
+		android:layout_height="60dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_margin="@dimen/large_space"
+		tools:src="@drawable/de_default_portrait"/>
+	
+	<TextView
+		android:id="@+id/my_red_packet_state_tv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:text="共收到"/>
+	
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginTop="@dimen/large_space"
+		android:orientation="horizontal">
+		
+		<TextView
+			android:id="@+id/my_red_packet_money_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/red"
+			android:textSize="30sp"
+			android:textStyle="bold"
+			tools:text="65"/>
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="果币"/>
+	</LinearLayout>
+	
+	<TextView
+		android:id="@+id/my_red_packet_send_tv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginTop="@dimen/large_space"
+		tools:text="发出红包4个"/>
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/middle_space"
+		android:layout_marginTop="@dimen/middle_space"
+		android:background="@color/background"/>
+</LinearLayout>

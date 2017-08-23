@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.GuoGuo.JuicyChat.ui.activity.RechargeActivity"
+	android:orientation="vertical"
+	android:padding="20dp">
+	
+	<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+		android:id="@+id/recharge_head_iv"
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		android:layout_marginTop="30dp"
+		android:layout_gravity="center_horizontal"
+		android:scaleType="centerCrop"
+		app:sriv_left_bottom_corner_radius="3dip"
+		app:sriv_left_top_corner_radius="3dip"
+		app:sriv_right_bottom_corner_radius="3dip"
+		app:sriv_right_top_corner_radius="3dip"/>
+	
+	<TextView
+		android:id="@+id/recharge_username_iv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:textSize="16sp"
+		tools:text="klsajflsjf"/>
+	
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="转账果币"
+		android:layout_marginTop="@dimen/large_space"
+		android:textColor="@color/black"
+		android:textSize="16sp"/>
+	
+	<EditText
+		android:id="@+id/recharge_money_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="numberSigned"
+		android:layout_marginTop="@dimen/middle_space"
+		/>
+	
+	<EditText
+		android:id="@+id/recharge_note_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="text"
+		android:layout_marginTop="@dimen/middle_space"
+		android:hint="转账附言（20个字以内）"
+		android:maxLength="20"
+		/>
+	
+	<Button
+		android:id="@+id/recharge_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/selector_common_btn"
+		android:layout_marginTop="50dp"
+		android:text="转账"
+		android:textColor="@color/white"/>
+</LinearLayout>

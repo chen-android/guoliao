@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/white"
+		android:orientation="vertical"
+		android:padding="@dimen/large_space">
+		
+		<EditText
+			android:id="@+id/feedback_et"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/white"
+			android:hint="请填写申诉原因（例如：存在欺诈骗钱行为）"
+			android:textSize="14sp"
+			android:minLines="3"/>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="@drawable/shape_line_break"/>
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/large_space"
+			android:text="图片证据"
+			android:textColor="@color/black"/>
+		
+		<com.GuoGuo.JuicyChat.ui.widget.DemoGridView
+			android:id="@+id/gridview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="1dp"
+			android:paddingRight="1dp"
+			android:background="#ffffff"
+			android:gravity="start"
+			android:listSelector="@android:color/transparent"
+			android:numColumns="3"/>
+	
+	
+	</LinearLayout>
+	
+	<Button
+		android:id="@+id/feedback_submit_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="提交"
+		android:background="@drawable/shape_bg_blue_5r"
+		android:textColor="@color/white"
+		android:layout_margin="50dp"/>
+</LinearLayout>

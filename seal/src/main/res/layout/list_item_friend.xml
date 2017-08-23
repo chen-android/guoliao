@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical">
+	
+	<ImageView
+		android:id="@+id/list_item_friend_iv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		tools:src="@drawable/rc_default_portrait"
+		android:layout_margin="10dp"
+		android:maxHeight="40dp"
+		android:maxWidth="4dp"
+		android:scaleType="center"/>
+	
+	<TextView
+		android:id="@+id/list_item_friend_name_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:text="称呼四啊开始"
+		android:textSize="16sp"
+		android:maxLines="1"/>
+</LinearLayout>

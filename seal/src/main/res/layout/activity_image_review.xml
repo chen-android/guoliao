@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	android:id="@+id/image_review_rl"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.GuoGuo.JuicyChat.ui.activity.ImageReviewActivity"
+	android:background="@android:color/black">
+	
+	<ImageView
+		android:id="@+id/image_review_iv"
+		android:layout_width="64dp"
+		android:layout_height="64dp"
+		android:background="@drawable/_ic_alipay"
+		android:layout_marginTop="48dp"
+		android:layout_marginLeft="@dimen/middle_space"
+		android:scaleType="fitXY"/>
+</RelativeLayout>

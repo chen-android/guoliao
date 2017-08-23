@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.GuoGuo.JuicyChat.ui.activity.AddFriendActivity"
+	android:orientation="vertical"
+	android:background="@color/seal_bg">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center_vertical"
+		android:background="@color/white">
+		
+		<ImageView
+			android:id="@+id/add_friend_iv"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:layout_margin="15dp"
+			android:scaleType="centerCrop"
+			tools:src="@drawable/rc_default_portrait"/>
+		
+		<TextView
+			android:id="@+id/add_friend_name_tv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textSize="17sp"
+			tools:text="昂科拉升到级"/>
+	</LinearLayout>
+	
+	<Button
+		android:id="@+id/add_friend_bt"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="50dp"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:text="加为好友"
+		android:background="@drawable/shape_bg_blue_5r"
+		android:textColor="@color/white"/>
+</LinearLayout>

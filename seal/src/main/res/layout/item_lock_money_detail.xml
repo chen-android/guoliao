@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical">
+	
+	<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+		android:id="@+id/item_lock_head_iv"
+		android:layout_width="36dp"
+		android:layout_height="36dp"
+		android:layout_gravity="center"
+		android:scaleType="centerCrop"
+		android:layout_margin="2dp"
+		app:sriv_left_bottom_corner_radius="3dip"
+		app:sriv_left_top_corner_radius="3dip"
+		app:sriv_right_bottom_corner_radius="3dip"
+		app:sriv_right_top_corner_radius="3dip"/>
+	
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_weight="1"
+		android:layout_marginLeft="@dimen/small_space"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+		
+		<TextView
+			android:id="@+id/item_lock_name_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="雷克萨冻结"
+			android:textColor="@color/black"/>
+		
+		<TextView
+			android:id="@+id/item_lock_time_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			tools:text="123412"
+			android:textColor="@color/black"/>
+	</LinearLayout>
+	
+	<TextView
+		android:id="@+id/item_lock_money_tv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		tools:text="132"
+		android:layout_marginRight="20dp"
+		android:textColor="@color/black"/>
+</LinearLayout>

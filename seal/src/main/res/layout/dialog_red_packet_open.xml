@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="300dp"
+              android:layout_height="450dp"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@drawable/bg_redpacket_open"
+              android:orientation="vertical">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:orientation="vertical"
+		android:layout_weight="11">
+		
+		<ImageView
+			android:id="@+id/dialog_red_packet_open_exit_iv"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:layout_marginLeft="@dimen/middle_space"
+			android:layout_marginTop="@dimen/middle_space"
+			android:src="@drawable/icon_btn_exit"/>
+		
+		<ImageView
+			android:id="@+id/dialog_red_packet_open_head_iv"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_gravity="center_horizontal"/>
+		
+		<TextView
+			android:id="@+id/dialog_red_packet_name_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			tools:text="cs"
+			android:layout_marginTop="@dimen/small_space"
+			android:textColor="@color/color_e0ac59"/>
+		
+		<TextView
+			android:id="@+id/dialog_red_packet_open_tip_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="发了一个红包，金额随机"
+			android:layout_marginTop="@dimen/middle_space"
+			android:textColor="@color/color_e0ac59"/>
+		
+		<TextView
+			android:id="@+id/dialog_red_packet_note_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			tools:text="恭喜发财，大吉大利"
+			android:maxLines="1"
+			android:ellipsize="end"
+			android:textSize="22sp"
+			android:layout_margin="20dp"
+			android:textColor="@color/color_e0ac59"/>
+	</LinearLayout>
+	
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="6">
+		
+		<ImageView
+			android:id="@+id/dialog_red_packet_open_action_iv"
+			android:layout_width="70dp"
+			android:layout_height="70dp"
+			android:src="@drawable/icon_red_packet_open_bt"
+			android:layout_centerHorizontal="true"/>
+		
+		<TextView
+			android:id="@+id/dialog_red_packet_detail_tv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="查看领取详情>"
+			android:textColor="@color/color_e0ac59"
+			android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true"
+			android:layout_marginBottom="20dp"/>
+	</RelativeLayout>
+
+
+</LinearLayout>
