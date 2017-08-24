@@ -130,8 +130,8 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 			case GET_MONEY:
 				return action.getRemainMoney();
 			case SEND_RED_PACKET:
-				return action.sendRedPacket(Integer.valueOf(targetId), Long.valueOf(moneyEt.getText().toString()), payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(), 1, 1, 1);
-		}
+                return action.sendRedPacket(Integer.valueOf(targetId), Long.valueOf(moneyEt.getText().toString()) * 100, payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(), 1, 1, 1);
+        }
 		return null;
 	}
 	

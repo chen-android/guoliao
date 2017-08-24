@@ -158,8 +158,8 @@ public class SendRedPackGroupActivity extends BaseActivity {
 					}).show();
 					return;
 				}
-				if (Long.valueOf(moneyEt.getText().toString()) < Long.valueOf(countEt.getText().toString())) {
-					NToast.shortToast(mContext, "每个红包至少一个果币哦~");
+                if (Long.valueOf(moneyEt.getText().toString()) * 100 < Long.valueOf(countEt.getText().toString())) {
+                    NToast.shortToast(mContext, "每个红包至少一个果币哦~");
 					return;
 				}
 				LoadDialog.show(mContext);
@@ -185,8 +185,8 @@ public class SendRedPackGroupActivity extends BaseActivity {
 			case GET_MONEY:
 				return action.getRemainMoney();
 			case SEND_RED_PACKET:
-				return action.sendRedPacket(Integer.valueOf(targetId), Long.valueOf(moneyEt.getText().toString()),
-						payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(),
+                return action.sendRedPacket(Integer.valueOf(targetId), Long.valueOf(moneyEt.getText().toString()) * 100,
+                        payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(),
 						1, 2, Integer.valueOf(countEt.getText().toString()));
 		}
 		return null;
