@@ -49,7 +49,7 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
         ViewHolder viewHolder = (ViewHolder) v.getTag();
         if (content != null) {
             String touserid = content.getTouserid();
-            if (!TextUtils.isEmpty(touserid) && touserid.equals(SharedPreferencesContext.getInstance().getUserId())) {
+            if (TextUtils.isEmpty(touserid) || "0".equals(touserid) || !TextUtils.isEmpty(touserid) && touserid.equals(SharedPreferencesContext.getInstance().getUserId())) {
                 String message1 = content.getMessage();
                 if (!TextUtils.isEmpty(message1)) {
                     CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
@@ -66,8 +66,11 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     
     @Override
     public Spannable getContentSummary(GGRedPacketNotifyMessage content) {
-        if (content != null && !TextUtils.isEmpty(content.getMessage())) {
-            return new SpannableString(content.getMessage());
+        if (content != null) {
+            String touserid = content.getTouserid();
+            if (TextUtils.isEmpty(touserid) || "0".equals(touserid) || !TextUtils.isEmpty(touserid) && touserid.equals(SharedPreferencesContext.getInstance().getUserId())) {
+                return new SpannableString(content.getMessage());
+            }
         }
         return null;
     }

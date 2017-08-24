@@ -68,7 +68,7 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
 			try {
 				try {
 					bean = JsonMananger.jsonToBean(content.getExtra(), Friend.class);
-				} catch (HttpException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} finally {
