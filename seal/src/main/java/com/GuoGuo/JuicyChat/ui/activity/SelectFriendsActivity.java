@@ -2,6 +2,7 @@ package com.GuoGuo.JuicyChat.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -196,6 +197,8 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 			setTitle("增加讨论组成员");
 		} else if (deleDisList != null) {
 			setTitle("移除讨论组成员");
+		} else if (isGagMember) {
+			setTitle("禁言管理");
 		} else {
 			setTitle(getString(R.string.select_contact));
 			if (!getSharedPreferences("config", MODE_PRIVATE).getBoolean("isDebug", false)) {
@@ -504,8 +507,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 							mSelectedFriend.add(friend);
 							LinearLayout view = (LinearLayout) View.inflate(SelectFriendsActivity.this, R.layout.item_selected_friends, null);
 							SelectableRoundedImageView asyncImageView = (SelectableRoundedImageView) view.findViewById(R.id.iv_selected_friends);
-//                            String portraitUri = SealUserInfoManager.getInstance().getPortraitUri(friend);
-							String portraitUri = "";
+							String portraitUri = SealUserInfoManager.getInstance().getPortraitUri(new UserInfo(friend.getFriendid(), friend.getNickname(), Uri.parse(friend.getHeadico())));
 							ImageLoader.getInstance().displayImage(portraitUri, asyncImageView);
 							view.removeView(asyncImageView);
 							mSelectedFriendsLinearLayout.addView(asyncImageView);
