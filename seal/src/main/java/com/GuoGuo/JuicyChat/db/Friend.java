@@ -28,6 +28,7 @@ public class Friend implements Parcelable {
 	private int state;//1好友   3被加
 	private String letter;
 	private String whatsup;
+	private int isvisible;
 	
 	public long getId() {
 		return id;
@@ -141,6 +142,14 @@ public class Friend implements Parcelable {
 		this.whatsup = whatsup;
 	}
 	
+	public int getIsvisible() {
+		return isvisible;
+	}
+	
+	public void setIsvisible(int isvisible) {
+		this.isvisible = isvisible;
+	}
+	
 	public Friend() {
 	}
 	
@@ -150,11 +159,8 @@ public class Friend implements Parcelable {
 		this.headico = headico;
 	}
 	
-	
-	@Generated(hash = 1549570145)
-	public Friend(long id, String myid, String friendid, String remark, int isblacklist, int isnonotice,
-	              String username, String nickname, String headico, String createtime, int sex, int state,
-	              String letter, String whatsup) {
+	@Generated(hash = 165268151)
+	public Friend(long id, String myid, String friendid, String remark, int isblacklist, int isnonotice, String username, String nickname, String headico, String createtime, int sex, int state, String letter, String whatsup, int isvisible) {
 		this.id = id;
 		this.myid = myid;
 		this.friendid = friendid;
@@ -169,8 +175,9 @@ public class Friend implements Parcelable {
 		this.state = state;
 		this.letter = letter;
 		this.whatsup = whatsup;
+		this.isvisible = isvisible;
 	}
-	
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -192,6 +199,7 @@ public class Friend implements Parcelable {
 		dest.writeInt(this.state);
 		dest.writeString(this.letter);
 		dest.writeString(this.whatsup);
+		dest.writeInt(this.isvisible);
 	}
 	
 	protected Friend(Parcel in) {
@@ -209,6 +217,7 @@ public class Friend implements Parcelable {
 		this.state = in.readInt();
 		this.letter = in.readString();
 		this.whatsup = in.readString();
+		this.isvisible = in.readInt();
 	}
 	
 	public static final Creator<Friend> CREATOR = new Creator<Friend>() {

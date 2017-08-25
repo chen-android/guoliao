@@ -1167,6 +1167,33 @@ public class SealAction extends BaseAction {
 	}
 	
 	/**
+	 * 删除一条好友请求消息
+	 *
+	 * @param friendId 好友ID
+	 * @throws HttpException
+	 */
+	public BaseResponse deleteFriendsRequestMsg(String friendId) throws HttpException {
+		String url = getURL("RemoveFriendFromNewFriends.aspx");
+		Map<String, String> map = new HashMap<>();
+		map.put("friendId", friendId);
+		map.put("token", SharedPreferencesContext.getInstance().getToken());
+		String json = JSON.toJSONString(map);
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		BaseResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, BaseResponse.class);
+		}
+		return response;
+	}
+	
+	/**
 	 * 创建群组
 	 *
 	 * @param name      群组名

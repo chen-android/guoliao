@@ -18,6 +18,7 @@ import com.GuoGuo.JuicyChat.server.response.BaseResponse;
 import com.GuoGuo.JuicyChat.server.response.GetFriendListResponse;
 import com.GuoGuo.JuicyChat.server.utils.CommonUtils;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
+import com.GuoGuo.JuicyChat.server.widget.DialogWithYesOrNoUtils;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.ui.adapter.NewFriendListAdapter;
 
@@ -36,10 +37,12 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 	
 	private static final int GET_ALL = 11;
 	private static final int AGREE_FRIENDS = 12;
+	private static final int REQUEST_DELETE = 549;
 	public static final int FRIEND_LIST_REQUEST_CODE = 1001;
 	private ListView shipListView;
 	private NewFriendListAdapter adapter;
 	private String friendId;
+	private int selectPositionDelete = -1;
 	private TextView isData;
 	private GetFriendListResponse userRelationshipResponse;
 	
@@ -84,6 +87,8 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 				return action.getAllUserRelationship();
 			case AGREE_FRIENDS:
 				return action.agreeFriends(friendId);
+			case REQUEST_DELETE:
+				return action.deleteFriendsRequestMsg(friendId);
 		}
 		return super.doInBackground(requestCode, id);
 	}
@@ -107,7 +112,13 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 //			                    friends.add(friend);
 //		                    }
 //	                    }
-						friends = userRelationshipResponse.getData();
+						List<Friend> data = userRelationshipResponse.getData();
+						for (Friend friend : data) {
+							if (friend.getIsvisible() == 1) {
+								friends.add(friend);
+							}
+						}
+						
 						if (friends.size() == 0) {
 							isData.setVisibility(View.VISIBLE);
 							LoadDialog.dismiss(mContext);
@@ -147,6 +158,18 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 						BroadcastManager.getInstance(mContext).sendBroadcast(SealAppContext.UPDATE_FRIEND);
 						request(GET_ALL); //刷新 UI 按钮
 					}
+					break;
+				case REQUEST_DELETE:
+					LoadDialog.dismiss(this);
+					BaseResponse deleResp = (BaseResponse) result;
+					if (deleResp.getCode() == 200) {
+						if (selectPositionDelete >= 0 && selectPositionDelete < adapter.getCount()) {
+							adapter.remove(selectPositionDelete);
+							adapter.notifyDataSetChanged();
+							selectPositionDelete = -1;
+						}
+					}
+					break;
 				
 			}
 		}
@@ -174,7 +197,7 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 	private int index;
 	
 	@Override
-	public boolean onButtonClick(int position, View view, int status) {
+	public boolean onButtonClick(final int position, View view, int status) {
 		index = position;
 		switch (status) {
 			case 2: //收到了好友邀请
@@ -189,7 +212,26 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
 			case 3: // 发出了好友邀请
 				break;
 			case 99://删除好友
-				
+				DialogWithYesOrNoUtils.getInstance().showDialog(mContext, "确认删除此消息？", new DialogWithYesOrNoUtils.DialogCallBack() {
+					
+					@Override
+					public void executeEvent() {
+						LoadDialog.show(mContext);
+						friendId = ((Friend) adapter.getItem(position)).getFriendid();
+						selectPositionDelete = position;
+						request(REQUEST_DELETE);
+					}
+					
+					@Override
+					public void executeEditEvent(String editText) {
+						
+					}
+					
+					@Override
+					public void updatePassword(String oldPassword, String newPassword) {
+						
+					}
+				});
 				break;
 		}
 		return false;

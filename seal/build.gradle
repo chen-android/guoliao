@@ -56,8 +56,11 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    /**
+     * 3 :Friend 对象增加isvisible
+     */
     greendao {
-        schemaVersion 2
+        schemaVersion 3
     }
 }
 
