@@ -125,6 +125,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 	private TextView limitTv;
 	private TextView mGroupName;
 	private TextView announcementTv;
+	private TextView gagTv;
 	private PhotoUtils photoUtils;
 	private BottomMenuDialog dialog;
 	private UploadManager uploadManager;
@@ -1143,6 +1144,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 		mGroupName = (TextView) findViewById(R.id.group_name);
 		mQuitBtn = (Button) findViewById(R.id.group_quit);
 		mDismissBtn = (Button) findViewById(R.id.group_dismiss);
+		gagTv = (TextView) findViewById(R.id.group_detail_gag_tv);
 		RelativeLayout totalGroupMember = (RelativeLayout) findViewById(R.id.group_member_size_item);
 		LinearLayout mGroupPortL = (LinearLayout) findViewById(R.id.ll_group_port);
 		LinearLayout mGroupNameL = (LinearLayout) findViewById(R.id.ll_group_name);
@@ -1168,6 +1170,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 		mGroupNotice.setOnClickListener(this);
 		mSearchMessagesLinearLayout.setOnClickListener(this);
 		mUnlockMomeyTv.setOnClickListener(this);
+		gagTv.setOnClickListener(this);
 	}
 	
 	@Override
