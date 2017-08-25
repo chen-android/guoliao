@@ -6,15 +6,15 @@ import java.util.List;
  * Created by AMing on 16/1/28.
  * Company RongCloud
  */
-public class DeleteGroupMemberRequest {
-	private String groupId;
+public class GroupMemberRequest {
+    private String groupId;
 	
 	private List<String> userList;
 	
 	private String token;
-	
-	public DeleteGroupMemberRequest(String groupId, List<String> userList, String token) {
-		this.groupId = groupId;
+    
+    public GroupMemberRequest(String groupId, List<String> userList, String token) {
+        this.groupId = groupId;
 		this.userList = userList;
 		this.token = token;
 	}

@@ -104,6 +104,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 	private static final int REQUEST_CAN_ADD_USER = 945;
 	private static final int INTENT_ADD_AND_DEL_GROUP_MEMBER = 43;
 	private static final int INTENT_UPDATE_NOTICE = 805;
+	private static final int INTENT_GAG_MEMBER = 918;
 	
 	
 	private boolean isCreated = false;
@@ -271,12 +272,14 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 			mGroupAnnouncementDividerLinearLayout.setVisibility(View.VISIBLE);
 			mGroupNotice.setVisibility(View.VISIBLE);
 			canAddUserLl.setVisibility(View.GONE);
+			gagTv.setVisibility(View.GONE);
 		} else {
 			mGroupAnnouncementDividerLinearLayout.setVisibility(View.VISIBLE);
 			mDismissBtn.setVisibility(View.VISIBLE);
 			mQuitBtn.setVisibility(View.GONE);
 			mGroupNotice.setVisibility(View.VISIBLE);
 			canAddUserLl.setVisibility(View.VISIBLE);
+			gagTv.setVisibility(View.VISIBLE);
 		}
 		if (CommonUtils.isNetworkConnected(mContext)) {
 			request(CHECKGROUPURL);
@@ -719,6 +722,12 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 				} else {
 					NToast.shortToast(mContext, "只有群主能设置该项");
 				}
+				break;
+			case R.id.group_detail_gag_tv:
+				Intent gagIntent = new Intent(GroupDetailActivity.this, SelectFriendsActivity.class);
+				gagIntent.putExtra("isGagMember", true);
+				gagIntent.putExtra("GroupId", mGroup.getGroupid());
+				startActivityForResult(gagIntent, INTENT_GAG_MEMBER);
 				break;
 		}
 	}

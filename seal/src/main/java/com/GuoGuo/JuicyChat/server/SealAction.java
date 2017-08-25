@@ -13,11 +13,11 @@ import com.GuoGuo.JuicyChat.server.request.ChangePasswordRequest;
 import com.GuoGuo.JuicyChat.server.request.CheckPhoneRequest;
 import com.GuoGuo.JuicyChat.server.request.CreateGroupRequest;
 import com.GuoGuo.JuicyChat.server.request.DeleteFriendRequest;
-import com.GuoGuo.JuicyChat.server.request.DeleteGroupMemberRequest;
 import com.GuoGuo.JuicyChat.server.request.DismissGroupRequest;
 import com.GuoGuo.JuicyChat.server.request.FriendInvitationRequest;
 import com.GuoGuo.JuicyChat.server.request.GetGroupMemberRequest;
 import com.GuoGuo.JuicyChat.server.request.GetUserInfosRequest;
+import com.GuoGuo.JuicyChat.server.request.GroupMemberRequest;
 import com.GuoGuo.JuicyChat.server.request.JoinGroupRequest;
 import com.GuoGuo.JuicyChat.server.request.LoginRequest;
 import com.GuoGuo.JuicyChat.server.request.RegisterRequest;
@@ -1324,7 +1324,7 @@ public class SealAction extends BaseAction {
 	 */
 	public DeleteGroupMemberResponse deleGroupMember(String groupId, List<String> memberIds) throws HttpException {
 		String url = getURL("RemoveUserFromGroup.aspx");
-		String json = JsonMananger.beanToJson(new DeleteGroupMemberRequest(groupId, memberIds, SharedPreferencesContext.getInstance().getToken()));
+		String json = JsonMananger.beanToJson(new GroupMemberRequest(groupId, memberIds, SharedPreferencesContext.getInstance().getToken()));
 		StringEntity entity = null;
 		try {
 			entity = new StringEntity(json, ENCODING);
@@ -1339,6 +1339,82 @@ public class SealAction extends BaseAction {
 		}
 		return response;
 	}
+	
+	/**
+	 * 根据群id获取已被禁言的群成员
+	 *
+	 * @param groupId 群组Id
+	 * @throws HttpException
+	 */
+	public GetGroupMemberResponse getGagGroupMember(String groupId) throws HttpException {
+		String url = getURL("GetGroupGagUser.aspx");
+		String json = JsonMananger.beanToJson(new GetGroupMemberRequest(groupId, SharedPreferencesContext.getInstance().getToken()));
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		GetGroupMemberResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, GetGroupMemberResponse.class);
+		}
+		return response;
+	}
+	
+	/**
+	 * 创建者将群组成员禁言
+	 *
+	 * @param groupId   群组Id
+	 * @param memberIds 成员集合
+	 * @throws HttpException
+	 */
+	public BaseResponse setGagGroupMember(String groupId, List<String> memberIds) throws HttpException {
+		String url = getURL("SetGroupGagUser.aspx");
+		String json = JsonMananger.beanToJson(new GroupMemberRequest(groupId, memberIds, SharedPreferencesContext.getInstance().getToken()));
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		BaseResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, BaseResponse.class);
+		}
+		return response;
+	}
+	
+	/**
+	 * 创建者将群组禁言成员解禁
+	 *
+	 * @param groupId   群组Id
+	 * @param memberIds 成员集合
+	 * @throws HttpException
+	 */
+	public BaseResponse removeGagGroupMember(String groupId, List<String> memberIds) throws HttpException {
+		String url = getURL("RemoveGagUser.aspx");
+		String json = JsonMananger.beanToJson(new GroupMemberRequest(groupId, memberIds, SharedPreferencesContext.getInstance().getToken()));
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		BaseResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, BaseResponse.class);
+		}
+		return response;
+	}
+	
+	
 	
 	/**
 	 * 创建者更改群组昵称

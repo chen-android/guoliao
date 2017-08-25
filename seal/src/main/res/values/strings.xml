@@ -179,6 +179,7 @@
 	<string name="name_is_null">昵称不能为空</string>
 	<string name="name_contain_spaces">昵称不能包含空格</string>
 	<string name="remove_group_members">确认移除以下群成员?</string>
+	<string name="gag_group_members">确认禁言以下群成员?</string>
 	<string name="add_successful">添加成功</string>
 	<string name="remove_successful">移除成功</string>
 	<string name="least_one_friend">至少选择一位好友</string>

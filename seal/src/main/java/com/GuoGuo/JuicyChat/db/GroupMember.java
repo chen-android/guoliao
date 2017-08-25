@@ -164,4 +164,24 @@ public class GroupMember {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof GroupMember) {
+			GroupMember newP = (GroupMember) obj;
+			if (newP.getUserid().equals(this.getUserid()) && newP.getGroupid().equals(this.getGroupid())) {
+				return true;
+			}
+			return false;
+		}
+		return super.equals(obj);
+	}
 }

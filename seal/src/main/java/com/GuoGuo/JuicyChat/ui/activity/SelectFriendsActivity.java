@@ -53,6 +53,9 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 	
 	private static final int ADD_GROUP_MEMBER = 21;
 	private static final int DELETE_GROUP_MEMBER = 23;
+	private static final int SET_GAG_GROUP_MEMEBER = 63;
+	private static final int GET_GAG_GROUP_MEMEBER = 851;
+	private static final int REMOVE_GAG_GROUP_MEMBER = 579;
 	private static final int UNLOCK_MEMBER_LIST = 246;
 	private static final int UNLOCK_MEMBER_SUBMIT = 447;
 	public static final String DISCUSSION_UPDATE = "DISCUSSION_UPDATE";
@@ -86,6 +89,8 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 	private boolean isConversationActivityStartPrivate;
 	private List<GroupMember> addGroupMemberList;
 	private List<GroupMember> deleteGroupMemberList;
+	private List<GroupMember> gagGroupMemberList;
+	private List<String> hasGagGroupMemberIdList;//已经被禁的成员id列表
 	private String groupId;
 	private String conversationStartId;
 	private String conversationStartType = "null";
@@ -96,6 +101,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 	private boolean isAddGroupMember;
 	private boolean isDeleteGroupMember;
 	private boolean isUnlockMoneyMember;
+	private boolean isGagMember;//是否是禁言
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -116,11 +122,16 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 		isAddGroupMember = getIntent().getBooleanExtra("isAddGroupMember", false);
 		isDeleteGroupMember = getIntent().getBooleanExtra("isDeleteGroupMember", false);
 		isUnlockMoneyMember = getIntent().getBooleanExtra("isUnlockMoneyMember", false);
+		isGagMember = getIntent().getBooleanExtra("isGagMember", false);
 		
 		if (isAddGroupMember || isDeleteGroupMember) {
 			initGroupMemberList();
 		}
+		if (isGagMember) {
+			request(GET_GAG_GROUP_MEMEBER);
+		}
 		if (isUnlockMoneyMember) {
+			LoadDialog.show(this);
 			initUnlockMoneyMemberList();
 		}
 		addDisList = (ArrayList<UserInfo>) getIntent().getSerializableExtra("AddDiscuMember");
@@ -145,9 +156,12 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 				if (isAddGroupMember) {
 					addGroupMemberList = groupMembers;
 					fillSourceDataListWithFriendsInfo();
-				} else {
+				} else if (isDeleteGroupMember) {
 					deleteGroupMemberList = groupMembers;
 					fillSourceDataListForDeleteGroupMember();
+				} else if (isGagMember) {
+					gagGroupMemberList = groupMembers;
+					fillSourceDataListForGagGroupMember();
 				}
 			}
 			
@@ -232,7 +246,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 			fillSourceDataList();
 			filterSourceDataList();
 			updateAdapter();
-		} else if (!isDeleteGroupMember && !isAddGroupMember && !isUnlockMoneyMember) {
+		} else if (!isDeleteGroupMember && !isAddGroupMember && !isUnlockMoneyMember && !isGagMember) {
 			fillSourceDataListWithFriendsInfo();
 		}
 	}
@@ -343,6 +357,20 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 		}
 	}
 	
+	//禁言群成员
+	private void fillSourceDataListForGagGroupMember() {
+		
+		if (gagGroupMemberList != null && gagGroupMemberList.size() > 0) {
+			for (GroupMember gagMember : gagGroupMemberList) {
+				if (gagMember.getUserid().contains(getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_ID, ""))) {
+					continue;
+				}
+				data_list.add(new Friend(gagMember.getUserid(), SealUserInfoManager.getInstance().getGroupMenberDisplayName(gagMember), gagMember.getUserhead()));
+			}
+			fillSourceDataList();
+			updateAdapter();
+		}
+	}
 	
 	//用于存储CheckBox选中状态
 	public Map<Integer, Boolean> mCBFlag;
@@ -385,6 +413,13 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 		void init() {
 			for (int i = 0; i < adapterList.size(); i++) {
 				mCBFlag.put(i, false);
+			}
+			if (hasGagGroupMemberIdList != null && !hasGagGroupMemberIdList.isEmpty()) {
+				for (int i = 0, l = adapterList.size(); i < l; i++) {
+					if (hasGagGroupMemberIdList.contains(adapterList.get(i).getFriendid())) {
+						mCBFlag.put(i, true);
+					}
+				}
 			}
 		}
 		
@@ -511,7 +546,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 							selectedList.add(sourceDataList.get(i));
 						}
 					}
-					mSelectedFriendsLinearLayout.setVisibility(View.GONE);
+					mSelectedFriendsLinearLayout.setVisibility(View.VISIBLE);
 				}
 			}
 		}
@@ -568,6 +603,12 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 				return action.addGroupMember(groupId, startDisList);
 			case DELETE_GROUP_MEMBER:
 				return action.deleGroupMember(groupId, startDisList);
+			case SET_GAG_GROUP_MEMEBER:
+				return action.setGagGroupMember(groupId, startDisList);
+			case GET_GAG_GROUP_MEMEBER:
+				return action.getGagGroupMember(groupId);
+			case REMOVE_GAG_GROUP_MEMBER:
+				return action.removeGagGroupMember(groupId, startDisList);
 			case UNLOCK_MEMBER_LIST:
 				return action.getLockedGroupMembers(groupId);
 			case UNLOCK_MEMBER_SUBMIT:
@@ -607,6 +648,29 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 						NToast.shortToast(mContext, "创建者不能将自己移除");
 					}
 					break;
+				case SET_GAG_GROUP_MEMEBER:
+					BaseResponse baseResponse = (BaseResponse) result;
+					if (baseResponse.getCode() == 200) {
+						NToast.shortToast(this, "操作完成");
+						finish();
+					} else {
+						NToast.shortToast(this, baseResponse.getMessage());
+					}
+					break;
+				case GET_GAG_GROUP_MEMEBER:
+					LoadDialog.dismiss(this);
+					GetGroupMemberResponse gagGroupMemberResponse = (GetGroupMemberResponse) result;
+					if (gagGroupMemberResponse.getCode() == 200) {
+						hasGagGroupMemberIdList = new ArrayList<>();
+						for (GroupMember groupMember : gagGroupMemberResponse.getData()) {
+							hasGagGroupMemberIdList.add(groupMember.getUserid());
+						}
+					} else {
+						NToast.shortToast(this, "获取禁言成员失败");
+					}
+					initGroupMemberList();
+					break;
+				
 				case UNLOCK_MEMBER_LIST:
 					GetGroupMemberResponse groupMemberResponse = (GetGroupMemberResponse) result;
 					if (groupMemberResponse.getCode() == 200) {
@@ -733,6 +797,26 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 							public void executeEvent() {
 								LoadDialog.show(mContext);
 								request(DELETE_GROUP_MEMBER);
+							}
+							
+							@Override
+							public void executeEditEvent(String editText) {
+								
+							}
+							
+							@Override
+							public void updatePassword(String oldPassword, String newPassword) {
+								
+							}
+						});
+					} else if (gagGroupMemberList != null && startDisList != null && sourceDataList.size() > 0) {
+						mHeadRightText.setClickable(true);
+						DialogWithYesOrNoUtils.getInstance().showDialog(mContext, getString(R.string.gag_group_members), new DialogWithYesOrNoUtils.DialogCallBack() {
+							
+							@Override
+							public void executeEvent() {
+								LoadDialog.show(mContext);
+								request(SET_GAG_GROUP_MEMEBER);
 							}
 							
 							@Override
