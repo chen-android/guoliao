@@ -13,7 +13,6 @@ import com.GuoGuo.JuicyChat.message.provider.RedPacketNotificationMessageProvide
 import com.GuoGuo.JuicyChat.message.provider.TestMessageProvider;
 import com.GuoGuo.JuicyChat.model.GGRedPacketMessage;
 import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
-import com.GuoGuo.JuicyChat.model.MyExtensionModule;
 import com.GuoGuo.JuicyChat.server.utils.NLog;
 import com.GuoGuo.JuicyChat.stetho.RongDatabaseDriver;
 import com.GuoGuo.JuicyChat.stetho.RongDatabaseFilesProvider;
@@ -27,13 +26,8 @@ import com.facebook.stetho.inspector.protocol.ChromeDevtoolsDomain;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.List;
-
 import io.rong.imageloader.core.DisplayImageOptions;
 import io.rong.imageloader.core.display.FadeInBitmapDisplayer;
-import io.rong.imkit.DefaultExtensionModule;
-import io.rong.imkit.IExtensionModule;
-import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.widget.provider.RealTimeLocationMessageProvider;
 import io.rong.imlib.ipc.RongExceptionHandler;
@@ -163,23 +157,6 @@ public class App extends MultiDexApplication {
 			}
 		}
 		return null;
-	}
-	
-	public void setMyExtensionModule() {
-		List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
-		IExtensionModule defaultModule = null;
-		if (moduleList != null) {
-			for (IExtensionModule module : moduleList) {
-				if (module instanceof DefaultExtensionModule) {
-					defaultModule = module;
-					break;
-				}
-			}
-			if (defaultModule != null) {
-				RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
-				RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
-			}
-		}
 	}
 	
 }

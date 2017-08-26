@@ -51,11 +51,18 @@ public class RedPackPlugin implements IPluginModule {
 		if (rongExtension.getConversationType() == Conversation.ConversationType.GROUP) {
 			Intent var3 = new Intent(rongExtension.getContext(), SendRedPackGroupActivity.class);
 			var3.putExtra("TargetId", rongExtension.getTargetId());
+			var3.putExtra("isGroup", true);
 			rongExtension.startActivityForPluginResult(var3, 52, this);
 		}
 		if (rongExtension.getConversationType() == Conversation.ConversationType.PRIVATE) {
 			Intent var3 = new Intent(rongExtension.getContext(), SendRedPackPersonalActivity.class);
 			var3.putExtra("TargetId", rongExtension.getTargetId());
+			rongExtension.startActivityForPluginResult(var3, 52, this);
+		}
+		if (rongExtension.getConversationType() == Conversation.ConversationType.CHATROOM) {
+			Intent var3 = new Intent(rongExtension.getContext(), SendRedPackGroupActivity.class);
+			var3.putExtra("TargetId", rongExtension.getTargetId());
+			var3.putExtra("isChatRoom", true);
 			rongExtension.startActivityForPluginResult(var3, 52, this);
 		}
 		

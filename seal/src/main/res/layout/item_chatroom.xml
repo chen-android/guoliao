@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/middle_space"
+              android:gravity="center_vertical">
+	
+	<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+		android:id="@+id/item_chatroom_header_iv"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:layout_gravity="center_vertical"
+		android:scaleType="centerCrop"
+		app:sriv_left_bottom_corner_radius="10dp"
+		app:sriv_right_top_corner_radius="10dp"
+		app:sriv_left_top_corner_radius="10dp"
+		app:sriv_right_bottom_corner_radius="10dp"
+		/>
+	
+	<TextView
+		android:id="@+id/item_chatroom_name_tv"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:text="专属聊天室"
+		android:textColor="@color/text_color"
+		android:layout_marginLeft="@dimen/middle_space"/>
+</LinearLayout>

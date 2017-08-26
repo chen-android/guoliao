@@ -37,10 +37,10 @@ import com.GuoGuo.JuicyChat.server.request.VerifyCodeRequest;
 import com.GuoGuo.JuicyChat.server.response.AddGroupMemberResponse;
 import com.GuoGuo.JuicyChat.server.response.AddToBlackListResponse;
 import com.GuoGuo.JuicyChat.server.response.BaseResponse;
+import com.GuoGuo.JuicyChat.server.response.ChatroomListResponse;
 import com.GuoGuo.JuicyChat.server.response.CheckPhoneResponse;
 import com.GuoGuo.JuicyChat.server.response.CheckRedPacketCountResponse;
 import com.GuoGuo.JuicyChat.server.response.CreateGroupResponse;
-import com.GuoGuo.JuicyChat.server.response.DefaultConversationResponse;
 import com.GuoGuo.JuicyChat.server.response.DeleteFriendResponse;
 import com.GuoGuo.JuicyChat.server.response.DeleteGroupMemberResponse;
 import com.GuoGuo.JuicyChat.server.response.DismissGroupResponse;
@@ -1722,14 +1722,22 @@ public class SealAction extends BaseAction {
 	 *
 	 * @throws HttpException
 	 */
-	public DefaultConversationResponse getDefaultConversation() throws HttpException {
-		String url = getURL("misc/demo_square");
-		String result = httpManager.get(mContext, url);
-		DefaultConversationResponse response = null;
-		if (!TextUtils.isEmpty(result)) {
-			response = jsonToBean(result, DefaultConversationResponse.class);
+	public ChatroomListResponse getDefaultConversation() throws HttpException {
+		String url = getURL("GetChatroomList.aspx");
+		String json = JsonMananger.beanToJson(new BaseTokenRequest());
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-		return response;
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		ChatroomListResponse q = null;
+		if (!TextUtils.isEmpty(result)) {
+			q = jsonToBean(result, ChatroomListResponse.class);
+		}
+		return q;
 	}
 	
 	/**

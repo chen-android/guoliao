@@ -5,29 +5,35 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.server.SealAction;
 import com.GuoGuo.JuicyChat.server.network.async.AsyncTaskManager;
 import com.GuoGuo.JuicyChat.server.network.async.OnDataListener;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
-import com.GuoGuo.JuicyChat.server.response.DefaultConversationResponse;
+import com.GuoGuo.JuicyChat.server.response.ChatroomListResponse;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 
-public class DiscoverFragment extends Fragment implements View.OnClickListener, OnDataListener {
+public class DiscoverFragment extends Fragment implements AdapterView.OnItemClickListener, OnDataListener {
 	
 	private static final int GETDEFCONVERSATION = 333;
 	private AsyncTaskManager atm = AsyncTaskManager.getInstance(getActivity());
-	private ArrayList<DefaultConversationResponse.ResultEntity> chatroomList;
-	
+	private ListView lv;
+	private MyAdapter adapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,14 +44,10 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener, 
 	}
 	
 	private void initViews(View view) {
-		LinearLayout chatroomItem1 = (LinearLayout) view.findViewById(R.id.def_chatroom1);
-		LinearLayout chatroomItem2 = (LinearLayout) view.findViewById(R.id.def_chatroom2);
-		LinearLayout chatroomItem3 = (LinearLayout) view.findViewById(R.id.def_chatroom3);
-		LinearLayout chatroomItem4 = (LinearLayout) view.findViewById(R.id.def_chatroom4);
-		chatroomItem1.setOnClickListener(this);
-		chatroomItem2.setOnClickListener(this);
-		chatroomItem3.setOnClickListener(this);
-		chatroomItem4.setOnClickListener(this);
+		lv = (ListView) view.findViewById(R.id.chatroom_lv);
+		adapter = new MyAdapter();
+		lv.setAdapter(adapter);
+		lv.setOnItemClickListener(this);
 		//回调时的线程并不是UI线程，不能在回调中直接操作UI
 		RongIMClient.setChatRoomActionListener(new RongIMClient.ChatRoomActionListener() {
 			@Override
@@ -79,27 +81,6 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener, 
 		});
 	}
 	
-	@Override
-	public void onClick(View v) {
-		if (chatroomList == null || chatroomList.get(0) == null) {
-			NToast.shortToast(getActivity(), getString(R.string.join_chat_room_error_toast));
-			return;
-		}
-		switch (v.getId()) {
-			case R.id.def_chatroom1:
-				RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, chatroomList.get(0).getId(), "聊天室 I");
-				break;
-			case R.id.def_chatroom2:
-				RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, chatroomList.get(1).getId(), "聊天室 II");
-				break;
-			case R.id.def_chatroom3:
-				RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, chatroomList.get(2).getId(), "聊天室 III");
-				break;
-			case R.id.def_chatroom4:
-				RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, chatroomList.get(3).getId(), "聊天室 IV");
-				break;
-		}
-	}
 	
 	@Override
 	public Object doInBackground(int requestCode, String parameter) throws HttpException {
@@ -109,27 +90,74 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener, 
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onSuccess(int requestCode, Object result) {
-		DefaultConversationResponse response = (DefaultConversationResponse) result;
+		ChatroomListResponse response = (ChatroomListResponse) result;
 		if (response.getCode() == 200) {
-			ArrayList<DefaultConversationResponse.ResultEntity> resultEntityArrayList = new ArrayList();
-			chatroomList = new ArrayList();
-			if (response.getResult().size() > 0) {
-				resultEntityArrayList.clear();
-				chatroomList.clear();
-				for (DefaultConversationResponse.ResultEntity d : response.getResult()) {
-					if (d.getType().equals("group")) {
-						resultEntityArrayList.add(d);
-					} else {
-						chatroomList.add(d);
-					}
-				}
-			}
+			List<ChatroomListResponse.ChatroomData> data = response.getData();
+			adapter.setData(data);
+			adapter.notifyDataSetChanged();
 		}
 	}
 	
 	@Override
 	public void onFailure(int requestCode, int state, Object result) {
 		
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		RongIM.getInstance().startConversation(getActivity(), Conversation.ConversationType.CHATROOM, adapter.getItem(position).getId(), adapter.getItem(position).getName());
+	}
+	
+	private class MyAdapter extends BaseAdapter {
+		
+		private List<ChatroomListResponse.ChatroomData> list;
+		
+		public MyAdapter() {
+			list = new ArrayList<>();
+		}
+		
+		public void setData(List<ChatroomListResponse.ChatroomData> list) {
+			this.list.clear();
+			this.list.addAll(list);
+		}
+		
+		@Override
+		public int getCount() {
+			return list.size();
+		}
+		
+		@Override
+		public ChatroomListResponse.ChatroomData getItem(int position) {
+			return list.get(position);
+		}
+		
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder vh;
+			if (convertView == null) {
+				convertView = View.inflate(parent.getContext(), R.layout.item_chatroom, null);
+				vh = new ViewHolder();
+				vh.head = (ImageView) convertView.findViewById(R.id.item_chatroom_header_iv);
+				vh.name = (TextView) convertView.findViewById(R.id.item_chatroom_name_tv);
+				convertView.setTag(vh);
+			} else {
+				vh = (ViewHolder) convertView.getTag();
+			}
+			ChatroomListResponse.ChatroomData item = getItem(position);
+			Picasso.with(parent.getContext()).load(item.getHeadico()).into(vh.head);
+			vh.name.setText(item.getName());
+			return convertView;
+		}
+		
+		class ViewHolder {
+			ImageView head;
+			TextView name;
+		}
 	}
 	
 	
