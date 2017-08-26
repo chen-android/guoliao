@@ -60,7 +60,8 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 		RongIM.LocationProvider,
 		RongIMClient.ConnectionStatusListener,
 		RongIM.ConversationBehaviorListener,
-		RongIM.IGroupMembersProvider {
+		RongIM.IGroupMembersProvider,
+		RongIM.OnSendMessageListener {
 	
 	private static final int CLICK_CONVERSATION_USER_PORTRAIT = 1;
 	
@@ -127,13 +128,14 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 		RongIM.setConnectionStatusListener(this);
 		RongIM.setUserInfoProvider(this, true);
 		RongIM.setGroupInfoProvider(this, true);
-		RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
+//		RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
 		setInputProvider();
 		//setUserInfoEngineListener();//移到SealUserInfoManager
 		setReadReceiptConversationType();
 		RongIM.getInstance().enableNewComingMessageIcon(true);
 		RongIM.getInstance().enableUnreadMessageIcon(true);
 		RongIM.getInstance().setGroupMembersProvider(this);
+		RongIM.getInstance().setSendMessageListener(this);
 		//RongIM.setGroupUserInfoProvider(this, true);//seal app暂时未使用这种方式,目前使用UserInfoProvider
 		BroadcastManager.getInstance(mContext).addAction(GGConst.EXIT, new BroadcastReceiver() {
 			@Override
@@ -603,5 +605,18 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 				callback.onGetGroupMembersResult(null);
 			}
 		});
+	}
+	
+	@Override
+	public Message onSend(Message message) {
+		if (message.getConversationType() == Conversation.ConversationType.CHATROOM) {
+			return null;
+		}
+		return message;
+	}
+	
+	@Override
+	public boolean onSent(Message message, RongIM.SentMessageErrorCode sentMessageErrorCode) {
+		return false;
 	}
 }
