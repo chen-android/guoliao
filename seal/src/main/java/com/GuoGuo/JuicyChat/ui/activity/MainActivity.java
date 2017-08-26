@@ -39,7 +39,6 @@ import com.GuoGuo.JuicyChat.ui.fragment.DiscoverFragment;
 import com.GuoGuo.JuicyChat.ui.fragment.MineFragment;
 import com.GuoGuo.JuicyChat.ui.widget.DragPointView;
 import com.GuoGuo.JuicyChat.ui.widget.MorePopWindow;
-import com.blankj.utilcode.util.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,27 +95,42 @@ public class MainActivity extends FragmentActivity implements
                     GetVersionResponse response = (GetVersionResponse) result;
                     if (response.getCode() == 200) {
                         final GetVersionResponse.GetVersionData data = response.getData();
-                        //TODO 判断要不要升级
-                        if (data != null && !data.getAndroid_version().equals(AppUtils.getAppVersionName())) {
-                            new AlertDialog.Builder(mContext).setTitle("升级提示").setMessage("发现新的版本" + result)
-                                    .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (!TextUtils.isEmpty(data.getUpdateUrl())) {
-                                                Uri uri = Uri.parse(data.getUpdateUrl());
-                                                Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                                                startActivity(it);
-                                            } else {
-                                                NToast.shortToast(mContext, "获取下载地址失败");
+                        if (data != null ) {
+                            if(data.getUpdateState() == 1) {
+                                new AlertDialog.Builder(mContext).setTitle("升级提示").setMessage("发现新的版本" + data.getAndroid_version())
+                                        .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!TextUtils.isEmpty(data.getUpdateUrl())) {
+                                                    Uri uri = Uri.parse(data.getUpdateUrl());
+                                                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                                                    startActivity(it);
+                                                } else {
+                                                    NToast.shortToast(mContext, "获取下载地址失败");
+                                                }
                                             }
-                                        }
-                                    })
-                                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            
-                                        }
-                                    }).show();
+                                        })
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                    
+                                            }
+                                        }).show();
+                            } else if (data.getUpdateState() == 2) {
+                                new AlertDialog.Builder(mContext).setTitle("升级提示").setMessage("发现新的版本" + data.getAndroid_version())
+                                        .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!TextUtils.isEmpty(data.getUpdateUrl())) {
+                                                    Uri uri = Uri.parse(data.getUpdateUrl());
+                                                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                                                    startActivity(it);
+                                                } else {
+                                                    NToast.shortToast(mContext, "获取下载地址失败");
+                                                }
+                                            }
+                                        }).setCancelable(false).show();
+                            }
                         }
                     }
                 }

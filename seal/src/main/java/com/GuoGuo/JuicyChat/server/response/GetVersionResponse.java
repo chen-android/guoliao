@@ -38,7 +38,8 @@ public class GetVersionResponse {
         private String android_version;
         private String android_version_lowest;
         private String updateUrl;
-        
+        private int updateState;
+    
         public String getAppName() {
             return appName;
         }
@@ -69,6 +70,14 @@ public class GetVersionResponse {
         
         public void setUpdateUrl(String updateUrl) {
             this.updateUrl = updateUrl;
+        }
+    
+        public int getUpdateState() {
+            return updateState;
+        }
+    
+        public void setUpdateState(int updateState) {
+            this.updateState = updateState;
         }
     }
 }

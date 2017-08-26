@@ -19,6 +19,7 @@ import com.GuoGuo.JuicyChat.stetho.RongDatabaseDriver;
 import com.GuoGuo.JuicyChat.stetho.RongDatabaseFilesProvider;
 import com.GuoGuo.JuicyChat.stetho.RongDbFilesDumperPlugin;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
+import com.blankj.utilcode.util.Utils;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.dumpapp.DumperPlugin;
 import com.facebook.stetho.inspector.database.DefaultDatabaseConnectionProvider;
@@ -104,6 +105,7 @@ public class App extends MultiDexApplication {
 			SealAppContext.init(this);
 			
 			SharedPreferencesContext.init(this);
+			Utils.init(this);
 			Thread.setDefaultUncaughtExceptionHandler(new RongExceptionHandler(this));
 			
 			try {
