@@ -364,7 +364,6 @@ public class BitmapUtils {
 		try {
 			baos.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (bitmap != null) {
@@ -396,7 +395,6 @@ public class BitmapUtils {
 			bitmap = BitmapFactory.decodeStream(f, null, options);
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
 		}
@@ -482,7 +480,6 @@ public class BitmapUtils {
 //		try {
 //			stream = new FileOutputStream(filename);
 //		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 //		bmp.compress(format, quality, stream);

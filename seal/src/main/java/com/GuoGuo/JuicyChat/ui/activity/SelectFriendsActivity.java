@@ -838,7 +838,6 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 						finish();
 						
 					} else if (addGroupMemberList != null && startDisList != null && startDisList.size() > 0) {
-						//TODO 选中添加成员的数据添加到服务端数据库  返回本地也需要更改
 						LoadDialog.show(mContext);
 						request(ADD_GROUP_MEMBER);
 						

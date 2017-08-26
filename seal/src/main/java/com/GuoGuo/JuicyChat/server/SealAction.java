@@ -61,6 +61,7 @@ import com.GuoGuo.JuicyChat.server.response.GetUserInfoByIdResponse;
 import com.GuoGuo.JuicyChat.server.response.GetUserInfoByPhoneResponse;
 import com.GuoGuo.JuicyChat.server.response.GetUserInfoByTokenResponse;
 import com.GuoGuo.JuicyChat.server.response.GetUserInfosResponse;
+import com.GuoGuo.JuicyChat.server.response.GetVersionResponse;
 import com.GuoGuo.JuicyChat.server.response.JoinGroupResponse;
 import com.GuoGuo.JuicyChat.server.response.LockMoneyListResponse;
 import com.GuoGuo.JuicyChat.server.response.LoginResponse;
@@ -86,6 +87,7 @@ import com.GuoGuo.JuicyChat.server.utils.NLog;
 import com.GuoGuo.JuicyChat.server.utils.json.JsonMananger;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.AppUtils;
 
 import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
@@ -293,13 +295,31 @@ public class SealAction extends BaseAction {
 		return response;
 	}
 	
-	public String getVersion() throws HttpException {
+	/**
+	 * 获取最新版本信息
+	 *
+	 * @return
+	 * @throws HttpException
+	 */
+	public GetVersionResponse getVersion() throws HttpException {
 		String url = getURL("GetVersion.aspx");
-		String result = httpManager.post(url);
-		if (!TextUtils.isEmpty(result)) {
-			return JSON.parseObject(result).getJSONObject("data").getString("android_version");
+		Map<String, Object> map = new HashMap<>();
+		map.put("platform", "android");
+		map.put("version", AppUtils.getAppVersionName());
+		String json = JSON.toJSONString(map);
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-		return "";
+		GetVersionResponse response = null;
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, GetVersionResponse.class);
+		}
+		return response;
 	}
 	
 	public String getNewApkUrl() throws HttpException {

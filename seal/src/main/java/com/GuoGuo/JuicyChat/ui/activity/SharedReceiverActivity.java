@@ -378,7 +378,7 @@ public class SharedReceiverActivity extends BaseActivity {
 				
 				if (tempList.size() > 0) {
 					for (Conversation conversation : tempList) {
-						if (conversation.getConversationType().equals(Conversation.ConversationType.PRIVATE)) {//TODO 会话中包含自己本身会 crash
+						if (conversation.getConversationType().equals(Conversation.ConversationType.PRIVATE)) {
 							Friend friend = getFriendInfoById(conversation.getSenderUserId());
 							String portraitUri = null;
 							if (friend == null)
