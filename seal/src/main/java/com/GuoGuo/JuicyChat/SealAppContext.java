@@ -609,9 +609,9 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 	
 	@Override
 	public Message onSend(Message message) {
-		if (message.getConversationType() == Conversation.ConversationType.CHATROOM) {
-			return null;
-		}
+//		if (message.getConversationType() == Conversation.ConversationType.CHATROOM) {
+//			return message;
+//		}
 		return message;
 	}
 	
