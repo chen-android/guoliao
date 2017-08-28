@@ -41,7 +41,8 @@
 		android:id="@+id/recharge_money_et"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:inputType="numberSigned"
+		android:inputType="number"
+		android:digits="0123456789"
 		android:layout_marginTop="@dimen/middle_space"
 		/>
 	
