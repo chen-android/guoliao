@@ -31,6 +31,7 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_red_packet_record_detail);
+		setTitle("红包详情");
 		initView();
 		int type = getIntent().getIntExtra("type", 0);
 		if (type == 1) {//收红包

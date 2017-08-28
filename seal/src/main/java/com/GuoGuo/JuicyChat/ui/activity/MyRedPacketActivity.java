@@ -148,6 +148,9 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 		receiveLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (position == 0) {//因为listview加了一个header
+					return;
+				}
 				Intent intent = new Intent(MyRedPacketActivity.this, RedPacketRecordDetailActivity.class);
 				intent.putExtra("type", 1);
 				intent.putExtra("data", receiveAdapter.getItem(position - 1));
@@ -158,6 +161,9 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 		sendLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (position == 0) {//因为listview加了一个header
+					return;
+				}
 				Intent intent = new Intent(MyRedPacketActivity.this, RedPacketRecordDetailActivity.class);
 				intent.putExtra("type", 2);
 				intent.putExtra("data", sendAdapter.getItem(position - 1));
