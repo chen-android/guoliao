@@ -206,14 +206,14 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 				GetRedPacketDetailResponse packetDetailResponse = (GetRedPacketDetailResponse) result;
 				if (packetDetailResponse.getCode() == 200) {
 					this.detailEntity = packetDetailResponse.getData();
-					if (this.detailEntity.getState() == 3) {
-						showOpenRedPacketDialog(RedPacketOpenDialog.REDPACKET_STATE.OVERTIME);
-						LoadDialog.dismiss(context);
-						return;
-					}
 					if (isForDetail) {
 						LoadDialog.show(context);
 						AsyncTaskManager.getInstance(context).request(REQUEST_MEMBERS, this);
+						return;
+					}
+					if (this.detailEntity.getState() == 3) {
+						showOpenRedPacketDialog(RedPacketOpenDialog.REDPACKET_STATE.OVERTIME);
+						LoadDialog.dismiss(context);
 						return;
 					}
 					LoadDialog.dismiss(context);
@@ -225,7 +225,7 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 				GetRedPacketUsersResponse usersResponse = (GetRedPacketUsersResponse) result;
 				if (usersResponse.getCode() == 200) {
 					members = usersResponse.getData();
-					if (!isSingle) {//如果是群红包点击打开
+					if (!isSingle && isAfterOpen) {//如果是群红包点击打开
 						String message = SharedPreferencesContext.getInstance().getName() + " 领取了您的红包";
 						StringBuilder iosmessage = new StringBuilder(message);
 						if (message.length() > 25) {
@@ -291,6 +291,7 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 		dialog.setClickListener(new RedPacketOpenDialog.OnDetailClickListener() {
 			@Override
 			public void click(boolean isAfterOpen) {
+				GGRedPacketMessageProvider.this.isAfterOpen = isAfterOpen;
 				GGRedPacketMessageProvider.this.isForDetail = true;//不需要"是否是点击开启"这个判断标记了，只要是红包对话框点击事件，都是直接进去详情了。
 				AsyncTaskManager.getInstance(context).request(REQUEST_DETAIL, GGRedPacketMessageProvider.this);
 				dialog.dismiss();
