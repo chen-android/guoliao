@@ -13,6 +13,7 @@ import com.GuoGuo.JuicyChat.db.Friend;
 import com.GuoGuo.JuicyChat.db.GroupMember;
 import com.GuoGuo.JuicyChat.db.Groups;
 import com.GuoGuo.JuicyChat.message.module.SealExtensionModule;
+import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
 import com.GuoGuo.JuicyChat.server.pinyin.CharacterParser;
@@ -22,6 +23,7 @@ import com.GuoGuo.JuicyChat.ui.activity.LoginActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MainActivity;
 import com.GuoGuo.JuicyChat.ui.activity.NewFriendListActivity;
 import com.GuoGuo.JuicyChat.ui.activity.UserDetailActivity;
+import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 import com.alibaba.fastjson.JSONException;
 
 import org.json.JSONArray;
@@ -323,12 +325,11 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 			return true;
 		} else if (messageContent instanceof ImageMessage) {
 			//ImageMessage imageMessage = (ImageMessage) messageContent;
+		} else if (messageContent instanceof GGRedPacketNotifyMessage) {
+			if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) messageContent).getTouserid())) {
+				return true;
+			}
 		}
-//		else if (messageContent instanceof GGRedPacketNotifyMessage) {
-//			if(!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) messageContent).getTouserid())){
-//				return true;
-//			}
-//		}
 		return false;
 	}
 	

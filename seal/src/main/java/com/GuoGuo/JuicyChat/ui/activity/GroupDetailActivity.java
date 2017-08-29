@@ -952,8 +952,10 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 				}
 				break;
 			case PhotoUtils.INTENT_CROP:
+				photoUtils.onActivityResult(GroupDetailActivity.this, requestCode, resultCode, data);
 				break;
 			case PhotoUtils.INTENT_TAKE:
+				photoUtils.onActivityResult(GroupDetailActivity.this, requestCode, resultCode, data);
 				break;
 			case PhotoUtils.INTENT_SELECT:
 				photoUtils.onActivityResult(GroupDetailActivity.this, requestCode, resultCode, data);

@@ -132,10 +132,10 @@ public class RedPacketOpenDialog extends Dialog implements View.OnClickListener,
 					LoadDialog.dismiss(mContext);
 					setLateView();
 				} else if (redPacketResponse.getCode() == 66004) {//已经领取过了
-					gotoDetail(true);
+					gotoDetail(false);
 					NToast.shortToast(mContext, "您已领取过该红包");
 				} else if (redPacketResponse.getCode() == 66102) {//红包过期
-					gotoDetail(true);
+					gotoDetail(false);
 					NToast.shortToast(mContext, "红包已过期");
 				}
 				break;
