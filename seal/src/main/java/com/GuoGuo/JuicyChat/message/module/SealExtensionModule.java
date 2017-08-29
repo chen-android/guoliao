@@ -97,10 +97,10 @@ public class SealExtensionModule extends DefaultExtensionModule {
 			pluginModules.add(RedPackPlugin.getInstance());
 		}
 		//TODO 聊天室红包
-//		if(conversationType.equals(Conversation.ConversationType.CHATROOM)){
-//			pluginModules.add(RedPackPlugin.getInstance());
-//		}
-		
+        if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
+            pluginModules.add(ContactCardPlugin.getInstance());
+        }
+
 //	    if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
 //	    }
 		return pluginModules;

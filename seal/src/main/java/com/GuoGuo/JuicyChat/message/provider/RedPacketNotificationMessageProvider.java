@@ -52,11 +52,14 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
             if (TextUtils.isEmpty(touserid) || "0".equals(touserid) || !TextUtils.isEmpty(touserid) && touserid.equals(SharedPreferencesContext.getInstance().getUserId())) {
                 String message1 = content.getMessage();
                 if (!TextUtils.isEmpty(message1)) {
-                    CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
-                            .outerColor(Color.WHITE)
-                            .format();
-                    viewHolder.contentTextView.setText(format);
-                    this.redPacketId = content.getRedpacketId();
+                    if (content.getIslink() == 1) {
+                        CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
+                                .outerColor(Color.WHITE)
+                                .format();
+                        viewHolder.contentTextView.setText(format);
+                    } else {
+                        viewHolder.contentTextView.setText(message1);
+                    }
                 }
             } else {
                 viewHolder.contentTextView.setVisibility(View.GONE);
@@ -78,8 +81,11 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     @Override
     public void onItemClick(View view, int position, GGRedPacketNotifyMessage
             content, UIMessage message) {
-        LoadDialog.show(context);
-        AsyncTaskManager.getInstance(context).request(REQUEST_DETAIL, this);
+        if (content.getIslink() == 1) {
+            LoadDialog.show(context);
+            this.redPacketId = content.getRedpacketId();
+            AsyncTaskManager.getInstance(context).request(REQUEST_DETAIL, this);
+        }
     }
     
     @Override
@@ -96,7 +102,6 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
         viewHolder.contentTextView = (TextView) view.findViewById(R.id.rc_msg);
         viewHolder.contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
         view.setTag(viewHolder);
-        
         return view;
     }
     

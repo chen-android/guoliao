@@ -50,6 +50,10 @@ public class SharedPreferencesContext {
 		return mPreferences.getString(GGConst.GUOGUO_LOGIN_ID, "");
 	}
 	
+	public String getName() {
+		return mPreferences.getString(GGConst.GUOGUO_LOGIN_NAME, mPreferences.getString(GGConst.GUOGUO_LOGING_PHONE, ""));
+	}
+	
 	public boolean isSetPayPwd() {
 		return mPreferences.getBoolean(GGConst.GUOGUO_IS_SET_PAY_PWD, false);
 	}

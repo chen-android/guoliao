@@ -17,19 +17,26 @@ import io.rong.imlib.model.MessageContent;
  */
 
 @MessageTag(
-		value = "RC:RedPacketNtf",
+		value = "JC:RedPacketNtf",
 		flag = MessageTag.ISPERSISTED
 )
 public class GGRedPacketNotifyMessage extends MessageContent {
-	public static final String CONTENT_PREFIX = "[红包]";
 	private String redpacketId;
 	private String message;
+	private String iosmessage;
 	private String touserid;
+	private int islink;
 	
-	public GGRedPacketNotifyMessage(String redpacketId, String message, String touserid) {
+	public static GGRedPacketNotifyMessage obtain(String redpacketId, String message, String iosmessage, String touserid, int islink) {
+		return new GGRedPacketNotifyMessage(redpacketId, message, iosmessage, touserid, islink);
+	}
+	
+	public GGRedPacketNotifyMessage(String redpacketId, String message, String iosmessage, String touserid, int islink) {
 		this.redpacketId = redpacketId;
 		this.message = message;
 		this.touserid = touserid;
+		this.iosmessage = iosmessage;
+		this.islink = islink;
 	}
 	
 	@Override
@@ -43,9 +50,13 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 			if (!TextUtils.isEmpty(this.message)) {
 				jsonObj.put("message", this.message);
 			}
+			if (!TextUtils.isEmpty(this.iosmessage)) {
+				jsonObj.put("iosmessage", this.iosmessage);
+			}
 			if (!TextUtils.isEmpty(this.touserid)) {
 				jsonObj.put("touserid", this.touserid);
 			}
+			jsonObj.put("islink", this.islink);
 			
 		} catch (JSONException e) {
 			Log.e("JSONException", e.getMessage());
@@ -77,8 +88,14 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 			if (var3.has("message")) {
 				this.setMessage(var3.optString("message"));
 			}
+			if (var3.has("iosmessage")) {
+				this.setIosmessage(var3.optString("iosmessage"));
+			}
 			if (var3.has("touserid")) {
 				this.setTouserid(var3.optString("touserid"));
+			}
+			if (var3.has("islink")) {
+				this.setIslink(var3.optInt("islink"));
 			}
 			
 		} catch (org.json.JSONException var4) {
@@ -107,6 +124,14 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 		this.message = message;
 	}
 	
+	public String getIosmessage() {
+		return iosmessage;
+	}
+	
+	public void setIosmessage(String iosmessage) {
+		this.iosmessage = iosmessage;
+	}
+	
 	public String getTouserid() {
 		return touserid;
 	}
@@ -115,6 +140,13 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 		this.touserid = touserid;
 	}
 	
+	public int getIslink() {
+		return islink;
+	}
+	
+	public void setIslink(int islink) {
+		this.islink = islink;
+	}
 	
 	@Override
 	public int describeContents() {
@@ -125,15 +157,17 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.redpacketId);
 		dest.writeString(this.message);
+		dest.writeString(this.iosmessage);
 		dest.writeString(this.touserid);
-		
+		dest.writeInt(this.islink);
 	}
 
 	protected GGRedPacketNotifyMessage(Parcel in) {
 		this.redpacketId = in.readString();
 		this.message = in.readString();
+		this.iosmessage = in.readString();
 		this.touserid = in.readString();
-		
+		this.islink = in.readInt();
 	}
 
 	public static final Creator<GGRedPacketNotifyMessage> CREATOR = new Creator<GGRedPacketNotifyMessage>() {

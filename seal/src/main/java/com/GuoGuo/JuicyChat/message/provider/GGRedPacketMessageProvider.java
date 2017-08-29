@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.model.GGRedPacketMessage;
+import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
 import com.GuoGuo.JuicyChat.server.SealAction;
 import com.GuoGuo.JuicyChat.server.network.async.AsyncTaskManager;
 import com.GuoGuo.JuicyChat.server.network.async.OnDataListener;
@@ -26,12 +27,16 @@ import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.ui.activity.RedPacketDetailActivity;
 import com.GuoGuo.JuicyChat.ui.widget.RedPacketOpenDialog;
+import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 
 import java.util.ArrayList;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imlib.IRongCallback;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
@@ -220,6 +225,30 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 				GetRedPacketUsersResponse usersResponse = (GetRedPacketUsersResponse) result;
 				if (usersResponse.getCode() == 200) {
 					members = usersResponse.getData();
+					if (!isSingle) {//如果是群红包点击打开
+						String message = SharedPreferencesContext.getInstance().getName() + " 领取了您的红包";
+						StringBuilder iosmessage = new StringBuilder(message);
+						if (message.length() > 25) {
+							iosmessage.insert(24, "\n");
+						}
+						RongIM.getInstance().sendMessage(Message.obtain(this.message.getTomemberid() + "", Conversation.ConversationType.GROUP,
+								GGRedPacketNotifyMessage.obtain(this.message.getRedpacketId(), message, iosmessage.toString(), this.message.getFromuserid() + "", 0)), null, null,
+								new IRongCallback.ISendMessageCallback() {
+									@Override
+									public void onAttached(Message message) {
+										
+									}
+									
+									@Override
+									public void onSuccess(Message message) {
+									}
+									
+									@Override
+									public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+										
+									}
+								});
+					}
 					gotoDetail();
 				}
 				break;
