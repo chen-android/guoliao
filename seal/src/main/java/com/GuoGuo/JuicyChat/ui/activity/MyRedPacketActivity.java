@@ -74,12 +74,12 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 		setContentView(R.layout.activity_my_red_packet);
 		setTitle("我的红包");
 		mHeadLayout.setBackgroundResource(R.color.red);
+		headIcoUrl = getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGING_PORTRAIT, "");
+		username = getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
 		initView();
 		initEvent();
 		LoadDialog.show(this);
 		request(REQUEST_REDPACK_DETAIL);
-		headIcoUrl = getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGING_PORTRAIT, "");
-		username = getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
 	}
 	
 	private void initView() {
@@ -254,6 +254,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 				break;
 			case REQUEST_REDPACK_RECEIVE_LIST_REFRESH:
 				LoadDialog.dismiss(this);
+				receiveSfl.finishRefresh();
 				RedPacketReceiveResponse redPacketReceiveResponse = (RedPacketReceiveResponse) result;
 				if (redPacketReceiveResponse.getCount() == redPacketReceiveResponse.getSum()) {
 					receiveSfl.setEnableLoadmore(false);
@@ -268,6 +269,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 				break;
 			case REQUEST_REDPACK_RECEIVE_LIST_MORE:
 				RedPacketReceiveResponse response = (RedPacketReceiveResponse) result;
+				receiveSfl.finishLoadmore();
 				if (response.getCount() == response.getSum()) {
 					receiveSfl.setEnableLoadmore(false);
 				} else {
@@ -282,6 +284,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 			case REQUEST_REDPACK_SEND_LIST_REFRESH:
 				LoadDialog.dismiss(this);
 				RedPacketSendResponse redPacketSendResponse = (RedPacketSendResponse) result;
+				sendSfl.finishRefresh();
 				if (redPacketSendResponse.getCount() == redPacketSendResponse.getSum()) {
 					sendSfl.setEnableLoadmore(false);
 				} else {
@@ -295,6 +298,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 				break;
 			case REQUEST_REDPACK_SEND_LIST_MORE:
 				RedPacketSendResponse sendResponse = (RedPacketSendResponse) result;
+				sendSfl.finishLoadmore();
 				if (sendResponse.getCount() == sendResponse.getSum()) {
 					sendSfl.setEnableLoadmore(false);
 				} else {
