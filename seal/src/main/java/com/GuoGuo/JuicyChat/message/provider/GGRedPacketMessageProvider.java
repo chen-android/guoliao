@@ -241,6 +241,7 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 									
 									@Override
 									public void onSuccess(Message message) {
+										isAfterOpen = false;
 									}
 									
 									@Override
