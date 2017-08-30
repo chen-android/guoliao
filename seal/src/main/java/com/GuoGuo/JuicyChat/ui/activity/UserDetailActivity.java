@@ -30,7 +30,6 @@ import com.GuoGuo.JuicyChat.server.response.GetFriendInfoByIDResponse;
 import com.GuoGuo.JuicyChat.server.response.GetUserInfoByIdResponse;
 import com.GuoGuo.JuicyChat.server.utils.ColorPhrase;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
-import com.GuoGuo.JuicyChat.server.widget.DialogWithYesOrNoUtils;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.ui.widget.SinglePopWindow;
 import com.squareup.picasso.Picasso;
@@ -321,32 +320,32 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.ac_bt_add_friend:
-				DialogWithYesOrNoUtils.getInstance().showEditDialog(mContext, getString(R.string.add_text), getString(R.string.confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
-					@Override
-					public void executeEvent() {
-						
-					}
-					
-					@Override
-					public void executeEditEvent(String editText) {
-						if (TextUtils.isEmpty(editText)) {
-							if (mGroupName != null && !TextUtils.isEmpty(mGroupName)) {
-								addMessage = "我是" + mGroupName + "群的" + getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
-							} else {
-								addMessage = "我是" + getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
-							}
-						} else {
-							addMessage = editText;
-						}
-						LoadDialog.show(mContext);
-						request(ADD_FRIEND, true);
-					}
-					
-					@Override
-					public void updatePassword(String oldPassword, String newPassword) {
-						
-					}
-				});
+//				DialogWithYesOrNoUtils.getInstance().showEditDialog(mContext, getString(R.string.add_text), getString(R.string.confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
+//					@Override
+//					public void executeEvent() {
+//
+//					}
+//
+//					@Override
+//					public void executeEditEvent(String editText) {
+//						if (TextUtils.isEmpty(editText)) {
+//							if (mGroupName != null && !TextUtils.isEmpty(mGroupName)) {
+//								addMessage = "我是" + mGroupName + "群的" + getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
+//							} else {
+//								addMessage = "我是" + getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
+//							}
+//						} else {
+//							addMessage = editText;
+//						}
+//					}
+//
+//					@Override
+//					public void updatePassword(String oldPassword, String newPassword) {
+//
+//					}
+//				});
+				LoadDialog.show(mContext);
+				request(ADD_FRIEND, true);
 				break;
 			case R.id.contact_phone:
 				if (!TextUtils.isEmpty(mPhoneString)) {
@@ -393,10 +392,12 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 			switch (requestCode) {
 				case ADD_FRIEND:
 					FriendInvitationResponse response = (FriendInvitationResponse) result;
+					LoadDialog.dismiss(mContext);
 					if (response.getCode() == 200) {
-						LoadDialog.dismiss(mContext);
 						NToast.shortToast(mContext, getString(R.string.request_success));
 						this.finish();
+					} else {
+						NToast.shortToast(mContext, response.getMessage());
 					}
 					break;
 				case SYN_USER_INFO:
@@ -422,6 +423,8 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 						mUserDisplayName.setText(nickName);
 //						mUserPhone.setText("账号：" + userInfoByIdResponse.getData().getAccount());
 						ImageLoader.getInstance().displayImage(portraitUri, mUserPortrait, App.getOptions());
+					} else {
+						NToast.shortToast(mContext, "同步信息失败");
 					}
 					break;
 				case SYNC_FRIEND_INFO:
@@ -463,7 +466,8 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 								mFriend = friend;
 							}
 						}
-						
+					} else {
+						NToast.shortToast(mContext, "同步信息失败");
 					}
 					
 					break;
