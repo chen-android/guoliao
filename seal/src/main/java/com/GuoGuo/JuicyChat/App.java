@@ -10,6 +10,7 @@ import com.GuoGuo.JuicyChat.message.TestMessage;
 import com.GuoGuo.JuicyChat.message.provider.ContactNotificationMessageProvider;
 import com.GuoGuo.JuicyChat.message.provider.GGRedPacketMessageProvider;
 import com.GuoGuo.JuicyChat.message.provider.RedPacketNotificationMessageProvider;
+import com.GuoGuo.JuicyChat.message.provider.SealConversationProvider;
 import com.GuoGuo.JuicyChat.message.provider.TestMessageProvider;
 import com.GuoGuo.JuicyChat.model.GGRedPacketMessage;
 import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
@@ -111,9 +112,9 @@ public class App extends MultiDexApplication {
 				RongIM.registerMessageTemplate(new TestMessageProvider());
 				RongIM.registerMessageType(GGRedPacketNotifyMessage.class);
 				RongIM.registerMessageTemplate(new RedPacketNotificationMessageProvider());
-				
-				
-			} catch (Exception e) {
+                
+                RongIM.getInstance().registerConversationTemplate(new SealConversationProvider());
+            } catch (Exception e) {
 				e.printStackTrace();
 			}
 			
