@@ -23,7 +23,6 @@ import com.GuoGuo.JuicyChat.server.response.GetRedPacketUsersResponse;
 import com.GuoGuo.JuicyChat.server.utils.ColorPhrase;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.ui.activity.RedPacketDetailActivity;
-import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 
 import java.util.ArrayList;
 
@@ -48,32 +47,25 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     public void bindView(View v, int position, GGRedPacketNotifyMessage content, UIMessage message) {
         ViewHolder viewHolder = (ViewHolder) v.getTag();
         if (content != null) {
-            String touserid = content.getTouserid();
-            if (TextUtils.isEmpty(touserid) || "0".equals(touserid) || !TextUtils.isEmpty(touserid) && touserid.equals(SharedPreferencesContext.getInstance().getUserId())) {
-                String message1 = content.getMessage();
-                if (!TextUtils.isEmpty(message1)) {
-                    if (content.getIslink() == 1) {
-                        CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
-                                .outerColor(Color.WHITE)
-                                .format();
-                        viewHolder.contentTextView.setText(format);
-                    } else {
-                        viewHolder.contentTextView.setText(message1);
-                    }
+            String message1 = content.getMessage();
+            if (!TextUtils.isEmpty(message1)) {
+                if (content.getIslink() == 1) {
+                    CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
+                            .outerColor(Color.WHITE)
+                            .format();
+                    viewHolder.contentTextView.setText(format);
+                } else {
+                    viewHolder.contentTextView.setText(message1);
                 }
-            } else {
-                viewHolder.contentTextView.setVisibility(View.GONE);
             }
+    
         }
     }
     
     @Override
     public Spannable getContentSummary(GGRedPacketNotifyMessage content) {
         if (content != null) {
-            String touserid = content.getTouserid();
-            if (TextUtils.isEmpty(touserid) || "0".equals(touserid) || !TextUtils.isEmpty(touserid) && touserid.equals(SharedPreferencesContext.getInstance().getUserId())) {
-                return new SpannableString(content.getMessage());
-            }
+            return new SpannableString(content.getMessage());
         }
         return null;
     }

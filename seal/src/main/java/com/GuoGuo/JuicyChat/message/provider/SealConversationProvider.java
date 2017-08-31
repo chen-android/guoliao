@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.text.Spannable;
 import android.view.View;
 
+import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +22,8 @@ public class SealConversationProvider extends PrivateConversationProvider {
     private static Map<String, Spannable> lastData = new HashMap<>();
     
     public void bindView(View view, int position, UIConversation data) {
-        if (data.getConversationContent().length() > 0) {
+        String s = data.getConversationContent().toString();
+        if (!s.contains("领取了") || s.contains(SharedPreferencesContext.getInstance().getName())) {
             lastData.put(data.getConversationTargetId(), data.getConversationContent());
         }
         if (lastData.containsKey(data.getConversationTargetId())) {

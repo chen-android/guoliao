@@ -610,8 +610,12 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 	
 	@Override
 	public Message onSend(Message message) {
-//		if (message.getConversationType() == Conversation.ConversationType.CHATROOM) {
-//			return message;
+//		if (message.getConversationType() == Conversation.ConversationType.GROUP) {
+//			if (message.getContent() instanceof GGRedPacketNotifyMessage) {
+//				if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) message.getContent()).getTouserid())) {
+//					return null;
+//				}
+//			}
 //		}
 		return message;
 	}

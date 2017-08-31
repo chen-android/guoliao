@@ -325,7 +325,6 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
 				.appendQueryParameter("targetId", mTargetId).build();
 		
 		fragment.setUri(uri);
-		
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		//xxx 为你要加载的 id
 		transaction.add(R.id.rong_content, fragment);

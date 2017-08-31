@@ -674,7 +674,8 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 					break;
 				
 				case UNLOCK_MEMBER_LIST:
-					GetGroupMemberResponse groupMemberResponse = (GetGroupMemberResponse) result;
+                    LoadDialog.dismiss(this);
+                    GetGroupMemberResponse groupMemberResponse = (GetGroupMemberResponse) result;
 					if (groupMemberResponse.getCode() == 200) {
 						List<GroupMember> list = groupMemberResponse.getData();
 						for (GroupMember deleteMember : list) {

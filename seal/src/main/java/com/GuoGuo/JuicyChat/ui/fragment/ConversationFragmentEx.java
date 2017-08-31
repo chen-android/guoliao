@@ -1,10 +1,24 @@
 package com.GuoGuo.JuicyChat.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
 
+import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
 import com.GuoGuo.JuicyChat.ui.activity.ReadReceiptDetailActivity;
+import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imkit.model.UIMessage;
+import io.rong.imkit.widget.adapter.MessageListAdapter;
 import io.rong.imlib.model.Conversation;
 
 /**
@@ -15,6 +29,7 @@ import io.rong.imlib.model.Conversation;
  * Created by Yuejunhong on 2016/10/10.
  */
 public class ConversationFragmentEx extends ConversationFragment {
+	private boolean hasReflect = false;
 	@Override
 	public boolean onResendItemClick(io.rong.imlib.model.Message message) {
 		return false;
@@ -34,5 +49,77 @@ public class ConversationFragmentEx extends ConversationFragment {
 		if (!typeStr.equals("chatroom")) {
 			super.onWarningDialog(msg);
 		}
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = super.onCreateView(inflater, container, savedInstanceState);
+		if (!hasReflect) {
+			//反射替换系统的messageAdapter  拦截不要的消息
+			MessageListAdapter messageListAdapter = new MessageListAdapter(getActivity()) {
+				@Override
+				public void add(UIMessage uiMessage) {
+					if (uiMessage.getContent() instanceof GGRedPacketNotifyMessage) {
+						if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) uiMessage.getContent()).getTouserid())) {
+							return;
+						}
+					}
+					super.add(uiMessage);
+				}
+				
+				@Override
+				public void add(UIMessage uiMessage, int position) {
+					if (uiMessage.getContent() instanceof GGRedPacketNotifyMessage) {
+						if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) uiMessage.getContent()).getTouserid())) {
+							return;
+						}
+					}
+					super.add(uiMessage, position);
+				}
+				
+				@Override
+				public void addCollection(Collection<UIMessage> collection) {
+					Collection<UIMessage> list = new ArrayList<>();
+					for (UIMessage message : collection) {
+						if (message.getContent() instanceof GGRedPacketNotifyMessage) {
+							if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) message.getContent()).getTouserid())) {
+								continue;
+							}
+						}
+						list.add(message);
+					}
+					super.addCollection(list);
+				}
+				
+				@Override
+				public void addCollection(UIMessage... collection) {
+					Collection<UIMessage> list = new ArrayList<>();
+					for (UIMessage message : collection) {
+						if (message.getContent() instanceof GGRedPacketNotifyMessage) {
+							if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) message.getContent()).getTouserid())) {
+								continue;
+							}
+						}
+						list.add(message);
+					}
+					super.addCollection(list);
+				}
+			};
+			try {
+				Field field1 = this.getClass().getSuperclass().getDeclaredField("mListAdapter");
+				field1.setAccessible(true);
+				field1.set(this, messageListAdapter);
+				
+				Field field = this.getClass().getSuperclass().getDeclaredField("mList");
+				field.setAccessible(true);
+				Object o = field.get(this);
+				Method setAdapter = o.getClass().getMethod("setAdapter", ListAdapter.class);
+				setAdapter.invoke(o, messageListAdapter);
+				hasReflect = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return view;
 	}
 }
