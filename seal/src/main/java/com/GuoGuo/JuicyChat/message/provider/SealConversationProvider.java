@@ -2,6 +2,7 @@ package com.GuoGuo.JuicyChat.message.provider;
 
 import android.net.Uri;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
@@ -28,6 +29,8 @@ public class SealConversationProvider extends PrivateConversationProvider {
         }
         if (lastData.containsKey(data.getConversationTargetId())) {
             data.setConversationContent(lastData.get(data.getConversationTargetId()));
+        } else {
+            data.setConversationContent(new SpannableString(""));
         }
         super.bindView(view, position, data);
     }

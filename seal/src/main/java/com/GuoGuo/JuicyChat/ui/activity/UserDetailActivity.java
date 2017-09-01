@@ -469,7 +469,6 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 					} else {
 						NToast.shortToast(mContext, "同步信息失败");
 					}
-					
 					break;
 			}
 		}

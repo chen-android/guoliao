@@ -2,7 +2,6 @@ package com.GuoGuo.JuicyChat.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +35,7 @@ import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.server.widget.DialogWithYesOrNoUtils;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,6 +59,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 	private static final int UNLOCK_MEMBER_LIST = 246;
 	private static final int UNLOCK_MEMBER_SUBMIT = 447;
 	public static final String DISCUSSION_UPDATE = "DISCUSSION_UPDATE";
+	private static final String ALLPERSONFRIENDID = "-10";
 	/**
 	 * 好友列表的 ListView
 	 */
@@ -84,7 +84,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 	private TextView mNoFriends;
 	private List<Friend> data_list = new ArrayList<>();
 	private List<Friend> sourceDataList = new ArrayList<>();
-	private LinearLayout mSelectedFriendsLinearLayout;
+	//	private LinearLayout mSelectedFriendsLinearLayout;
 	private boolean isCrateGroup;
 	private boolean isConversationActivityStartDiscussion;
 	private boolean isConversationActivityStartPrivate;
@@ -98,7 +98,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 	private ArrayList<String> discListMember;
 	private ArrayList<UserInfo> addDisList, deleDisList;
 	private boolean isStartPrivateChat;
-	private List<Friend> mSelectedFriend;
+	//	private List<Friend> mSelectedFriend;
 	private boolean isAddGroupMember;
 	private boolean isDeleteGroupMember;
 	private boolean isUnlockMoneyMember;
@@ -114,8 +114,8 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 		mHeadRightText.setVisibility(View.VISIBLE);
 		mHeadRightText.setText("确定");
 		mHeadRightText.setOnClickListener(this);
-		mSelectedFriend = new ArrayList<>();
-		mSelectedFriendsLinearLayout = (LinearLayout) findViewById(R.id.ll_selected_friends);
+//		mSelectedFriend = new ArrayList<>();
+//		mSelectedFriendsLinearLayout = (LinearLayout) findViewById(R.id.ll_selected_friends);
 		isCrateGroup = getIntent().getBooleanExtra("createGroup", false);
 		isConversationActivityStartDiscussion = getIntent().getBooleanExtra("CONVERSATION_DISCUSSION", false);
 		isConversationActivityStartPrivate = getIntent().getBooleanExtra("CONVERSATION_PRIVATE", false);
@@ -371,6 +371,12 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 				data_list.add(new Friend(gagMember.getUserid(), SealUserInfoManager.getInstance().getGroupMenberDisplayName(gagMember), gagMember.getUserhead()));
 			}
 			fillSourceDataList();
+			//添加全部成员项
+			
+			Friend friend = new Friend(ALLPERSONFRIENDID, "全部成员", "");
+			friend.setLetter("全部成员");
+			sourceDataList.add(0, friend);
+			
 			updateAdapter();
 		}
 	}
@@ -400,7 +406,6 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 			adapterList = friends;
 			setSectionsFromList(friends);
 			init();
-			notifyDataSetChanged();
 		}
 		
 		private void setSectionsFromList(List<Friend> friends) {
@@ -423,6 +428,16 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 						mCBFlag.put(i, true);
 					}
 				}
+				if (hasGagGroupMemberIdList.size() == adapterList.size() - 1) {//全部被禁言
+					mCBFlag.put(0, true);
+				}
+				updateSelectedSizeView(mCBFlag);
+			}
+		}
+		
+		private void checkAll(boolean isCheck) {
+			for (int i = 0; i < adapterList.size(); i++) {
+				mCBFlag.put(i, isCheck);
 			}
 		}
 		
@@ -495,22 +510,33 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 				viewHolder.isSelect.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						mCBFlag.put(position, viewHolder.isSelect.isChecked());
-						updateSelectedSizeView(mCBFlag);
-						if (mSelectedFriend.contains(friend)) {
-							int index = mSelectedFriend.indexOf(friend);
-							if (index > -1) {
-								mSelectedFriendsLinearLayout.removeViewAt(index);
+						if (isGagMember) {
+							if (position == 0) {
+								checkAll(viewHolder.isSelect.isChecked());
+								adapter.notifyDataSetChanged();
+							} else {
+								mCBFlag.put(position, viewHolder.isSelect.isChecked());
 							}
-							mSelectedFriend.remove(friend);
+							updateSelectedSizeView(mCBFlag);
+							
 						} else {
-							mSelectedFriend.add(friend);
-							LinearLayout view = (LinearLayout) View.inflate(SelectFriendsActivity.this, R.layout.item_selected_friends, null);
-							SelectableRoundedImageView asyncImageView = (SelectableRoundedImageView) view.findViewById(R.id.iv_selected_friends);
-							String portraitUri = SealUserInfoManager.getInstance().getPortraitUri(new UserInfo(friend.getFriendid(), friend.getNickname(), Uri.parse(friend.getHeadico())));
-							ImageLoader.getInstance().displayImage(portraitUri, asyncImageView);
-							view.removeView(asyncImageView);
-							mSelectedFriendsLinearLayout.addView(asyncImageView);
+							mCBFlag.put(position, viewHolder.isSelect.isChecked());
+							updateSelectedSizeView(mCBFlag);
+//							if (mSelectedFriend.contains(friend)) {
+//								int index = mSelectedFriend.indexOf(friend);
+//								if (index > -1) {
+////									mSelectedFriendsLinearLayout.removeViewAt(index);
+//								}
+//								mSelectedFriend.remove(friend);
+//							} else {
+//								mSelectedFriend.add(friend);
+//								LinearLayout view = (LinearLayout) View.inflate(SelectFriendsActivity.this, R.layout.item_selected_friends, null);
+//								SelectableRoundedImageView asyncImageView = (SelectableRoundedImageView) view.findViewById(R.id.iv_selected_friends);
+//								String portraitUri = SealUserInfoManager.getInstance().getPortraitUri(new UserInfo(friend.getFriendid(), friend.getNickname(), Uri.parse(friend.getHeadico())));
+//								ImageLoader.getInstance().displayImage(portraitUri, asyncImageView);
+//								view.removeView(asyncImageView);
+////								mSelectedFriendsLinearLayout.addView(asyncImageView);
+//							}
 						}
 					}
 				});
@@ -524,8 +550,12 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 			}
 
 //            String portraitUri = SealUserInfoManager.getInstance().getPortraitUri(adapterList.get(position));
-			String portraitUri = friend.getHeadico();
-			ImageLoader.getInstance().displayImage(portraitUri, viewHolder.mImageView, App.getOptions());
+			if (ALLPERSONFRIENDID.equals(friend.getFriendid())) {
+				Picasso.with(context).load(R.drawable.icon_gag_select_all).into(viewHolder.mImageView);
+			} else {
+				String portraitUri = friend.getHeadico();
+				ImageLoader.getInstance().displayImage(portraitUri, viewHolder.mImageView, App.getOptions());
+			}
 			return convertView;
 		}
 		
@@ -539,16 +569,16 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 				}
 				if (size == 0) {
 					mHeadRightText.setText("确定");
-					mSelectedFriendsLinearLayout.setVisibility(View.GONE);
+//					mSelectedFriendsLinearLayout.setVisibility(View.GONE);
 				} else {
 					mHeadRightText.setText("确定(" + size + ")");
-					List<Friend> selectedList = new ArrayList<>();
-					for (int i = 0; i < sourceDataList.size(); i++) {
-						if (mCBFlag.get(i)) {
-							selectedList.add(sourceDataList.get(i));
-						}
-					}
-					mSelectedFriendsLinearLayout.setVisibility(View.VISIBLE);
+//					List<Friend> selectedList = new ArrayList<>();
+//					for (int i = 0; i < sourceDataList.size(); i++) {
+//						if (mCBFlag.get(i)) {
+//							selectedList.add(sourceDataList.get(i));
+//						}
+//					}
+//					mSelectedFriendsLinearLayout.setVisibility(View.VISIBLE);
 				}
 			}
 		}
@@ -755,7 +785,11 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
 					createGroupList = new ArrayList<>();
 					for (int i = 0; i < sourceDataList.size(); i++) {
 						if (mCBFlag.get(i)) {
-							startDisList.add(sourceDataList.get(i).getFriendid());
+							String friendid = sourceDataList.get(i).getFriendid();
+							if (ALLPERSONFRIENDID.equals(friendid)) {
+								continue;
+							}
+							startDisList.add(friendid);
 							disNameList.add(sourceDataList.get(i).getNickname());
 							createGroupList.add(sourceDataList.get(i));
 						}
