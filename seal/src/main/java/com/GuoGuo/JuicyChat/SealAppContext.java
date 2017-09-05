@@ -25,11 +25,13 @@ import com.GuoGuo.JuicyChat.ui.activity.NewFriendListActivity;
 import com.GuoGuo.JuicyChat.ui.activity.UserDetailActivity;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 import com.alibaba.fastjson.JSONException;
+import com.blankj.utilcode.util.EmptyUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.rong.imkit.DefaultExtensionModule;
@@ -326,9 +328,16 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 		} else if (messageContent instanceof ImageMessage) {
 			//ImageMessage imageMessage = (ImageMessage) messageContent;
 		} else if (messageContent instanceof GGRedPacketNotifyMessage) {
-			if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) messageContent).getTouserid())) {
-				
-				return true;
+			GGRedPacketNotifyMessage messageContent1 = (GGRedPacketNotifyMessage) messageContent;
+			if (!SharedPreferencesContext.getInstance().getUserId().equals(messageContent1.getTouserid())) {
+				String ids = messageContent1.getShowuserids();
+				if (EmptyUtils.isNotEmpty(ids)) {
+					if (!Arrays.asList(ids.split(",")).contains(SharedPreferencesContext.getInstance().getUserId())) {
+						return true;
+					}
+				} else {
+					return true;
+				}
 			}
 		}
 		return false;
