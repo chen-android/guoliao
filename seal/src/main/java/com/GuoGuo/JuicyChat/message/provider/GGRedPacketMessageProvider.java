@@ -231,8 +231,12 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 						if (message.length() > 25) {
 							iosmessage.insert(24, "\n");
 						}
+						String fromnickname = String.valueOf(this.message.getFromuserid()).equals(SharedPreferencesContext.getInstance().getUserId()) ?
+								"自己" : this.detailEntity.getFromnickname();
+						String tipmessage = "您领取了" + fromnickname + "的红包";
 						RongIM.getInstance().sendMessage(Message.obtain(this.message.getTomemberid() + "", Conversation.ConversationType.GROUP,
-								GGRedPacketNotifyMessage.obtain(this.message.getRedpacketId(), message, iosmessage.toString(), this.message.getFromuserid() + "", 0)), null, null,
+								GGRedPacketNotifyMessage.obtain(this.message.getRedpacketId(), message, iosmessage.toString(),
+										this.message.getFromuserid() + "", SharedPreferencesContext.getInstance().getUserId(), tipmessage, 0)), null, null,
 								new IRongCallback.ISendMessageCallback() {
 									@Override
 									public void onAttached(Message message) {

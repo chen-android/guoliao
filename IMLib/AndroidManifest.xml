@@ -25,7 +25,7 @@
 		<!--开发    k51hidwqkexcb-->
 		<meta-data
 			android:name="RONG_CLOUD_APP_KEY"
-			android:value="k51hidwqkexcb"/>
+			android:value="tdrvipkst7ox5"/>
 		
 		<service
 			android:name="io.rong.imlib.ipc.RongService"

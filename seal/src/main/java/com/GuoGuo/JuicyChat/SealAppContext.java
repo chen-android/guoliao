@@ -327,6 +327,7 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 			//ImageMessage imageMessage = (ImageMessage) messageContent;
 		} else if (messageContent instanceof GGRedPacketNotifyMessage) {
 			if (!SharedPreferencesContext.getInstance().getUserId().equals(((GGRedPacketNotifyMessage) messageContent).getTouserid())) {
+				
 				return true;
 			}
 		}

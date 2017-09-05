@@ -67,7 +67,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 		msgEt = (EditText) findViewById(R.id.et_message);
 		moneyTv = (TextView) findViewById(R.id.tv_amount);
 		submitBt = (Button) findViewById(R.id.btn_putin);
-		
+		checkCanSubmitClick();
 		moneyEt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -86,6 +86,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 				} else {
 					moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
 				}
+				checkCanSubmitClick();
 			}
 		});
 		dialog = new PayPwdDialog(this);
@@ -122,6 +123,15 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 				request(GET_MONEY, true);
 			}
 		});
+	}
+	
+	private void checkCanSubmitClick() {
+		String money = moneyEt.getText().toString();
+		if (!TextUtils.isEmpty(money) && Long.valueOf(money) > 0) {
+			submitBt.setEnabled(true);
+		} else {
+			submitBt.setEnabled(false);
+		}
 	}
 	
 	@Override

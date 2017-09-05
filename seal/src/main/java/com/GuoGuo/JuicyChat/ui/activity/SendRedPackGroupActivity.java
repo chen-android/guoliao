@@ -78,7 +78,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
         submitBt = (Button) findViewById(R.id.btn_putin);
         gCountTv = (TextView) findViewById(R.id.tv_group_menber_count);
         moneyEt.requestFocus();
-        
+        checkCanSubmitClick();
         moneyEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

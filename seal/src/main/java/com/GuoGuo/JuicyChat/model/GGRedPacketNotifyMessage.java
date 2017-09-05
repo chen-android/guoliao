@@ -18,24 +18,28 @@ import io.rong.imlib.model.MessageContent;
 
 @MessageTag(
 		value = "JC:RedPacketNtf",
-		flag = MessageTag.ISPERSISTED
+		flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED
 )
 public class GGRedPacketNotifyMessage extends MessageContent {
 	private String redpacketId;
 	private String message;
 	private String iosmessage;
+	private String showuserids;
+	private String tipmessage;
 	private String touserid;
 	private int islink;
 	
-	public static GGRedPacketNotifyMessage obtain(String redpacketId, String message, String iosmessage, String touserid, int islink) {
-		return new GGRedPacketNotifyMessage(redpacketId, message, iosmessage, touserid, islink);
+	public static GGRedPacketNotifyMessage obtain(String redpacketId, String message, String iosmessage, String touserid, String showuserids, String tipmessage, int islink) {
+		return new GGRedPacketNotifyMessage(redpacketId, message, iosmessage, touserid, showuserids, tipmessage, islink);
 	}
 	
-	public GGRedPacketNotifyMessage(String redpacketId, String message, String iosmessage, String touserid, int islink) {
+	public GGRedPacketNotifyMessage(String redpacketId, String message, String iosmessage, String touserid, String showuserids, String tipmessage, int islink) {
 		this.redpacketId = redpacketId;
 		this.message = message;
-		this.touserid = touserid;
 		this.iosmessage = iosmessage;
+		this.touserid = touserid;
+		this.showuserids = showuserids;
+		this.tipmessage = tipmessage;
 		this.islink = islink;
 	}
 	
@@ -55,6 +59,12 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 			}
 			if (!TextUtils.isEmpty(this.touserid)) {
 				jsonObj.put("touserid", this.touserid);
+			}
+			if (!TextUtils.isEmpty(this.showuserids)) {
+				jsonObj.put("showuserids", this.showuserids);
+			}
+			if (!TextUtils.isEmpty(this.tipmessage)) {
+				jsonObj.put("tipmessage", this.tipmessage);
 			}
 			jsonObj.put("islink", this.islink);
 			
@@ -93,6 +103,12 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 			}
 			if (var3.has("touserid")) {
 				this.setTouserid(var3.optString("touserid"));
+			}
+			if (var3.has("showuserids")) {
+				this.setShowuserids(var3.optString("showuserids"));
+			}
+			if (var3.has("tipmessage")) {
+				this.setTipmessage(var3.optString("tipmessage"));
 			}
 			if (var3.has("islink")) {
 				this.setIslink(var3.optInt("islink"));
@@ -140,6 +156,22 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 		this.touserid = touserid;
 	}
 	
+	public String getShowuserids() {
+		return showuserids;
+	}
+	
+	public void setShowuserids(String showuserids) {
+		this.showuserids = showuserids;
+	}
+	
+	public String getTipmessage() {
+		return tipmessage;
+	}
+	
+	public void setTipmessage(String tipmessage) {
+		this.tipmessage = tipmessage;
+	}
+	
 	public int getIslink() {
 		return islink;
 	}
@@ -152,30 +184,34 @@ public class GGRedPacketNotifyMessage extends MessageContent {
 	public int describeContents() {
 		return 0;
 	}
-
+	
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.redpacketId);
 		dest.writeString(this.message);
 		dest.writeString(this.iosmessage);
+		dest.writeString(this.showuserids);
+		dest.writeString(this.tipmessage);
 		dest.writeString(this.touserid);
 		dest.writeInt(this.islink);
 	}
-
+	
 	protected GGRedPacketNotifyMessage(Parcel in) {
 		this.redpacketId = in.readString();
 		this.message = in.readString();
 		this.iosmessage = in.readString();
+		this.showuserids = in.readString();
+		this.tipmessage = in.readString();
 		this.touserid = in.readString();
 		this.islink = in.readInt();
 	}
-
+	
 	public static final Creator<GGRedPacketNotifyMessage> CREATOR = new Creator<GGRedPacketNotifyMessage>() {
 		@Override
 		public GGRedPacketNotifyMessage createFromParcel(Parcel source) {
 			return new GGRedPacketNotifyMessage(source);
 		}
-
+		
 		@Override
 		public GGRedPacketNotifyMessage[] newArray(int size) {
 			return new GGRedPacketNotifyMessage[size];

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +55,7 @@ public class RechargeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recharge);
+		setTitle("转账");
 		mFriend = getIntent().getParcelableExtra("friend");
 		if (mFriend == null) {
 			Toast.makeText(this, "用户信息有误", Toast.LENGTH_SHORT).show();
@@ -61,6 +65,7 @@ public class RechargeActivity extends BaseActivity {
 		initView();
 		Picasso.with(this).load(Uri.parse(mFriend.getHeadico())).into(headIv);
 		nameTv.setText(SealUserInfoManager.getInstance().getDiaplayName(mFriend));
+		checkCanSubmitClick();
 		dialog = new PayPwdDialog(this);
 		dialog.setInputCompleteListener(new PayPwdDialog.InputCompleteListener() {
 			@Override
@@ -79,6 +84,22 @@ public class RechargeActivity extends BaseActivity {
 		moneyEt = (EditText) findViewById(R.id.recharge_money_et);
 		noteEt = (EditText) findViewById(R.id.recharge_note_et);
 		submitBt = (Button) findViewById(R.id.recharge_bt);
+		moneyEt.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				
+			}
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				checkCanSubmitClick();
+			}
+		});
 		submitBt.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -103,6 +124,15 @@ public class RechargeActivity extends BaseActivity {
 				request(REQUEST_REMAIN_MONEY);
 			}
 		});
+	}
+	
+	private void checkCanSubmitClick() {
+		String money = moneyEt.getText().toString();
+		if (!TextUtils.isEmpty(money) && Long.valueOf(money) > 0) {
+			submitBt.setEnabled(true);
+		} else {
+			submitBt.setEnabled(false);
+		}
 	}
 	
 	@Override

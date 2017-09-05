@@ -23,8 +23,11 @@ import com.GuoGuo.JuicyChat.server.response.GetRedPacketUsersResponse;
 import com.GuoGuo.JuicyChat.server.utils.ColorPhrase;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.ui.activity.RedPacketDetailActivity;
+import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
@@ -47,18 +50,27 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     public void bindView(View v, int position, GGRedPacketNotifyMessage content, UIMessage message) {
         ViewHolder viewHolder = (ViewHolder) v.getTag();
         if (content != null) {
-            String message1 = content.getMessage();
-            if (!TextUtils.isEmpty(message1)) {
-                if (content.getIslink() == 1) {
-                    CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
-                            .outerColor(Color.WHITE)
-                            .format();
-                    viewHolder.contentTextView.setText(format);
-                } else {
-                    viewHolder.contentTextView.setText(message1);
+            if (!TextUtils.isEmpty(content.getShowuserids())) {
+                List<String> ids = Arrays.asList(content.getShowuserids().split(","));
+                if (ids.contains(SharedPreferencesContext.getInstance().getUserId())) {
+                    viewHolder.contentTextView.setText(content.getTipmessage());
+                    return;
                 }
             }
-    
+            if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
+                String message1 = content.getMessage();
+                if (!TextUtils.isEmpty(message1)) {
+                    if (content.getIslink() == 1) {
+                        CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
+                                .outerColor(Color.WHITE)
+                                .format();
+                        viewHolder.contentTextView.setText(format);
+                    } else {
+                        viewHolder.contentTextView.setText(message1);
+                    }
+            
+                }
+            }
         }
     }
     
