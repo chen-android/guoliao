@@ -53,7 +53,14 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
             if (!TextUtils.isEmpty(content.getShowuserids())) {
                 List<String> ids = Arrays.asList(content.getShowuserids().split(","));
                 if (ids.contains(SharedPreferencesContext.getInstance().getUserId())) {
-                    viewHolder.contentTextView.setText(content.getTipmessage());
+                    if (content.getIslink() == 1) {
+                        CharSequence format = ColorPhrase.from(content.getTipmessage() + " {\n点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
+                                .outerColor(Color.WHITE)
+                                .format();
+                        viewHolder.contentTextView.setText(format);
+                    } else {
+                        viewHolder.contentTextView.setText(content.getTipmessage());
+                    }
                     return;
                 }
             }
@@ -61,7 +68,7 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
                 String message1 = content.getMessage();
                 if (!TextUtils.isEmpty(message1)) {
                     if (content.getIslink() == 1) {
-                        CharSequence format = ColorPhrase.from(message1 + " {点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
+                        CharSequence format = ColorPhrase.from(message1 + " {\n点击查看}").innerColor(v.getResources().getColor(R.color.title_bar_color))
                                 .outerColor(Color.WHITE)
                                 .format();
                         viewHolder.contentTextView.setText(format);
