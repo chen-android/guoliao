@@ -93,6 +93,8 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     public void onItemClick(View view, int position, GGRedPacketNotifyMessage
             content, UIMessage message) {
         if (content.getIslink() == 1) {
+            this.context = view.getContext();
+            action = new SealAction(this.context);
             LoadDialog.show(context);
             this.redPacketId = content.getRedpacketId();
             AsyncTaskManager.getInstance(context).request(REQUEST_DETAIL, this);
@@ -107,7 +109,6 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     @Override
     public View newView(Context context, ViewGroup group) {
         this.context = context;
-        action = new SealAction(context);
         View view = LayoutInflater.from(context).inflate(R.layout.rc_item_group_information_notification_message, null);
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.contentTextView = (TextView) view.findViewById(R.id.rc_msg);

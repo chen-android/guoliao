@@ -211,12 +211,16 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 						AsyncTaskManager.getInstance(context).request(REQUEST_MEMBERS, this);
 						return;
 					}
-					if (this.detailEntity.getState() == 3) {
+					if (this.detailEntity.getState() == 3) {//过期
 						showOpenRedPacketDialog(RedPacketOpenDialog.REDPACKET_STATE.OVERTIME);
 						LoadDialog.dismiss(context);
 						return;
 					}
 					LoadDialog.dismiss(context);
+					if (isSingle) {
+						showOpenRedPacketDialog(RedPacketOpenDialog.REDPACKET_STATE.NORMAL);
+						return;
+					}
 					showOpenRedPacketDialog(isLate ? RedPacketOpenDialog.REDPACKET_STATE.LATE : RedPacketOpenDialog.REDPACKET_STATE.NORMAL);
 				}
 				break;
