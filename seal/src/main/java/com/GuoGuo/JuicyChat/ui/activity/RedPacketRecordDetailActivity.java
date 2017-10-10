@@ -23,7 +23,8 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 	private static final int REQUEST_DETAIL = 1;
 	private static final int REQUEST_MEMBERS = 2;
 	private ImageView headIv;
-	private TextView typeTv, sendNameTv, sendTitleTv, reviewTv, descriptionTv, dateTv, statusTv;
+	private TextView typeTv, sendNameTv, sendTitleTv, reviewTv, descriptionTv, dateTv, statusTv,
+			moneyTv, moneyTitleTv;
 	private String redPacketId;
 	private GetRedPacketDetailResponse.ResultEntity detailEntity;
 	
@@ -44,6 +45,8 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 				typeTv.setText("群红包");
 			}
 			sendTitleTv.setText("发包人");
+			moneyTv.setText("+" + receiveData.getUnpackmoney() + "果币");
+			moneyTitleTv.setText("金额");
 			sendNameTv.setText(receiveData.getFromuser());
 			descriptionTv.setText(TextUtils.isEmpty(receiveData.getNote()) ? "暂无" : receiveData.getNote());
 			dateTv.setText(StringUtils.sTimeToString(receiveData.getCreatetime()));
@@ -66,6 +69,8 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 				typeTv.setText("群红包");
 			}
 			sendTitleTv.setText("收包人");
+			moneyTv.setText("-" + sendData.getMoney() + "果币");
+			moneyTitleTv.setText("付款金额");
 			sendNameTv.setText(sendData.getTomember());
 			descriptionTv.setText(TextUtils.isEmpty(sendData.getNote()) ? "暂无" : sendData.getNote());
 			dateTv.setText(StringUtils.sTimeToString(sendData.getCreatetime()));
@@ -90,6 +95,8 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 		descriptionTv = (TextView) findViewById(R.id.redpacket_record_detail_description_tv);
 		dateTv = (TextView) findViewById(R.id.redpacket_record_detail_date_tv);
 		statusTv = (TextView) findViewById(R.id.redpacket_record_detail_status_tv);
+		moneyTv = (TextView) findViewById(R.id.redpacket_record_detail_money_tv);
+		moneyTitleTv = (TextView) findViewById(R.id.redpacket_record_detail_money_title_tv);
 	}
 	
 	@Override
