@@ -18,6 +18,8 @@ import com.GuoGuo.JuicyChat.server.SealAction;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordData;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordResponse;
+import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesData;
+import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesRes;
 import com.GuoGuo.JuicyChat.server.utils.StringUtils;
 import com.GuoGuo.JuicyChat.utils.DateUtils;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
@@ -39,11 +41,12 @@ import java.util.List;
 public class TransferRecordActivity extends BaseActivity {
 	private static final int REQUEST_REFRESH = 889;
 	private static final int REQUEST_MORE = 548;
+	private static final int REQUEST_TYPES = 694;
 	private SmartRefreshLayout refreshFl;
 	private ListView lv;
 	private TextView emptyTv;
 	private TextView filterTv;
-	private Button filterBt;
+	private Button typesBt;
 	private SealAction mAction;
 	private int index = 1;
 	private String month;
@@ -63,7 +66,7 @@ public class TransferRecordActivity extends BaseActivity {
 		lv.setAdapter(mMyAdapter);
 		lv.setEmptyView(emptyTv);
 		mAction = new SealAction(this);
-		request(REQUEST_REFRESH);
+		request(REQUEST_TYPES);
 	}
 	
 	private void initView() {
@@ -74,11 +77,13 @@ public class TransferRecordActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.transfer_record_lv);
 		emptyTv = (TextView) findViewById(R.id.transfer_record_no_data_tv);
 		filterTv = (TextView) findViewById(R.id.transfer_filter_tv);
-		filterBt = getHeadRightButton();
-		filterBt.setBackgroundResource(R.drawable.icon_transfer_record_filter);
+		typesBt = getHeadRightButton();
+		typesBt.setText("全部");
+		typesBt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_arrow_down_white, 0);
+		typesBt.setCompoundDrawablePadding(10);
 		setHeadRightButtonVisibility(View.VISIBLE);
 		minCalendar.set(2017, 5, 1);
-		currentMillSeconds = new Date().getTime();
+		currentMillSeconds = System.currentTimeMillis();
 		
 	}
 	
@@ -96,7 +101,7 @@ public class TransferRecordActivity extends BaseActivity {
 				request(REQUEST_REFRESH);
 			}
 		});
-		filterBt.setOnClickListener(new View.OnClickListener() {
+		filterTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dialog = new TimePickerDialog.Builder()
@@ -117,7 +122,7 @@ public class TransferRecordActivity extends BaseActivity {
 						.setType(Type.YEAR_MONTH)
 						.setCyclic(false)
 						.setMinMillseconds(minCalendar.getTimeInMillis())
-						.setMaxMillseconds(new Date().getTime())
+						.setMaxMillseconds(System.currentTimeMillis())
 						.setCurrentMillseconds(currentMillSeconds)
 						.setThemeColor(getResources().getColor(R.color.de_title_bg))
 						.setWheelItemTextSize(14)
@@ -142,6 +147,10 @@ public class TransferRecordActivity extends BaseActivity {
 				return mAction.getTransferRecord(index, month);
 			case REQUEST_MORE:
 				return mAction.getTransferRecord(index, month);
+			case REQUEST_TYPES:
+				return mAction.getTransferRecordTypes();
+			default:
+				break;
 		}
 		return super.doInBackground(requestCode, id);
 	}
@@ -185,6 +194,15 @@ public class TransferRecordActivity extends BaseActivity {
 					mMyAdapter.addDatas(list1);
 					mMyAdapter.notifyDataSetChanged();
 				}
+				break;
+			case REQUEST_TYPES:
+				TransferRecordTypesRes typesRes = (TransferRecordTypesRes) result;
+				if (typesRes.getCode() == 200) {
+					List<TransferRecordTypesData> data = typesRes.getData();
+					request(REQUEST_REFRESH);
+				}
+				break;
+			default:
 				break;
 		}
 	}

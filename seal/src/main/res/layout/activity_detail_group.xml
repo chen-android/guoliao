@@ -290,7 +290,8 @@
 				android:text="禁言"
 				android:background="@color/white"
 				android:textColor="@color/text_color"
-				android:drawableRight="@drawable/icon_right_arrow_gray"/>
+				android:drawableRight="@drawable/icon_right_arrow_gray"
+				android:visibility="gone"/>
 			
 			<View
 				android:layout_width="match_parent"

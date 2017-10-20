@@ -13,11 +13,11 @@
 			android:id="@+id/transfer_filter_tv"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:background="@color/color_b5b5b5"
+			android:background="@color/color_f0f0f0"
 			android:text="2013年08月"
 			android:textColor="@color/color_434343"
-			android:padding="5dp"
-			android:visibility="gone"/>
+			android:drawableRight="@drawable/icon_transfer_record_filter"
+			android:padding="10dp"/>
 		
 		<ListView
 			android:id="@+id/transfer_record_lv"

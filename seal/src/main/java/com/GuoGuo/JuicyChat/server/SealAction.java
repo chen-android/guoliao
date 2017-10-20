@@ -81,6 +81,7 @@ import com.GuoGuo.JuicyChat.server.response.SetNameResponse;
 import com.GuoGuo.JuicyChat.server.response.SetPortraitResponse;
 import com.GuoGuo.JuicyChat.server.response.SyncTotalDataResponse;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordResponse;
+import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesRes;
 import com.GuoGuo.JuicyChat.server.response.VerifyCodeResponse;
 import com.GuoGuo.JuicyChat.server.response.VersionResponse;
 import com.GuoGuo.JuicyChat.server.utils.NLog;
@@ -1831,8 +1832,16 @@ public class SealAction extends BaseAction {
 //        return response;
 //    }
 	
+	/**
+	 * 获取交易记录
+	 *
+	 * @param index
+	 * @param month
+	 * @return
+	 * @throws HttpException
+	 */
 	public TransferRecordResponse getTransferRecord(int index, String month) throws HttpException {
-		String url = getURL("GetTransferRecord.aspx");
+		String url = getURL("GetUserBills.aspx");
 		Map<String, Object> map = new HashMap<>();
 		map.put("index", index);
 		map.put("month", month);
@@ -1853,4 +1862,27 @@ public class SealAction extends BaseAction {
 		return response;
 	}
 	
+	/**
+	 * 获取交易类型
+	 *
+	 * @return
+	 * @throws HttpException
+	 */
+	public TransferRecordTypesRes getTransferRecordTypes() throws HttpException {
+		String url = getURL("GetBillTypes.aspx");
+		String json = JsonMananger.beanToJson(new BaseTokenRequest());
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		TransferRecordTypesRes response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, TransferRecordTypesRes.class);
+		}
+		return response;
+	}
 }
