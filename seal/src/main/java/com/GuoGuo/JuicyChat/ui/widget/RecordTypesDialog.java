@@ -47,7 +47,7 @@ public class RecordTypesDialog extends Dialog {
         window.setWindowAnimations(R.style.ShareDialogAnimation);
         WindowManager.LayoutParams attributes = window.getAttributes();
         attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
-        attributes.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getContext().getResources().getDisplayMetrics());
+        attributes.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 260, getContext().getResources().getDisplayMetrics());
         window.setAttributes(attributes);
         gv = (GridView) findViewById(R.id.dialog_transfer_record_gv);
         if (datas != null) {
@@ -83,6 +83,7 @@ public class RecordTypesDialog extends Dialog {
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView tv = new TextView(parent.getContext());
             tv.setText(datas.get(position).getTypename());
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             int tb = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, parent.getContext().getResources().getDisplayMetrics());
             int lr = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, parent.getContext().getResources().getDisplayMetrics());
             tv.setPadding(lr, tb, lr, tb);

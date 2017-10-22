@@ -13,8 +13,7 @@
 			android:id="@+id/transfer_filter_tv"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:background="@color/color_f0f0f0"
-			android:text="2013年08月"
+			android:background="@color/color_80c9c9c9"
 			android:textColor="@color/color_434343"
 			android:drawableRight="@drawable/icon_transfer_record_filter"
 			android:padding="10dp"/>
@@ -32,7 +31,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_centerInParent="true"
-			android:text="暂无转账数据"
+			android:text="暂无数据"
 			android:textSize="18sp"
 			android:visibility="gone"/>
 	</RelativeLayout>

@@ -86,7 +86,7 @@ public class TransferRecordActivity extends BaseActivity {
 		emptyTv = (TextView) findViewById(R.id.transfer_record_no_data_tv);
 		filterTv = (TextView) findViewById(R.id.transfer_filter_tv);
 		typesBt = getHeadRightButton();
-		typesBt.setText("全部");
+		typesBt.setText("全部分类");
 		typesBt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_arrow_down_white, 0);
 		typesBt.setCompoundDrawablePadding(10);
 		setHeadRightButtonVisibility(View.VISIBLE);
@@ -176,6 +176,12 @@ public class TransferRecordActivity extends BaseActivity {
 				public void onSelect(int position) {
 					selectedPosition = position;
 					selectedType = typeList.get(position).getTypeid();
+					typesBt.setText(typeList.get(position).getTypename());
+					if (position > 0) {
+						emptyTv.setText("暂无" + typeList.get(position).getTypename() + "数据");
+					} else {
+						emptyTv.setText("暂无数据");
+					}
 					refreshFl.autoRefresh();
 				}
 			}).show();
@@ -201,11 +207,11 @@ public class TransferRecordActivity extends BaseActivity {
 					mMyAdapter.clear();
 					mMyAdapter.notifyDataSetChanged();
 				}
-				if (!TextUtils.isEmpty(month)) {
-					filterTv.setVisibility(View.VISIBLE);
-					filterTv.setText(month.substring(0, 4) + "年" + month.substring(4, 6) + "月");
+				if (TextUtils.isEmpty(month)) {
+					String m = DateUtils.dateToString(new Date(), "yyyyMM");
+					filterTv.setText(m.substring(0, 4) + "年" + m.substring(4, 6) + "月");
 				} else {
-					filterTv.setVisibility(View.GONE);
+					filterTv.setText(month.substring(0, 4) + "年" + month.substring(4, 6) + "月");
 				}
 				break;
 			case REQUEST_MORE:

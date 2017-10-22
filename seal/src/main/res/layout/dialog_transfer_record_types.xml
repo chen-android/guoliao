@@ -5,7 +5,8 @@
               android:layout_height="match_parent"
               android:padding="15dp"
               android:divider="@drawable/shape_divider_gray"
-              android:showDividers="middle">
+              android:showDividers="middle"
+              android:background="@color/white">
 	
 	<TextView
 		android:layout_width="match_parent"
@@ -22,5 +23,6 @@
 		android:numColumns="3"
 		android:stretchMode="columnWidth"
 		android:verticalSpacing="10dp"
-		android:horizontalSpacing="10dp"/>
+		android:horizontalSpacing="10dp"
+		android:listSelector="@android:color/transparent"/>
 </LinearLayout>
