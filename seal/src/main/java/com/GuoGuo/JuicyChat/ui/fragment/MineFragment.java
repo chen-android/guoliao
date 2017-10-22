@@ -1,14 +1,11 @@
 package com.GuoGuo.JuicyChat.ui.fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,34 +17,22 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.GuoGuo.JuicyChat.App;
 import com.GuoGuo.JuicyChat.GGConst;
 import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.SealUserInfoManager;
-import com.GuoGuo.JuicyChat.server.SealAction;
+import com.GuoGuo.JuicyChat.server.BaseAction;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
-import com.GuoGuo.JuicyChat.server.network.async.AsyncTaskManager;
-import com.GuoGuo.JuicyChat.server.network.async.OnDataListener;
-import com.GuoGuo.JuicyChat.server.network.http.HttpException;
 import com.GuoGuo.JuicyChat.server.response.GetShareRewardResponse;
-import com.GuoGuo.JuicyChat.server.utils.NToast;
-import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView;
 import com.GuoGuo.JuicyChat.ui.activity.AccountSettingActivity;
 import com.GuoGuo.JuicyChat.ui.activity.FeedBackActivity;
 import com.GuoGuo.JuicyChat.ui.activity.ImageReviewActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyAccountActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyWalletActivity;
-import com.GuoGuo.JuicyChat.ui.widget.ShareDialog;
+import com.GuoGuo.JuicyChat.ui.activity.SealWebActivity;
 import com.alibaba.fastjson.JSON;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXImageObject;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.CSCustomServiceInfo;
@@ -197,6 +182,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 				startActivity(new Intent(getActivity(), MyWalletActivity.class));
 				break;
 			case R.id.my_share:
+				Intent intent = new Intent(getActivity(), SealWebActivity.class);
+				intent.putExtra("url", BaseAction.getBaseUrl() + "/app/Share.aspx");
+				startActivity(intent);
+				/**
 				AsyncTaskManager.getInstance(getContext()).request(1, new OnDataListener() {
 					@Override
 					public Object doInBackground(int requestCode, String parameter) throws HttpException {
@@ -268,6 +257,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 						
 					}
 				});
+				 */
+				break;
+			default:
 				break;
 		}
 	}

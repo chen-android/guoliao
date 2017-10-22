@@ -13,9 +13,9 @@ import java.util.List;
  * Company RongCloud
  */
 public class BaseAction {
-	
-	private static final String DOMAIN = "http://121.43.184.230:7654/API/";
-	//    		private static final String DOMAIN = "http://47.92.72.63:5689/API/";//测试
+	private static final String BASE_URL = "http://121.43.184.230:7654";
+	//	private static final String BASE_URL = "http://47.92.72.63:5689";
+	private static final String DOMAIN = BASE_URL + "/API/";
 	protected Context mContext;
 	protected SyncHttpClient httpManager;
 	
@@ -89,5 +89,9 @@ public class BaseAction {
 			}
 		}
 		return urlBuilder.toString();
+	}
+	
+	public static String getBaseUrl() {
+		return BASE_URL;
 	}
 }
