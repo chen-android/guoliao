@@ -5,15 +5,23 @@ package com.GuoGuo.JuicyChat.server.response;
  */
 
 public class TransferRecordTypesData {
-    private String typeid;
-    private String typename;
-    
-    public String getTypeid() {
-        return typeid;
+	private int typeid;
+	private String typename;
+
+	public TransferRecordTypesData() {
+	}
+
+	public TransferRecordTypesData(int typeid, String typename) {
+		this.typeid = typeid;
+		this.typename = typename;
+	}
+
+	public int getTypeid() {
+		return typeid;
     }
-    
-    public void setTypeid(String typeid) {
-        this.typeid = typeid;
+
+	public void setTypeid(int typeid) {
+		this.typeid = typeid;
     }
     
     public String getTypename() {

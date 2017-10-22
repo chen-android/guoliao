@@ -21,6 +21,8 @@ import com.GuoGuo.JuicyChat.server.response.TransferRecordResponse;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesData;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesRes;
 import com.GuoGuo.JuicyChat.server.utils.StringUtils;
+import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
+import com.GuoGuo.JuicyChat.ui.widget.RecordTypesDialog;
 import com.GuoGuo.JuicyChat.utils.DateUtils;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 import com.jzxiang.pickerview.TimePickerDialog;
@@ -54,6 +56,12 @@ public class TransferRecordActivity extends BaseActivity {
 	private TimePickerDialog dialog;
 	private Calendar minCalendar = Calendar.getInstance();//时间筛选，最小时间
 	private long currentMillSeconds;
+	/**
+	 * 当前选择的类型  0 为全部
+	 */
+	private int selectedType = 0;
+	private int selectedPosition = 0;
+	private List<TransferRecordTypesData> typeList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +92,6 @@ public class TransferRecordActivity extends BaseActivity {
 		setHeadRightButtonVisibility(View.VISIBLE);
 		minCalendar.set(2017, 5, 1);
 		currentMillSeconds = System.currentTimeMillis();
-		
 	}
 	
 	private void initEvent() {
@@ -138,21 +145,41 @@ public class TransferRecordActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+		typesBt.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showTypeDialog();
+			}
+		});
 	}
 	
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		switch (requestCode) {
 			case REQUEST_REFRESH:
-				return mAction.getTransferRecord(index, month);
+				return mAction.getTransferRecord(index, month,selectedType);
 			case REQUEST_MORE:
-				return mAction.getTransferRecord(index, month);
+				return mAction.getTransferRecord(index, month,selectedType);
 			case REQUEST_TYPES:
+				LoadDialog.show(this);
 				return mAction.getTransferRecordTypes();
 			default:
 				break;
 		}
 		return super.doInBackground(requestCode, id);
+	}
+
+	private void showTypeDialog() {
+		if (typeList != null) {
+			new RecordTypesDialog(this, typeList, selectedPosition, new RecordTypesDialog.OnTypeSelectListener() {
+				@Override
+				public void onSelect(int position) {
+					selectedPosition = position;
+					selectedType = typeList.get(position).getTypeid();
+					refreshFl.autoRefresh();
+				}
+			}).show();
+		}
 	}
 	
 	@Override
@@ -196,9 +223,11 @@ public class TransferRecordActivity extends BaseActivity {
 				}
 				break;
 			case REQUEST_TYPES:
+				LoadDialog.dismiss(this);
 				TransferRecordTypesRes typesRes = (TransferRecordTypesRes) result;
 				if (typesRes.getCode() == 200) {
-					List<TransferRecordTypesData> data = typesRes.getData();
+					typeList = typesRes.getData();
+					typeList.add(0, new TransferRecordTypesData(0,"全部分类"));
 					request(REQUEST_REFRESH);
 				}
 				break;
@@ -215,6 +244,8 @@ public class TransferRecordActivity extends BaseActivity {
 				break;
 			case REQUEST_MORE:
 				refreshFl.finishLoadmore(500, false);
+				break;
+			default:
 				break;
 		}
 	}
@@ -276,18 +307,18 @@ public class TransferRecordActivity extends BaseActivity {
 			TransferRecordData item = getItem(position);
 			String headUrl;
 			if (item.getFromuserid().equals(SharedPreferencesContext.getInstance().getUserId())) {
-				vh.title.setText("转账-转给" + item.getTouser());
+				vh.title.setText(item.getOption() + " - " + item.getTouser());
 				vh.money.setText("- " + StringUtils.getFormatMoney(item.getMoney()) + "果币");
 				vh.money.setTextColor(Color.BLACK);
 				headUrl = item.getTouserheadico();
 			} else {
-				vh.title.setText("转账-来自" + item.getFromuser());
+				vh.title.setText(item.getOption() + " - " + item.getFromuser());
 				vh.money.setText("+ " + StringUtils.getFormatMoney(item.getMoney()) + "果币");
 				vh.money.setTextColor(getResources().getColor(R.color.color_ffc000));
 				headUrl = item.getFromuserheadico();
 			}
 			Picasso.with(parent.getContext()).load(headUrl).into(vh.header);
-			vh.date.setText(StringUtils.sTimeToString(item.getCreatetime()));
+			vh.date.setText(StringUtils.sTimeToString(item.getTime()));
 			return convertView;
 		}
 		

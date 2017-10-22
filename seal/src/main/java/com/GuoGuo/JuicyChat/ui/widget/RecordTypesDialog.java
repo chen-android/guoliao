@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -27,12 +28,15 @@ public class RecordTypesDialog extends Dialog {
     private List<TransferRecordTypesData> datas;
     private GridView gv;
     private int selectedPosition;
-    
-    public RecordTypesDialog(@NonNull Context context, List<TransferRecordTypesData> datas, int selectedPosition) {
-        super(context, R.style.WinDialog);
+	private OnTypeSelectListener mOnTypeSelectListener;
+
+	public RecordTypesDialog(@NonNull Context context, List<TransferRecordTypesData> datas,
+	                         int selectedPosition, OnTypeSelectListener listener) {
+		super(context, R.style.WinDialog);
         this.datas = datas;
         this.selectedPosition = selectedPosition;
-    }
+		this.mOnTypeSelectListener = listener;
+	}
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,14 @@ public class RecordTypesDialog extends Dialog {
         window.setAttributes(attributes);
         gv = (GridView) findViewById(R.id.dialog_transfer_record_gv);
         if (datas != null) {
-            
+	        gv.setAdapter(new MyAdapter());
+	        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		        @Override
+		        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			        mOnTypeSelectListener.onSelect(position);
+			        RecordTypesDialog.this.dismiss();
+		        }
+	        });
         }
     }
     
@@ -75,8 +86,16 @@ public class RecordTypesDialog extends Dialog {
             int tb = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, parent.getContext().getResources().getDisplayMetrics());
             int lr = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, parent.getContext().getResources().getDisplayMetrics());
             tv.setPadding(lr, tb, lr, tb);
-            return null;
+	        if (selectedPosition == position) {
+		        tv.setBackgroundResource(R.drawable.shape_bg_blue_5r);
+	        } else {
+		        tv.setBackgroundResource(R.drawable.shape_border_gray_5r);
+	        }
+	        return tv;
         }
     }
-    
+
+	public interface OnTypeSelectListener {
+		void onSelect(int position);
+	}
 }

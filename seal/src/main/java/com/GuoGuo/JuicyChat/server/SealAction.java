@@ -1840,12 +1840,13 @@ public class SealAction extends BaseAction {
 	 * @return
 	 * @throws HttpException
 	 */
-	public TransferRecordResponse getTransferRecord(int index, String month) throws HttpException {
+	public TransferRecordResponse getTransferRecord(int index, String month, int type) throws HttpException {
 		String url = getURL("GetUserBills.aspx");
 		Map<String, Object> map = new HashMap<>();
 		map.put("index", index);
 		map.put("month", month);
 		map.put("token", SharedPreferencesContext.getInstance().getToken());
+		map.put("type", type);
 		String json = JSON.toJSONString(map);
 		StringEntity entity = null;
 		try {

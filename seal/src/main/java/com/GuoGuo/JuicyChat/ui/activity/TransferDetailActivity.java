@@ -56,7 +56,7 @@ public class TransferDetailActivity extends BaseActivity {
 			receiveNameTv.setText(data.getTouser());
 			descriptionTv.setText(TextUtils.isEmpty(data.getNote()) ? "无" : data.getNote());
 			statusTv.setText("已收钱");
-			dateTv.setText(data.getCreatetime().replace("T", " ").substring(0, 19));
+			dateTv.setText(data.getTime().replace("T", " ").substring(0, 19));
 		}
 	}
 	
