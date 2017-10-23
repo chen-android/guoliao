@@ -79,6 +79,7 @@ import com.GuoGuo.JuicyChat.server.response.SetGroupNameResponse;
 import com.GuoGuo.JuicyChat.server.response.SetGroupPortraitResponse;
 import com.GuoGuo.JuicyChat.server.response.SetNameResponse;
 import com.GuoGuo.JuicyChat.server.response.SetPortraitResponse;
+import com.GuoGuo.JuicyChat.server.response.ShareLinkResponse;
 import com.GuoGuo.JuicyChat.server.response.SyncTotalDataResponse;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordResponse;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesRes;
@@ -395,6 +396,24 @@ public class SealAction extends BaseAction {
 			return JSON.parseObject(result).getJSONObject("data").getString("url");
 		}
 		return "";
+	}
+	
+	public ShareLinkResponse getShareLink() throws HttpException {
+		String url = getURL("GetShareLink.aspx");
+		String json = JsonMananger.beanToJson(new BaseTokenRequest());
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		ShareLinkResponse response = null;
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, ShareLinkResponse.class);
+		}
+		return response;
 	}
 	
 	/**

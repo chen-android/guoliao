@@ -111,6 +111,7 @@ public abstract class BaseActivity extends FragmentActivity implements OnDataLis
 	/**
 	 * 设置标题
 	 */
+	@Override
 	public void setTitle(int titleId) {
 		setTitle(getString(titleId), false);
 	}
@@ -169,6 +170,10 @@ public abstract class BaseActivity extends FragmentActivity implements OnDataLis
 		return mBtnRight;
 	}
 	
+	public TextView getmHeadRightText() {
+		return mHeadRightText;
+	}
+	
 	public void setHeadRightButton(Button rightButton) {
 		this.mBtnRight = rightButton;
 	}
@@ -181,10 +186,12 @@ public abstract class BaseActivity extends FragmentActivity implements OnDataLis
 		this.mBtnBackDrawable = backButtonDrawable;
 	}
 	
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}
 	
+	@Override
 	protected void onPause() {
 		super.onPause();
 	}

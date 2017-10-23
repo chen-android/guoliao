@@ -2,6 +2,7 @@ package com.GuoGuo.JuicyChat.ui.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
@@ -89,9 +90,11 @@ public class RecordTypesDialog extends Dialog {
             tv.setPadding(lr, tb, lr, tb);
 	        if (selectedPosition == position) {
 		        tv.setBackgroundResource(R.drawable.shape_bg_blue_5r);
-	        } else {
+                tv.setTextColor(Color.WHITE);
+            } else {
 		        tv.setBackgroundResource(R.drawable.shape_border_gray_5r);
-	        }
+                tv.setTextColor(Color.BLACK);
+            }
 	        return tv;
         }
     }

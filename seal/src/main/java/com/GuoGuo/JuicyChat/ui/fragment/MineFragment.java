@@ -29,7 +29,7 @@ import com.GuoGuo.JuicyChat.ui.activity.FeedBackActivity;
 import com.GuoGuo.JuicyChat.ui.activity.ImageReviewActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyAccountActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyWalletActivity;
-import com.GuoGuo.JuicyChat.ui.activity.SealWebActivity;
+import com.GuoGuo.JuicyChat.ui.activity.ShareWebActivity;
 import com.alibaba.fastjson.JSON;
 import com.squareup.picasso.Picasso;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -182,8 +182,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 				startActivity(new Intent(getActivity(), MyWalletActivity.class));
 				break;
 			case R.id.my_share:
-				Intent intent = new Intent(getActivity(), SealWebActivity.class);
-				intent.putExtra("url", BaseAction.getBaseUrl() + "/app/Share.aspx");
+                Intent intent = new Intent(getActivity(), ShareWebActivity.class);
+                intent.putExtra("url", BaseAction.getBaseUrl() + "/app/Share.aspx");
 				startActivity(intent);
 				/**
 				AsyncTaskManager.getInstance(getContext()).request(1, new OnDataListener() {

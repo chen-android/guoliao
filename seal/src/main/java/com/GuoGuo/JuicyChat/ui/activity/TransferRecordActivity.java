@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,7 +47,7 @@ public class TransferRecordActivity extends BaseActivity {
 	private ListView lv;
 	private TextView emptyTv;
 	private TextView filterTv;
-	private Button typesBt;
+	private TextView typesTv;
 	private SealAction mAction;
 	private int index = 1;
 	private String month;
@@ -74,6 +73,7 @@ public class TransferRecordActivity extends BaseActivity {
 		lv.setAdapter(mMyAdapter);
 		lv.setEmptyView(emptyTv);
 		mAction = new SealAction(this);
+		LoadDialog.show(this);
 		request(REQUEST_TYPES);
 	}
 	
@@ -85,10 +85,11 @@ public class TransferRecordActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.transfer_record_lv);
 		emptyTv = (TextView) findViewById(R.id.transfer_record_no_data_tv);
 		filterTv = (TextView) findViewById(R.id.transfer_filter_tv);
-		typesBt = getHeadRightButton();
-		typesBt.setText("全部分类");
-		typesBt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_arrow_down_white, 0);
-		typesBt.setCompoundDrawablePadding(10);
+		typesTv = getmHeadRightText();
+		typesTv.setVisibility(View.VISIBLE);
+		typesTv.setText("全部分类");
+		typesTv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.icon_arrow_down_white, 0);
+		typesTv.setCompoundDrawablePadding(10);
 		setHeadRightButtonVisibility(View.VISIBLE);
 		minCalendar.set(2017, 5, 1);
 		currentMillSeconds = System.currentTimeMillis();
@@ -145,7 +146,7 @@ public class TransferRecordActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
-		typesBt.setOnClickListener(new View.OnClickListener() {
+		typesTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showTypeDialog();
@@ -161,7 +162,6 @@ public class TransferRecordActivity extends BaseActivity {
 			case REQUEST_MORE:
 				return mAction.getTransferRecord(index, month,selectedType);
 			case REQUEST_TYPES:
-				LoadDialog.show(this);
 				return mAction.getTransferRecordTypes();
 			default:
 				break;
@@ -176,7 +176,7 @@ public class TransferRecordActivity extends BaseActivity {
 				public void onSelect(int position) {
 					selectedPosition = position;
 					selectedType = typeList.get(position).getTypeid();
-					typesBt.setText(typeList.get(position).getTypename());
+					typesTv.setText(typeList.get(position).getTypename());
 					if (position > 0) {
 						emptyTv.setText("暂无" + typeList.get(position).getTypename() + "数据");
 					} else {
