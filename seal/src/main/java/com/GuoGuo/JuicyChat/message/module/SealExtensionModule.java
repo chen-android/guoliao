@@ -8,6 +8,7 @@ import android.view.View;
 import com.GuoGuo.JuicyChat.SealUserInfoManager;
 import com.GuoGuo.JuicyChat.db.Friend;
 import com.GuoGuo.JuicyChat.model.RedPackPlugin;
+import com.GuoGuo.JuicyChat.model.TransferPlugin;
 import com.GuoGuo.JuicyChat.server.pinyin.CharacterParser;
 import com.GuoGuo.JuicyChat.server.utils.RongGenerate;
 import com.GuoGuo.JuicyChat.ui.activity.UserDetailActivity;
@@ -95,7 +96,8 @@ public class SealExtensionModule extends DefaultExtensionModule {
 				|| conversationType.equals(Conversation.ConversationType.GROUP)) {
 			pluginModules.add(ContactCardPlugin.getInstance());
 			pluginModules.add(RedPackPlugin.getInstance());
-		}
+            pluginModules.add(TransferPlugin.getInstance());
+        }
 		//TODO 聊天室红包
         if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
             pluginModules.add(ContactCardPlugin.getInstance());

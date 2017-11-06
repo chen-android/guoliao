@@ -10,7 +10,6 @@ import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.ui.activity.SendRedPackGroupActivity;
 import com.GuoGuo.JuicyChat.ui.activity.SendRedPackPersonalActivity;
 
-import cn.rongcloud.contactcard.ContactCardPlugin;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imlib.model.Conversation;
@@ -26,7 +25,7 @@ public class RedPackPlugin implements IPluginModule {
 	
 	public static RedPackPlugin getInstance() {
 		if (redPackPlugin == null) {
-			synchronized (ContactCardPlugin.class) {
+			synchronized (RedPackPlugin.class) {
 				if (redPackPlugin == null) {
 					redPackPlugin = new RedPackPlugin();
 				}

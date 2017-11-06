@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 	private ListView mListView;
 	private PinyinComparator mPinyinComparator;
 	private SideBar mSidBar;
-	/**
+    private TextView footerTv;
+    /**
 	 * 中部展示的字母提示
 	 */
 	private TextView mDialogTextView;
@@ -82,9 +84,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 	private String mCacheName;
 	
 	private static final int CLICK_CONTACT_FRAGMENT_FRIEND = 2;
-	
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.activity_address, container, false);
 		initView(view);
 		initData();
@@ -138,12 +140,16 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 				
 			}
 		});
-	}
+        footerTv = new TextView(getActivity());
+        footerTv.setGravity(Gravity.CENTER);
+        footerTv.setPadding(0, 20, 0, 20);
+    }
 	
 	private void initData() {
 		mFriendList = new ArrayList<>();
 		FriendListAdapter adapter = new FriendListAdapter(getActivity(), mFriendList);
-		mListView.setAdapter(adapter);
+        mListView.addFooterView(footerTv);
+        mListView.setAdapter(adapter);
 		mFilteredFriendList = new ArrayList<>();
 		//实例化汉字转拼音类
 		mCharacterParser = CharacterParser.getInstance();
@@ -301,11 +307,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 		if (isReloadList) {
 			mSidBar.setVisibility(View.VISIBLE);
 			mFriendListAdapter.updateListView(mFriendList);
-		} else {
+            footerTv.setText(mFriendList.size() + "位联系人");
+        } else {
 			mSidBar.setVisibility(View.VISIBLE);
 			mFriendListAdapter = new FriendListAdapter(getActivity(), mFriendList);
-			
-			mListView.setAdapter(mFriendListAdapter);
+            footerTv.setText(mFriendList.size() + "位联系人");
+            mListView.setAdapter(mFriendListAdapter);
 			mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -44,7 +44,8 @@ public class RechargeActivity extends BaseActivity {
 	private SelectableRoundedImageView headIv;
 	private TextView nameTv;
 	private EditText moneyEt;
-	private EditText noteEt;
+    private TextView moneyTv;
+    private EditText noteEt;
 	private Button submitBt;
 	private PayPwdDialog dialog;
 	private String payPwd;
@@ -82,7 +83,8 @@ public class RechargeActivity extends BaseActivity {
 		headIv = (SelectableRoundedImageView) findViewById(R.id.recharge_head_iv);
 		nameTv = (TextView) findViewById(R.id.recharge_username_iv);
 		moneyEt = (EditText) findViewById(R.id.recharge_money_et);
-		noteEt = (EditText) findViewById(R.id.recharge_note_et);
+        moneyTv = (TextView) findViewById(R.id.tv_amount);
+        noteEt = (EditText) findViewById(R.id.recharge_note_et);
 		submitBt = (Button) findViewById(R.id.recharge_bt);
 		moneyEt.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -97,7 +99,12 @@ public class RechargeActivity extends BaseActivity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				checkCanSubmitClick();
+                if (s.length() == 0) {
+                    moneyTv.setText("0");
+                } else {
+                    moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
+                }
+                checkCanSubmitClick();
 			}
 		});
 		submitBt.setOnClickListener(new View.OnClickListener() {
@@ -138,8 +145,8 @@ public class RechargeActivity extends BaseActivity {
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		if (requestCode == REQUEST_RECHARGE) {
-			return action.requestRecharge(Long.valueOf(moneyEt.getText().toString()), Long.valueOf(mFriend.getFriendid()), payPwd, noteEt.getText().toString());
-		} else if (requestCode == REQUEST_REMAIN_MONEY) {
+            return action.requestRecharge(Long.valueOf(moneyEt.getText().toString()) * 100, Long.valueOf(mFriend.getFriendid()), payPwd, noteEt.getText().toString());
+        } else if (requestCode == REQUEST_REMAIN_MONEY) {
 			return action.getRemainMoney();
 		}
 		return super.doInBackground(requestCode, id);
@@ -152,8 +159,8 @@ public class RechargeActivity extends BaseActivity {
 				LoadDialog.dismiss(mContext);
 				GetMoneyResponse response = (GetMoneyResponse) result;
 				if (response.getCode() == 200) {
-					dialog.setMoney(moneyEt.getText().toString());
-					dialog.setRemain(response.getData().getMoney() + "");
+                    dialog.setMoney(moneyEt.getText().toString() + "00");
+                    dialog.setRemain(response.getData().getMoney() + "");
 					dialog.show();
 				} else {
 					NToast.shortToast(mContext, "服务器开小差了");
@@ -176,7 +183,9 @@ public class RechargeActivity extends BaseActivity {
 				} else {
 					NToast.shortToast(mContext, "服务器出错");
 				}
-				break;
+                break;
+            default:
+                break;
 		}
 	}
 }

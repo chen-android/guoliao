@@ -1,67 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context="com.GuoGuo.JuicyChat.ui.activity.RechargeActivity"
-	android:orientation="vertical"
-	android:padding="20dp">
+	android:layout_height="match_parent">
 	
-	<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
-		android:id="@+id/recharge_head_iv"
-		android:layout_width="64dp"
-		android:layout_height="64dp"
-		android:layout_marginTop="30dp"
-		android:layout_gravity="center_horizontal"
-		android:scaleType="centerCrop"
-		app:sriv_left_bottom_corner_radius="3dip"
-		app:sriv_left_top_corner_radius="3dip"
-		app:sriv_right_bottom_corner_radius="3dip"
-		app:sriv_right_top_corner_radius="3dip"/>
-	
-	<TextView
-		android:id="@+id/recharge_username_iv"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal"
-		android:textSize="16sp"
-		tools:text="klsajflsjf"/>
-	
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="转账果币"
-		android:layout_marginTop="@dimen/large_space"
-		android:textColor="@color/black"
-		android:textSize="16sp"/>
-	
-	<EditText
-		android:id="@+id/recharge_money_et"
+	<LinearLayout
+		
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:inputType="number"
-		android:digits="0123456789"
-		android:layout_marginTop="@dimen/middle_space"
-		/>
-	
-	<EditText
-		android:id="@+id/recharge_note_et"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:inputType="text"
-		android:layout_marginTop="@dimen/middle_space"
-		android:hint="转账附言（20个字以内）"
-		android:maxLength="20"
-		/>
-	
-	<Button
-		android:id="@+id/recharge_bt"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/selector_common_btn"
-		android:layout_marginTop="50dp"
-		android:text="转账"
-		android:textColor="@color/white"/>
-</LinearLayout>
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:padding="20dp"
+		tools:context="com.GuoGuo.JuicyChat.ui.activity.RechargeActivity">
+		
+		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+			android:id="@+id/recharge_head_iv"
+			android:layout_width="64dp"
+			android:layout_height="64dp"
+			android:layout_gravity="center_horizontal"
+			android:layout_marginTop="30dp"
+			android:scaleType="centerCrop"
+			app:sriv_left_bottom_corner_radius="3dip"
+			app:sriv_left_top_corner_radius="3dip"
+			app:sriv_right_bottom_corner_radius="3dip"
+			app:sriv_right_top_corner_radius="3dip"/>
+		
+		<TextView
+			android:id="@+id/recharge_username_iv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:textSize="16sp"
+			tools:text="klsajflsjf"/>
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/large_space"
+			android:text="转账果币"
+			android:textColor="@color/black"
+			android:textSize="16sp"/>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/input_height"
+			android:layout_marginTop="10dp"
+			android:orientation="horizontal">
+			
+			<EditText
+				android:id="@+id/recharge_money_et"
+				style="@style/text_black_16"
+				android:layout_width="0dip"
+				android:layout_height="@dimen/input_height"
+				android:layout_weight="1"
+				android:digits="0123456789"
+				android:gravity="right|center_vertical"
+				android:inputType="number"
+				android:textCursorDrawable="@drawable/selector_cursor"/>
+			
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="00"
+				android:textColor="@color/black"
+				android:textSize="16sp"/>
+			
+			<TextView
+				style="@style/text_black_16"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_marginLeft="@dimen/base_padding"
+				android:layout_marginRight="@dimen/base_padding"
+				android:gravity="center_vertical"
+				android:text="果币"/>
+		</LinearLayout>
+		
+		<EditText
+			android:id="@+id/recharge_note_et"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/middle_space"
+			android:hint="转账附言（20个字以内）"
+			android:inputType="text"
+			android:maxLength="20"
+			/>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/base_padding"
+			android:gravity="center">
+			
+			<ImageView
+				android:layout_width="38dp"
+				android:layout_height="38dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginTop="2dp"
+				android:background="@drawable/icon_guobi"/>
+			
+			<TextView
+				android:id="@+id/tv_amount"
+				style="@style/text_black_28"
+				android:layout_width="wrap_content"
+				android:layout_height="@dimen/actionbar_height"
+				android:gravity="center"
+				android:text="0"
+				android:textStyle="normal"
+				android:typeface="serif"/>
+		
+		</LinearLayout>
+		
+		<Button
+			android:id="@+id/recharge_bt"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:background="@drawable/selector_common_btn"
+			android:text="转账"
+			android:textColor="@color/white"/>
+	</LinearLayout>
+</ScrollView>
