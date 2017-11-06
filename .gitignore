@@ -14,7 +14,9 @@
 # Generated files
 bin/
 gen/
-
+gradle/wrapper
+gradlew
+gradlew.bat
 # Gradle files
 .gradle/
 build/
