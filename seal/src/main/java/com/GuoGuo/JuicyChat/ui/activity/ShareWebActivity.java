@@ -1,5 +1,10 @@
 package com.GuoGuo.JuicyChat.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -9,13 +14,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.GuoGuo.JuicyChat.App;
+import com.GuoGuo.JuicyChat.GGConst;
 import com.GuoGuo.JuicyChat.R;
+import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
 import com.GuoGuo.JuicyChat.server.event.ShareMsg;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
+import com.GuoGuo.JuicyChat.server.response.GetShareRewardResponse;
 import com.GuoGuo.JuicyChat.server.response.ShareLinkResponse;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.utils.SealJavaScriptInterface;
+import com.alibaba.fastjson.JSON;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -58,6 +67,31 @@ public class ShareWebActivity extends BaseActivity {
         settings.setSupportZoom(true);
         settings.setUseWideViewPort(true);
         wv.loadUrl(url);
+        BroadcastManager.getInstance(this).addAction(GGConst.SHARE_REWARD, new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                GetShareRewardResponse result = JSON.parseObject(intent.getStringExtra("result"), GetShareRewardResponse.class);
+                if (result.getCode() == 200) {
+                    new AlertDialog.Builder(ShareWebActivity.this)
+                            .setMessage("分享成功！获得" + result.getData().getMoney() + "果币奖励！")
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                } else {
+                    new AlertDialog.Builder(ShareWebActivity.this)
+                            .setMessage(result.getMessage())
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }
+            }
+        });
     }
     
     public void onEventMainThread(ShareMsg msg) {

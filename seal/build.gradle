@@ -3,14 +3,14 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.GuoGuo.JuicyChat"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 110
-        versionName "1.1.0"
+        versionCode 112
+        versionName "1.1.2"
 
         multiDexEnabled true
         ndk {

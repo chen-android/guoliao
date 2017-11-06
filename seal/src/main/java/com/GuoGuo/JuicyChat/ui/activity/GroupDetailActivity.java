@@ -265,22 +265,23 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 				}
 			});
 		}
-		
-		if (String.valueOf(mGroup.getLeaderid()).equals(SharedPreferencesContext.getInstance().getUserId()))
-			isCreated = true;
-		if (!isCreated) {
+        
+        if (String.valueOf(mGroup.getLeaderid()).equals(SharedPreferencesContext.getInstance().getUserId())) {
+            isCreated = true;
+        }
+        if (!isCreated) {
 			mGroupAnnouncementDividerLinearLayout.setVisibility(View.VISIBLE);
 			mGroupNotice.setVisibility(View.VISIBLE);
 			canAddUserLl.setVisibility(View.GONE);
-			gagTv.setVisibility(View.GONE);
-		} else {
+//			gagTv.setVisibility(View.GONE);
+        } else {
 			mGroupAnnouncementDividerLinearLayout.setVisibility(View.VISIBLE);
 			mDismissBtn.setVisibility(View.VISIBLE);
 			mQuitBtn.setVisibility(View.GONE);
 			mGroupNotice.setVisibility(View.VISIBLE);
 			canAddUserLl.setVisibility(View.VISIBLE);
-			gagTv.setVisibility(View.VISIBLE);
-		}
+//			gagTv.setVisibility(View.VISIBLE);
+        }
 		if (CommonUtils.isNetworkConnected(mContext)) {
 			request(CHECKGROUPURL);
 		}

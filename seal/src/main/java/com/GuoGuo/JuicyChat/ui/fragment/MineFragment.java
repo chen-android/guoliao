@@ -1,9 +1,7 @@
 package com.GuoGuo.JuicyChat.ui.fragment;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -22,7 +20,6 @@ import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.SealUserInfoManager;
 import com.GuoGuo.JuicyChat.server.BaseAction;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
-import com.GuoGuo.JuicyChat.server.response.GetShareRewardResponse;
 import com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView;
 import com.GuoGuo.JuicyChat.ui.activity.AccountSettingActivity;
 import com.GuoGuo.JuicyChat.ui.activity.FeedBackActivity;
@@ -30,9 +27,7 @@ import com.GuoGuo.JuicyChat.ui.activity.ImageReviewActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyAccountActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyWalletActivity;
 import com.GuoGuo.JuicyChat.ui.activity.ShareWebActivity;
-import com.alibaba.fastjson.JSON;
 import com.squareup.picasso.Picasso;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.CSCustomServiceInfo;
@@ -50,8 +45,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 	private TextView mName;
 	private TextView mId;
 	private boolean isDebug;
-	private SendMessageToWX.Req req;
-//	private MyImageLoaderTarget mImageLoaderTarget;
+//	private SendMessageToWX.Req req;
 	
 	@Nullable
 	@Override
@@ -64,31 +58,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				updateUserInfo();
-			}
-		});
-		BroadcastManager.getInstance(getActivity()).addAction(GGConst.SHARE_REWARD, new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				GetShareRewardResponse result = JSON.parseObject(intent.getStringExtra("result"), GetShareRewardResponse.class);
-				if (result.getCode() == 200) {
-					new AlertDialog.Builder(getActivity())
-							.setMessage("分享成功！获得" + result.getData().getMoney() + "果币奖励！")
-							.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.dismiss();
-								}
-							}).show();
-				} else {
-					new AlertDialog.Builder(getActivity())
-							.setMessage(result.getMessage())
-							.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									dialog.dismiss();
-								}
-							}).show();
-				}
 			}
 		});
 //		compareVersion();
