@@ -99,7 +99,7 @@ public class LockMoneyDetailActivity extends BaseActivity {
 			Picasso.with(mContext).load(item.getGroupheadico()).placeholder(R.drawable.rc_default_portrait).into(vh.iv);
 			vh.name.setText(item.getGroupname());
 			vh.time.setText(StringUtils.sTimeToTimeStr(item.getLocktime()));
-			vh.money.setText(item.getLockmoney());
+			vh.money.setText(StringUtils.getFormatMoney(item.getLockmoney()));
 			return convertView;
 		}
 		

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
 import com.GuoGuo.JuicyChat.server.response.GetUserInfoByTokenResponse;
+import com.GuoGuo.JuicyChat.server.utils.StringUtils;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 
@@ -48,7 +49,7 @@ public class LockMoneyActivity extends BaseActivity {
 		LoadDialog.dismiss(mContext);
 		GetUserInfoByTokenResponse response = (GetUserInfoByTokenResponse) result;
 		if (response.getCode() == 200) {
-			moneyTv.setText(response.getData().getLockmoney());
+			moneyTv.setText(StringUtils.getFormatMoney(response.getData().getLockmoney()));
 		}
 	}
 	

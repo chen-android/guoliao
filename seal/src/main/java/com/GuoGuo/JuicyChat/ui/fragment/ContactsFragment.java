@@ -148,7 +148,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 	private void initData() {
 		mFriendList = new ArrayList<>();
 		FriendListAdapter adapter = new FriendListAdapter(getActivity(), mFriendList);
-        mListView.addFooterView(footerTv);
+        mListView.addFooterView(footerTv, null, false);
         mListView.setAdapter(adapter);
 		mFilteredFriendList = new ArrayList<>();
 		//实例化汉字转拼音类

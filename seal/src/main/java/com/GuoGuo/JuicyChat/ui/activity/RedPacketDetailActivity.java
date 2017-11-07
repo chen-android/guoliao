@@ -69,15 +69,15 @@ public class RedPacketDetailActivity extends BaseActivity implements View.OnClic
 		namenoteTv.setText(detailEntity.getFromnickname() + "的红包\n" + detailEntity.getNote());
 		if (detailEntity.getType() == 2) {//群红包
 			if (detailEntity.getUnpackcount() < detailEntity.getCount()) {
-				stateTv.setText("已领取" + detailEntity.getUnpackcount() + "/" + detailEntity.getCount() + "个,共" + detailEntity.getUnpacksummoney() + "/" + detailEntity.getMoney() + "果币");
+				stateTv.setText("已领取" + detailEntity.getUnpackcount() + "/" + detailEntity.getCount() + "个,共" + detailEntity.getUnpacksummoney() + "/" + StringUtils.getFormatMoney(detailEntity.getMoney() + "") + "果币");
 			} else {
-				stateTv.setText(detailEntity.getCount() + "个红包共" + detailEntity.getMoney() + "果币");
+				stateTv.setText(detailEntity.getCount() + "个红包共" + StringUtils.getFormatMoney(detailEntity.getMoney() + "") + "果币");
 			}
 		} else {//个人红包
 			if (detailEntity.getState() == 1) {//未领取
-				stateTv.setText("红包金额" + detailEntity.getMoney() + "果币，等待对方领取");
+				stateTv.setText("红包金额" + StringUtils.getFormatMoney(detailEntity.getMoney() + "") + "果币，等待对方领取");
 			} else {
-				stateTv.setText("1个红包共" + detailEntity.getMoney() + "果币");
+				stateTv.setText("1个红包共" + StringUtils.getFormatMoney(detailEntity.getMoney() + "") + "果币");
 			}
 		}
 		
@@ -97,7 +97,7 @@ public class RedPacketDetailActivity extends BaseActivity implements View.OnClic
 				ImageLoader.getInstance().displayImage(resultEntity.getHeadico(), head, App.getOptions());
 				name.setText(resultEntity.getNickname());
 				time.setText(StringUtils.sTimeToTimeStr(resultEntity.getUnpacktime()));
-				money.setText(resultEntity.getUnpackmoney() + "果币");
+				money.setText(StringUtils.getFormatMoney(resultEntity.getUnpackmoney() + "") + "果币");
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 				detailLl.addView(v, lp);
 				if (String.valueOf(resultEntity.getUserid()).equals(SharedPreferencesContext.getInstance().getUserId())) {

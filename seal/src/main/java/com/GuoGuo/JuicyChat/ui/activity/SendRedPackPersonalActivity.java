@@ -119,7 +119,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
                     return;
                 }
                 LoadDialog.show(mContext);
-                dialog.setMoney(moneyEt.getText().toString());
+                dialog.setMoney(moneyEt.getText().toString() + "00");
                 request(GET_MONEY, true);
             }
         });

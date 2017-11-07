@@ -1,6 +1,25 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+// 默认版本号
+ext.appVersionCode = 115
+// 默认版本名
+ext.appVersionName = "1.1.5"
+// 默认apk输出路径
+ext.appReleaseDir = "/release-apk"
+// 默认正式包后缀名
+ext.appSuffixName = "_release.apk"
 
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd')
+    return formattedDate
+}
+
+def getTime() {
+    def date = new Date()
+    def formattedDate = date.format('HHmm')
+    return formattedDate
+}
 android {
     compileSdkVersion 23
     buildToolsVersion '26.0.2'
@@ -9,8 +28,8 @@ android {
         applicationId "com.GuoGuo.JuicyChat"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 112
-        versionName "1.1.2"
+        versionCode appVersionCode
+        versionName appVersionName
 
         multiDexEnabled true
         ndk {
@@ -45,6 +64,15 @@ android {
         debug {
             minifyEnabled false
             signingConfig signingConfigs.config //for release
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.outputs.all { output ->
+                //开始输出,自定义输出路径
+                output.outputFileName = new File( "v" + appVersionName +  "_" + getTime() + appSuffixName)
+            }
         }
     }
 
