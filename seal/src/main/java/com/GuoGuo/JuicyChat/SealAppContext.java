@@ -72,6 +72,7 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 	
 	private final static String TAG = "SealAppContext";
 	public static final String UPDATE_FRIEND = "update_friend";
+	public static final String DELETE_FRIEND = "delete_friend";
 	public static final String UPDATE_RED_DOT = "update_red_dot";
 	public static final String UPDATE_GROUP_NAME = "update_group_name";
 	public static final String UPDATE_GROUP_MEMBER = "update_group_member";
@@ -247,7 +248,16 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 			} else if (contactNotificationMessage.getOperation().equals("Remove")) {
 				String sourceUserId = contactNotificationMessage.getSourceUserId();
 				SealUserInfoManager.getInstance().deleteFriendById(sourceUserId);
-				RongIMClient.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, sourceUserId, null);
+				RongIMClient.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, sourceUserId, new RongIMClient.ResultCallback<Boolean>() {
+					@Override
+					public void onSuccess(Boolean aBoolean) {
+						BroadcastManager.getInstance(mContext).sendBroadcast(DELETE_FRIEND);
+					}
+					
+					@Override
+					public void onError(RongIMClient.ErrorCode errorCode) {
+					}
+				});
 				BroadcastManager.getInstance(mContext).sendBroadcast(UPDATE_FRIEND);
 			}
 			/*// 发广播通知更新好友列表

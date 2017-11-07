@@ -128,6 +128,7 @@ public class SinglePopWindow extends PopupWindow {
 								if (result != null) {
 									if (((DeleteFriendResponse) result).getCode() == 200) {
 										SealUserInfoManager.getInstance().deleteFriend(friend);
+										RongIM.getInstance().removeFromBlacklist(friend.getFriendid(), null);
 										if (mListener != null) {
 											mListener.onDelete();
 										}

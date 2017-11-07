@@ -56,6 +56,10 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
 						viewHolder.contentTextView.setText(content.getMessage());
 					}
 				}
+			} else {
+				if ("Remove".equals(content.getOperation())) {
+					viewHolder.contentTextView.setText(content.getMessage());
+				}
 			}
 		}
 	}

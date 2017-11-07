@@ -1,7 +1,10 @@
 package com.GuoGuo.JuicyChat.ui.activity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -20,6 +23,7 @@ import com.GuoGuo.JuicyChat.R;
 import com.GuoGuo.JuicyChat.SealAppContext;
 import com.GuoGuo.JuicyChat.SealUserInfoManager;
 import com.GuoGuo.JuicyChat.db.GroupMember;
+import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
 import com.GuoGuo.JuicyChat.server.utils.NLog;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.ui.fragment.ConversationFragmentEx;
@@ -190,6 +194,22 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
 			}
 		});
 		//CallKit end 2
+		
+		BroadcastManager.getInstance(this).addAction(SealAppContext.DELETE_FRIEND, new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				new AlertDialog.Builder(ConversationActivity.this)
+						.setTitle("提示")
+						.setMessage("对方已经解除好友关系")
+						.setCancelable(false)
+						.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								finish();
+							}
+						}).show();
+			}
+		});
 	}
 	
 	/**
