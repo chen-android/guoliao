@@ -22,7 +22,8 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		android:id="@+id/linearLayout">
 		
 		<ImageView
 			android:id="@+id/de_login_logo"
@@ -135,11 +136,12 @@
 	</LinearLayout>
 	
 	<LinearLayout
+		android:id="@+id/other_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:layout_above="@+id/login_wechat_iv"
-		android:layout_marginBottom="10dp"
+		android:layout_below="@+id/linearLayout"
+		android:layout_marginTop="10dp"
 		android:paddingLeft="30dp"
 		android:paddingRight="30dp"
 		android:gravity="center_vertical">
@@ -165,14 +167,29 @@
 			android:background="@color/color_80c9c9c9"/>
 	</LinearLayout>
 	
-	<ImageView
-		android:id="@+id/login_wechat_iv"
-		android:layout_width="60dp"
-		android:layout_height="60dp"
-		android:layout_alignParentBottom="true"
-		android:src="@drawable/icon_wechat_logo"
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
 		android:layout_centerHorizontal="true"
-		android:layout_marginBottom="60dp"/>
+		android:layout_marginTop="@dimen/middle_space"
+		android:layout_below="@+id/other_layout"
+		>
+		
+		<ImageView
+			android:id="@+id/login_wechat_iv"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:src="@drawable/icon_wechat_logo"/>
+		
+		<ImageView
+			android:id="@+id/login_qq_iv"
+			android:layout_width="60dp"
+			android:layout_height="60dp"
+			android:src="@drawable/icon_qq"
+			android:layout_marginLeft="40dp"/>
+	</LinearLayout>
+	
 	
 	<TextView
 		android:id="@+id/de_login_forgot"

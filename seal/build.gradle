@@ -102,6 +102,7 @@ dependencies {
     compile project(':CallKit')
     //    compile project(':RedPacket')
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile files('libs/open_sdk_r5886_lite.jar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:multidex:1.0.1'

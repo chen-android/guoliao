@@ -140,6 +140,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 				return action.getWxLoginAccessToken(path);
 			case GET_SHARE_REWARD:
 				return action.getShareReward();
+			default:
+				break;
 		}
 		
 		return super.doInBackground(requestCode, id);
@@ -163,6 +165,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 			case GET_SHARE_REWARD:
 				BroadcastManager.getInstance(mContext).sendBroadcast(GGConst.SHARE_REWARD, result);
 				finish();
+				break;
+			default:
 				break;
 		}
 	}

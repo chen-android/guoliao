@@ -33,7 +33,11 @@ import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.server.utils.RongGenerate;
 import com.GuoGuo.JuicyChat.server.widget.ClearWriteEditText;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
+import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +60,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 	
 	private ImageView mImg_Background;
 	private ImageView wechatLoginIv;
+	private ImageView qqLoginIv;
 	private ClearWriteEditText mPhoneEdit, mPasswordEdit;
 	private String phoneString;
 	private String passwordString;
@@ -66,7 +71,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 	private String loginId;
 	private Button mConfirm;
 	private String unionid;
-	
+	private QQResultListener listener;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -99,7 +104,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 		TextView mRegister = (TextView) findViewById(R.id.de_login_register);
 		TextView forgetPassword = (TextView) findViewById(R.id.de_login_forgot);
 		wechatLoginIv = (ImageView) findViewById(R.id.login_wechat_iv);
+		qqLoginIv = (ImageView) findViewById(R.id.login_qq_iv);
 		wechatLoginIv.setOnClickListener(this);
+		listener = new QQResultListener();
+		qqLoginIv.setOnClickListener(this);
 		forgetPassword.setOnClickListener(this);
 		mConfirm.setOnClickListener(this);
 		mRegister.setOnClickListener(this);
@@ -206,6 +214,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 				req.state = "wechat_sdk_guoliao";
 				App.instance.getIwxapi().sendReq(req);
 				break;
+			case R.id.login_qq_iv:
+				Tencent t = Tencent.createInstance("1106453231", getApplicationContext());
+				t.login(this, "all", listener);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	private class QQResultListener implements IUiListener {
+		
+		@Override
+		public void onComplete(Object o) {
+			ToastUtils.showShort("qq登录成功");
+		}
+		
+		@Override
+		public void onError(UiError uiError) {
+			ToastUtils.showShort("qq登录失败");
+		}
+		
+		@Override
+		public void onCancel() {
+			ToastUtils.showShort("qq登录取消");
 		}
 	}
 	
@@ -221,6 +253,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 			
 			
 		}
+		Tencent.onActivityResultData(requestCode, resultCode, data, listener);
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
