@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.GuoGuo.JuicyChat.SealAppContext;
 import com.GuoGuo.JuicyChat.SealUserInfoManager;
 import com.GuoGuo.JuicyChat.db.Friend;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
+import com.GuoGuo.JuicyChat.server.event.UpdateFriendDeal;
 import com.GuoGuo.JuicyChat.server.pinyin.CharacterParser;
 import com.GuoGuo.JuicyChat.server.pinyin.PinyinComparator;
 import com.GuoGuo.JuicyChat.server.pinyin.SideBar;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.rong.eventbus.EventBus;
 import io.rong.imageloader.core.ImageLoader;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.UserInfo;
@@ -82,11 +85,21 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 	
 	private String mId;
 	private String mCacheName;
+	/**
+	 * 新加朋友未处理个数
+	 */
+	private int unDealNum = 0;
 	
 	private static final int CLICK_CONTACT_FRAGMENT_FRIEND = 2;
-    
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		EventBus.getDefault().register(this);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.activity_address, container, false);
 		initView(view);
 		initData();
@@ -207,7 +220,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.re_newfriends:
-				mUnreadTextView.setVisibility(View.GONE);
 				Intent intent = new Intent(getActivity(), NewFriendListActivity.class);
 				startActivityForResult(intent, 20);
 				break;
@@ -236,15 +248,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 			}
 		});
 		
-		BroadcastManager.getInstance(getActivity()).addAction(SealAppContext.UPDATE_RED_DOT, new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String command = intent.getAction();
-				if (!TextUtils.isEmpty(command)) {
-					mUnreadTextView.setVisibility(View.VISIBLE);
-				}
-			}
-		});
 		BroadcastManager.getInstance(getActivity()).addAction(GGConst.CHANGEINFO, new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -253,12 +256,37 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 		});
 	}
 	
+	public void onEventMainThread(UpdateFriendDeal deal) {
+		if (deal.getAction() == UpdateFriendDeal.UpdateAction.ADD) {
+			unDealNum++;
+			mUnreadTextView.setVisibility(View.VISIBLE);
+			mUnreadTextView.setText(unDealNum > 99 ? "99" : unDealNum + "");
+		} else if (deal.getAction() == UpdateFriendDeal.UpdateAction.REDUCE) {
+			unDealNum--;
+			if (unDealNum <= 0) {
+				unDealNum = 0;
+				mUnreadTextView.setVisibility(View.GONE);
+			} else {
+				mUnreadTextView.setVisibility(View.VISIBLE);
+				mUnreadTextView.setText(unDealNum + "");
+			}
+		} else if (deal.getAction() == UpdateFriendDeal.UpdateAction.NUM) {
+			unDealNum = deal.getNum();
+			if (unDealNum > 0) {
+				mUnreadTextView.setVisibility(View.VISIBLE);
+				mUnreadTextView.setText(unDealNum > 99 ? "99" : unDealNum + "");
+			} else {
+				unDealNum = 0;
+				mUnreadTextView.setVisibility(View.GONE);
+			}
+		}
+	}
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 		try {
 			BroadcastManager.getInstance(getActivity()).destroy(SealAppContext.UPDATE_FRIEND);
-			BroadcastManager.getInstance(getActivity()).destroy(SealAppContext.UPDATE_RED_DOT);
 			BroadcastManager.getInstance(getActivity()).destroy(GGConst.CHANGEINFO);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

@@ -1,40 +1,28 @@
 package com.GuoGuo.JuicyChat.ui.activity;
 
-import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import com.GuoGuo.JuicyChat.App;
-import com.GuoGuo.JuicyChat.GGConst;
 import com.GuoGuo.JuicyChat.R;
-import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
 import com.GuoGuo.JuicyChat.server.event.ShareMsg;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
-import com.GuoGuo.JuicyChat.server.response.GetShareRewardResponse;
 import com.GuoGuo.JuicyChat.server.response.ShareLinkResponse;
-import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.utils.SealJavaScriptInterface;
-import com.alibaba.fastjson.JSON;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.blankj.utilcode.util.ToastUtils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXImageObject;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import io.rong.eventbus.EventBus;
 
@@ -43,7 +31,7 @@ import io.rong.eventbus.EventBus;
  */
 public class ShareWebActivity extends BaseActivity {
     private static final int REQUEST_LINK = 386;
-    private static final int REQUEST_IMG = 993;
+    private static final int REQUEST_LINK_PUBLIC = 993;
     private WebView wv;
     private String url;
     private SendMessageToWX.Req req;
@@ -67,29 +55,34 @@ public class ShareWebActivity extends BaseActivity {
         settings.setSupportZoom(true);
         settings.setUseWideViewPort(true);
         wv.loadUrl(url);
-        BroadcastManager.getInstance(this).addAction(GGConst.SHARE_REWARD, new BroadcastReceiver() {
+        wv.setWebViewClient(new WebViewClient() {
+            ProgressDialog progressDialog;
+    
             @Override
-            public void onReceive(Context context, Intent intent) {
-                GetShareRewardResponse result = JSON.parseObject(intent.getStringExtra("result"), GetShareRewardResponse.class);
-                if (result.getCode() == 200) {
-                    new AlertDialog.Builder(ShareWebActivity.this)
-                            .setMessage("分享成功！获得" + result.getData().getMoney() + "果币奖励！")
-                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                } else {
-                    new AlertDialog.Builder(ShareWebActivity.this)
-                            .setMessage(result.getMessage())
-                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {//网页页面开始加载的时候
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(ShareWebActivity.this);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+                    wv.setEnabled(false);// 当加载网页的时候将网页进行隐藏
                 }
+                super.onPageStarted(view, url, favicon);
+            }
+        
+            @Override
+            public void onPageFinished(WebView view, String url) {//网页加载结束的时候
+                //super.onPageFinished(view, url);
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                    wv.setEnabled(true);
+                }
+            }
+        
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) { //网页加载时的连接的网址
+                view.loadUrl(url);
+                return false;
             }
         });
     }
@@ -99,7 +92,7 @@ public class ShareWebActivity extends BaseActivity {
         if (msg.getType() == 1) {
             request(REQUEST_LINK);
         } else if (msg.getType() == 2) {
-            request(REQUEST_IMG);
+            request(REQUEST_LINK_PUBLIC);
         }
     }
     
@@ -107,8 +100,8 @@ public class ShareWebActivity extends BaseActivity {
     public Object doInBackground(int requestCode, String id) throws HttpException {
         if (requestCode == REQUEST_LINK) {
             return action.getShareLink();
-        } else if (requestCode == REQUEST_IMG) {
-            return action.getShareUrl();
+        } else if (requestCode == REQUEST_LINK_PUBLIC) {
+            return action.getShareLink();
         }
         return super.doInBackground(requestCode, id);
     }
@@ -116,84 +109,33 @@ public class ShareWebActivity extends BaseActivity {
     @Override
     public void onSuccess(int requestCode, Object result) {
         LoadDialog.dismiss(ShareWebActivity.this);
-        if (requestCode == REQUEST_IMG) {
-            String url = (String) result;
-            if (!TextUtils.isEmpty(url)) {
-                
-                Picasso.with(ShareWebActivity.this).load(url).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-                        LoadDialog.dismiss(ShareWebActivity.this);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out1);
-                                WXImageObject object = new WXImageObject(out1.toByteArray());
-                                WXMediaMessage msg = new WXMediaMessage();
-                                msg.mediaObject = object;
-                                Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
-                                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                                thumbBmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-                                msg.thumbData = out.toByteArray();
-                                try {
-                                    out1.close();
-                                    thumbBmp.recycle();
-                                    out.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                
-                                req = new SendMessageToWX.Req();
-                                req.message = msg;
-                                
-                                req.transaction = "shareImgTimeLine";
-                                req.scene = SendMessageToWX.Req.WXSceneTimeline;
-                                
-                                App.instance.getIwxapi().sendReq(req);
-                            }
-                        }).start();
-                        
-                    }
-                    
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        LoadDialog.dismiss(ShareWebActivity.this);
-                    }
-                    
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        
-                    }
-                });
-            } else {
-                NToast.shortToast(ShareWebActivity.this, "获取分享链接失败");
+        if (requestCode == REQUEST_LINK_PUBLIC) {
+            final ShareLinkResponse rep = (ShareLinkResponse) result;
+            if (rep.getCode() == 200) {
+                ShareLinkResponse.ShareLinkData data = rep.getData();
+                UMImage thumb = new UMImage(this, data.getImgUrl());
+                UMWeb web = new UMWeb(data.getLinkUrl());
+                web.setThumb(thumb);
+                web.setDescription(data.getContent());
+                web.setTitle(data.getTitle());
+                new ShareAction(this).withMedia(web)
+                        .setDisplayList(SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QZONE)
+                        .setCallback(new ShareListener())
+                        .open();
             }
         } else if (requestCode == REQUEST_LINK) {
             final ShareLinkResponse rep = (ShareLinkResponse) result;
             if (rep.getCode() == 200) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ShareLinkResponse.ShareLinkData data = rep.getData();
-                        WXWebpageObject webpage = new WXWebpageObject();
-                        webpage.webpageUrl = data.getLinkUrl();
-                        WXMediaMessage msg = new WXMediaMessage(webpage);
-                        msg.title = data.getTitle();
-                        msg.description = data.getContent();
-                        try {
-                            msg.thumbData = ConvertUtils.bitmap2Bytes(Picasso.with(ShareWebActivity.this).load(data.getImgUrl()).get(), Bitmap.CompressFormat.PNG);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        req = new SendMessageToWX.Req();
-                        req.message = msg;
-                        req.transaction = "shareImgSession";
-                        req.scene = SendMessageToWX.Req.WXSceneSession;
-                        App.instance.getIwxapi().sendReq(req);
-                    }
-                }).start();
-                
+                ShareLinkResponse.ShareLinkData data = rep.getData();
+                UMImage thumb = new UMImage(this, data.getImgUrl());
+                UMWeb web = new UMWeb(data.getLinkUrl());
+                web.setThumb(thumb);
+                web.setDescription(data.getContent());
+                web.setTitle(data.getTitle());
+                new ShareAction(this).withMedia(web)
+                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.QQ)
+                        .setCallback(new ShareListener())
+                        .open();
             }
         }
     }
@@ -212,4 +154,34 @@ public class ShareWebActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+    
+    private class ShareListener implements UMShareListener {
+        
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+        
+        }
+        
+        @Override
+        public void onResult(SHARE_MEDIA share_media) {
+            ToastUtils.showShort("分享成功");
+        }
+        
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            ToastUtils.showShort("分享失败");
+        }
+        
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+            ToastUtils.showShort("分享取消");
+        }
+    }
+    
 }

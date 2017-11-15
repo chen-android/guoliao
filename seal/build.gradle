@@ -100,9 +100,9 @@ dependencies {
     compile files('libs/MiPush_SDK_Client_3_1_2.jar')
     compile project(':IMKit')
     compile project(':CallKit')
+    compile project(':umengshare')
     //    compile project(':RedPacket')
     compile files('libs/pinyin4j-2.5.0.jar')
-    compile files('libs/open_sdk_r5886_lite.jar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:multidex:1.0.1'
@@ -111,7 +111,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.lovedise:permissiongen:0.0.6'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.3.5'
     compile 'com.blankj:utilcode:1.7.1'
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'

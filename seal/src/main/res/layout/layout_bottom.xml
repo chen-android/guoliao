@@ -35,10 +35,10 @@
 				
 				<RelativeLayout
 					android:id="@+id/ll"
-					android:layout_marginBottom="2dp"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:layout_centerHorizontal="true"
+					android:layout_marginBottom="2dp"
 					android:gravity="center">
 					
 					<ImageView
@@ -68,8 +68,8 @@
 					android:layout_width="19dp"
 					android:layout_height="19dp"
 					android:layout_gravity="right"
-					android:layout_marginTop="2dp"
 					android:layout_marginRight="19dp"
+					android:layout_marginTop="2dp"
 					android:layout_toRightOf="@id/ll"
 					android:textColor="@android:color/white"
 					android:textSize="12sp"
@@ -88,35 +88,54 @@
 			android:layout_weight="1"
 			android:padding="3dp">
 			
-			<RelativeLayout
-				android:layout_width="60dp"
-				android:layout_height="match_parent"
-				android:layout_centerHorizontal="true"
-				android:gravity="center">
+			<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 				
-				<ImageView
-					android:id="@+id/tab_img_contact"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
 					android:layout_centerHorizontal="true"
-					android:background="#ffffff"
-					android:focusable="false"
-					android:scaleType="centerInside"/>
-				<!--android:src="@drawable/tab_contact_list"-->
+					android:layout_marginBottom="2dp"
+					android:gravity="center">
+					
+					
+					<ImageView
+						android:id="@+id/tab_img_contact"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_centerHorizontal="true"
+						android:background="#ffffff"
+						android:focusable="false"
+						android:scaleType="centerInside"/>
+					<!--android:src="@drawable/tab_contact_list"-->
+					
+					<TextView
+						android:id="@+id/tab_text_contact"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@id/tab_img_contact"
+						android:layout_centerHorizontal="true"
+						android:layout_marginTop="3dp"
+						android:text="@string/contacts"
+						android:textColor="#abadbb"
+						android:textSize="12sp"/>
 				
-				<TextView
-					android:id="@+id/tab_text_contact"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_below="@id/tab_img_contact"
-					android:layout_centerHorizontal="true"
-					android:layout_marginTop="3dp"
-					android:text="@string/contacts"
-					android:textColor="#abadbb"
-					android:textSize="12sp"/>
-			
-			
-			</RelativeLayout>
+				
+				</RelativeLayout>
+				
+				<com.GuoGuo.JuicyChat.ui.widget.DragPointView
+					android:id="@+id/tab_num_contact"
+					android:layout_width="19dp"
+					android:layout_height="19dp"
+					android:layout_gravity="right"
+					android:layout_marginRight="19dp"
+					android:layout_marginTop="2dp"
+					android:layout_toRightOf="@id/ll"
+					android:textColor="@android:color/white"
+					android:textSize="12sp"
+					android:visibility="invisible"/>
+			</FrameLayout>
 		</RelativeLayout>
 		
 		<RelativeLayout

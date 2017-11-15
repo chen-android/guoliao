@@ -368,10 +368,44 @@ public class SealAction extends BaseAction {
 		return response;
 	}
 	
+	/**
+	 * 微信登录
+	 *
+	 * @param unionid
+	 * @return
+	 * @throws HttpException
+	 */
 	public LoginResponse wxLogin(String unionid) throws HttpException {
 		String url = getURL("LoginByWeChat.aspx");
 		Map<String, String> map = new HashMap<>();
 		map.put("wechat", unionid);
+		String json = JSON.toJSONString(map);
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		LoginResponse response = null;
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, LoginResponse.class);
+		}
+		return response;
+	}
+	
+	/**
+	 * qq登录
+	 *
+	 * @param uid
+	 * @return
+	 * @throws HttpException
+	 */
+	public LoginResponse qqLogin(String uid) throws HttpException {
+		String url = getURL("LoginByQQ.aspx");
+		Map<String, String> map = new HashMap<>();
+		map.put("qqcode", uid);
 		String json = JSON.toJSONString(map);
 		StringEntity entity = null;
 		try {

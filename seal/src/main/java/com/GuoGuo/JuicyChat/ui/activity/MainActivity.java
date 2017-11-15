@@ -1,5 +1,6 @@
 package com.GuoGuo.JuicyChat.ui.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +10,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,12 +27,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.GuoGuo.JuicyChat.R;
+import com.GuoGuo.JuicyChat.db.Friend;
 import com.GuoGuo.JuicyChat.server.HomeWatcherReceiver;
 import com.GuoGuo.JuicyChat.server.SealAction;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
+import com.GuoGuo.JuicyChat.server.event.UpdateFriendDeal;
 import com.GuoGuo.JuicyChat.server.network.async.AsyncTaskManager;
 import com.GuoGuo.JuicyChat.server.network.async.OnDataListener;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
+import com.GuoGuo.JuicyChat.server.response.GetFriendListResponse;
 import com.GuoGuo.JuicyChat.server.response.GetVersionResponse;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
@@ -44,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.common.RLog;
+import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
@@ -62,8 +69,11 @@ public class MainActivity extends FragmentActivity implements
     private List<Fragment> mFragment = new ArrayList<>();
     private ImageView moreImage, mImageChats, mImageContact, mImageFind, mImageMe, mMineRed;
     private TextView mTextChats, mTextContact, mTextFind, mTextMe;
-    private DragPointView mUnreadNumView;
+    private DragPointView mUnreadNumView, mTextContactNum;
     private ImageView mSearchImageView;
+    private static final int REQUEST_VERSION = 77;
+    private static final int REQUEST_UNDEALNUM = 688;
+    private int unDealNum = 0;
     /**
      * 会话列表的fragment
      */
@@ -76,27 +86,43 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
         mContext = this;
         isDebug = getSharedPreferences("config", MODE_PRIVATE).getBoolean("isDebug", false);
+        initPermission();
         initViews();
         changeTextViewColor();
         changeSelectedTabState(0);
         initMainViewPager();
         registerHomeKeyReceiver(this);
-        AsyncTaskManager.getInstance(mContext).request(1, new OnDataListener() {
-            @Override
-            public Object doInBackground(int requestCode, String parameter) throws HttpException {
-                return new SealAction(mContext).getVersion();
+        AsyncTaskManager.getInstance(mContext).request(REQUEST_VERSION, onDataListener);
+        AsyncTaskManager.getInstance(mContext).request(REQUEST_UNDEALNUM, onDataListener);
+    }
+    
+    private OnDataListener onDataListener = new OnDataListener() {
+        @Override
+        public Object doInBackground(int requestCode, String parameter) throws HttpException {
+            switch (requestCode) {
+                case REQUEST_VERSION:
+                    return new SealAction(mContext).getVersion();
+                case REQUEST_UNDEALNUM:
+                    return new SealAction(mContext).getAllUserRelationship();
+                default:
+                    break;
             }
+            return doInBackground(requestCode, parameter);
             
-            @Override
-            public void onSuccess(int requestCode, Object result) {
+        }
+        
+        @Override
+        public void onSuccess(int requestCode, Object result) {
+            if (requestCode == REQUEST_VERSION) {
                 if (result != null) {
                     GetVersionResponse response = (GetVersionResponse) result;
                     if (response.getCode() == 200) {
                         final GetVersionResponse.GetVersionData data = response.getData();
-                        if (data != null ) {
-                            if(data.getUpdateState() == 1) {
+                        if (data != null) {
+                            if (data.getUpdateState() == 1) {
                                 new AlertDialog.Builder(mContext).setTitle("升级提示").setMessage("发现新的版本" + data.getAndroid_version())
                                         .setPositiveButton("去下载", new DialogInterface.OnClickListener() {
                                             @Override
@@ -113,7 +139,7 @@ public class MainActivity extends FragmentActivity implements
                                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                    
+    
                                             }
                                         }).show();
                             } else if (data.getUpdateState() == 2) {
@@ -134,15 +160,42 @@ public class MainActivity extends FragmentActivity implements
                         }
                     }
                 }
+            } else if (requestCode == REQUEST_UNDEALNUM) {
+                GetFriendListResponse response = (GetFriendListResponse) result;
+                List<Friend> data = response.getData();
+                if (data != null && data.size() > 0) {
+                    int n = 0;
+                    for (Friend datum : data) {
+                        if (datum.getState() == 2) {
+                            n++;
+                        }
+                    }
+                    unDealNum = n;
+                    if (n > 0) {
+                        mTextContactNum.setVisibility(View.VISIBLE);
+                        mTextContactNum.setText(n + "");
+                        EventBus.getDefault().post(new UpdateFriendDeal(UpdateFriendDeal.UpdateAction.NUM, n));
+                    } else {
+                        mTextContactNum.setVisibility(View.GONE);
+                    }
+                } else {
+                    mTextContactNum.setVisibility(View.GONE);
+                }
             }
-            
-            @Override
-            public void onFailure(int requestCode, int state, Object result) {
-                
-            }
-        });
-    }
+        }
+        
+        @Override
+        public void onFailure(int requestCode, int state, Object result) {
+        
+        }
+    };
     
+    private void initPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(this, mPermissionList, 123);
+        }
+    }
     
     private void initViews() {
         RelativeLayout chatRLayout = (RelativeLayout) findViewById(R.id.seal_chat);
@@ -155,6 +208,7 @@ public class MainActivity extends FragmentActivity implements
         mImageMe = (ImageView) findViewById(R.id.tab_img_me);
         mTextChats = (TextView) findViewById(R.id.tab_text_chats);
         mTextContact = (TextView) findViewById(R.id.tab_text_contact);
+        mTextContactNum = (DragPointView) findViewById(R.id.tab_num_contact);
         mTextFind = (TextView) findViewById(R.id.tab_text_find);
         mTextMe = (TextView) findViewById(R.id.tab_text_me);
         mMineRed = (ImageView) findViewById(R.id.mine_red);
@@ -175,7 +229,31 @@ public class MainActivity extends FragmentActivity implements
         });
     }
     
-    
+    public void onEventMainThread(UpdateFriendDeal deal) {
+        if (deal.getAction() == UpdateFriendDeal.UpdateAction.ADD) {
+            unDealNum++;
+            mTextContactNum.setVisibility(View.VISIBLE);
+            mTextContactNum.setText(unDealNum > 99 ? "99" : unDealNum + "");
+        } else if (deal.getAction() == UpdateFriendDeal.UpdateAction.REDUCE) {
+            unDealNum--;
+            if (unDealNum <= 0) {
+                unDealNum = 0;
+                mTextContactNum.setVisibility(View.GONE);
+            } else {
+                mTextContactNum.setVisibility(View.VISIBLE);
+                mTextContactNum.setText(unDealNum + "");
+            }
+        } else if (deal.getAction() == UpdateFriendDeal.UpdateAction.NUM) {
+            unDealNum = deal.getNum();
+            if (unDealNum > 0) {
+                mTextContactNum.setVisibility(View.VISIBLE);
+                mTextContactNum.setText(unDealNum > 99 ? "99" : unDealNum + "");
+            } else {
+                unDealNum = 0;
+                mTextContactNum.setVisibility(View.GONE);
+            }
+        }
+    }
     private void initMainViewPager() {
         Fragment conversationList = initConversationList();
         mViewPager = (ViewPager) findViewById(R.id.main_viewpager);
@@ -482,8 +560,10 @@ public class MainActivity extends FragmentActivity implements
     @Override
     protected void onDestroy() {
         RongIM.getInstance().removeUnReadMessageCountChangedObserver(this);
-        if (mHomeKeyReceiver != null)
+        if (mHomeKeyReceiver != null) {
             this.unregisterReceiver(mHomeKeyReceiver);
+        }
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
     

@@ -64,11 +64,13 @@
 		android:clickable="true">
 		
 		<TextView
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="14dp"
 			android:drawableLeft="@drawable/mine_set"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:paddingRight="@dimen/middle_space"
 			android:drawablePadding="14sp"
 			android:text="@string/mine_setting"
 			android:textColor="@color/text_color"
@@ -86,11 +88,13 @@
 		android:clickable="true">
 		
 		<TextView
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="14dp"
 			android:drawableLeft="@drawable/_wallet"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:paddingRight="@dimen/middle_space"
 			android:drawablePadding="14sp"
 			android:text="@string/my_wallet"
 			android:textColor="@color/text_color"
@@ -107,11 +111,13 @@
 		android:clickable="true">
 		
 		<TextView
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="14dp"
 			android:drawableLeft="@drawable/icon_share"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:paddingRight="@dimen/middle_space"
 			android:drawablePadding="14sp"
 			android:text="分享赚果币"
 			android:textColor="@color/text_color"
@@ -128,13 +134,39 @@
 		android:clickable="true">
 		
 		<TextView
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:layout_marginLeft="14dp"
 			android:drawableLeft="@drawable/mine_service"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:paddingRight="@dimen/middle_space"
 			android:drawablePadding="14sp"
 			android:text="@string/mine_service"
+			android:textColor="@color/text_color"
+			android:textSize="16sp"/>
+	
+	
+	</LinearLayout>
+	
+	<LinearLayout
+		android:id="@+id/mine_url"
+		android:layout_width="match_parent"
+		android:layout_height="45.5dp"
+		android:layout_marginTop="1dp"
+		android:background="@drawable/btn_list_item_bg"
+		android:clickable="true">
+		
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="14dp"
+			android:drawableLeft="@drawable/mine_url"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:paddingRight="@dimen/middle_space"
+			android:drawablePadding="14sp"
+			android:text="@string/mine_url"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
 	

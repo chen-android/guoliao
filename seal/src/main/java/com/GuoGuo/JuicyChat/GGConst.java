@@ -24,5 +24,6 @@ public class GGConst {
 	public static final String GUOGUO_IS_SET_PAY_PWD = "isSetPayPwd";
 	
 	public static final String QINIU_URL = "http://img.juicychat.cn/";
-	
+    public static final String HOME_URL = "http://www.juicychat.cn";
+    
 }

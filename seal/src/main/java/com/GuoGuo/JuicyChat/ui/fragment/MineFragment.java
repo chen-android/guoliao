@@ -1,6 +1,7 @@
 package com.GuoGuo.JuicyChat.ui.fragment;
 
 import android.content.BroadcastReceiver;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,9 +28,11 @@ import com.GuoGuo.JuicyChat.ui.activity.ImageReviewActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyAccountActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MyWalletActivity;
 import com.GuoGuo.JuicyChat.ui.activity.ShareWebActivity;
+import com.blankj.utilcode.util.ToastUtils;
 import com.squareup.picasso.Picasso;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.utilities.PromptPopupDialog;
 import io.rong.imlib.model.CSCustomServiceInfo;
 import io.rong.imlib.model.UserInfo;
 
@@ -115,7 +118,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 		LinearLayout mMineSetting = (LinearLayout) mView.findViewById(R.id.mine_setting);
 		LinearLayout mMineService = (LinearLayout) mView.findViewById(R.id.mine_service);
 		LinearLayout mMineShare = (LinearLayout) mView.findViewById(R.id.my_share);
-		LinearLayout mMineXN = (LinearLayout) mView.findViewById(R.id.mine_xiaoneng);
+        LinearLayout mMineUrl = (LinearLayout) mView.findViewById(R.id.mine_url);
+        LinearLayout mMineXN = (LinearLayout) mView.findViewById(R.id.mine_xiaoneng);
 		if (isDebug) {
 			mMineXN.setVisibility(View.VISIBLE);
 		} else {
@@ -125,7 +129,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 		mMineSetting.setOnClickListener(this);
 		mMineService.setOnClickListener(this);
 		mMineXN.setOnClickListener(this);
-		mView.findViewById(R.id.my_wallet).setOnClickListener(this);
+        mMineUrl.setOnClickListener(this);
+        mView.findViewById(R.id.my_wallet).setOnClickListener(this);
 		mMineShare.setOnClickListener(this);
 	}
 	
@@ -154,80 +159,19 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getActivity(), ShareWebActivity.class);
                 intent.putExtra("url", BaseAction.getBaseUrl() + "/app/Share.aspx");
 				startActivity(intent);
-				/**
-				AsyncTaskManager.getInstance(getContext()).request(1, new OnDataListener() {
-					@Override
-					public Object doInBackground(int requestCode, String parameter) throws HttpException {
-						return new SealAction(getContext()).getShareUrl();
-					}
-					
-					@Override
-					public void onSuccess(int requestCode, Object result) {
-						String url = (String) result;
-						if (!TextUtils.isEmpty(url)) {
-							
-							LoadDialog.show(getActivity());
-							Picasso.with(getContext()).load(url).into(new Target() {
-								@Override
-								public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-									LoadDialog.dismiss(getActivity());
-									ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-									bitmap.compress(Bitmap.CompressFormat.PNG, 100, out1);
-									WXImageObject object = new WXImageObject(out1.toByteArray());
-									WXMediaMessage msg = new WXMediaMessage();
-									msg.mediaObject = object;
-									Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
-									ByteArrayOutputStream out = new ByteArrayOutputStream();
-									thumbBmp.compress(Bitmap.CompressFormat.PNG, 100, out);
-									msg.thumbData = out.toByteArray();
-									try {
-										out1.close();
-										thumbBmp.recycle();
-										out.close();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-									
-									req = new SendMessageToWX.Req();
-									req.message = msg;
-									new ShareDialog(getActivity(), new ShareDialog.OnItemClickListener() {
-										@Override
-										public void click(Dialog dialog, int index) {
-											if (index == 0) {//发送给朋友
-												req.transaction = "shareImgSession";
-												req.scene = SendMessageToWX.Req.WXSceneSession;
-											} else if (index == 1) {//发送给朋友圈
-												req.transaction = "shareImgTimeLine";
-												req.scene = SendMessageToWX.Req.WXSceneTimeline;
-											}
-											App.instance.getIwxapi().sendReq(req);
-											dialog.dismiss();
-										}
-									}).show();
-								}
-								
-								@Override
-								public void onBitmapFailed(Drawable errorDrawable) {
-									LoadDialog.dismiss(getActivity());
-								}
-								
-								@Override
-								public void onPrepareLoad(Drawable placeHolderDrawable) {
-									
-								}
-							});
-						} else {
-							NToast.shortToast(getActivity(), "获取分享链接失败");
-						}
-					}
-					
-					@Override
-					public void onFailure(int requestCode, int state, Object result) {
-						
-					}
+                break;
+            case R.id.mine_url:
+                PromptPopupDialog urlDialog = PromptPopupDialog.newInstance(getActivity(), "", GGConst.HOME_URL, "复制");
+                urlDialog.setPromptButtonClickedListener(new PromptPopupDialog.OnPromptButtonClickedListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        ClipboardManager cmb = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        cmb.setText(GGConst.HOME_URL);
+                        ToastUtils.showShort("已复制到剪贴板");
+                    }
 				});
-				 */
-				break;
+                urlDialog.show();
+                break;
 			default:
 				break;
 		}

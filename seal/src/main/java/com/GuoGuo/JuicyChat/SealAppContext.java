@@ -15,6 +15,7 @@ import com.GuoGuo.JuicyChat.db.Groups;
 import com.GuoGuo.JuicyChat.message.module.SealExtensionModule;
 import com.GuoGuo.JuicyChat.model.GGRedPacketNotifyMessage;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
+import com.GuoGuo.JuicyChat.server.event.UpdateFriendDeal;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
 import com.GuoGuo.JuicyChat.server.pinyin.CharacterParser;
 import com.GuoGuo.JuicyChat.server.utils.NLog;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.rong.eventbus.EventBus;
 import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.IExtensionModule;
 import io.rong.imkit.RongExtensionManager;
@@ -224,7 +226,7 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 			ContactNotificationMessage contactNotificationMessage = (ContactNotificationMessage) messageContent;
 			if (contactNotificationMessage.getOperation().equals("Request")) {
 				//对方发来好友邀请
-				BroadcastManager.getInstance(mContext).sendBroadcast(UPDATE_RED_DOT);
+				EventBus.getDefault().post(new UpdateFriendDeal(UpdateFriendDeal.UpdateAction.ADD));
 			} else if (contactNotificationMessage.getOperation().equals("AcceptResponse")) {
 				//对方同意我的好友请求
 				Friend c = null;
@@ -244,7 +246,6 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 					SealUserInfoManager.getInstance().addFriend(c);
 				}
 				BroadcastManager.getInstance(mContext).sendBroadcast(UPDATE_FRIEND);
-				BroadcastManager.getInstance(mContext).sendBroadcast(UPDATE_RED_DOT);
 			} else if (contactNotificationMessage.getOperation().equals("Remove")) {
 				String sourceUserId = contactNotificationMessage.getSourceUserId();
 				SealUserInfoManager.getInstance().deleteFriendById(sourceUserId);

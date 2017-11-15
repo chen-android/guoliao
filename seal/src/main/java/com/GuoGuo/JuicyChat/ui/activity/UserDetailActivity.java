@@ -66,7 +66,8 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	private String addMessage;
 	private String mGroupName;
 	private String mPhoneString;
-	private boolean mIsFriendsRelationship;
+    private int conversationType;
+    private boolean mIsFriendsRelationship;
 //	private MyImageLoaderTarget mMyImageLoaderTarget;
 	
 	private int mType;
@@ -104,7 +105,8 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	
 	private void initData() {
 		mType = getIntent().getIntExtra("type", 0);
-		if (mType == CLICK_CONVERSATION_USER_PORTRAIT) {
+        conversationType = getIntent().getIntExtra("conversationType", 0);
+        if (mType == CLICK_CONVERSATION_USER_PORTRAIT) {
 			SealAppContext.getInstance().pushActivity(this);
 		}
 		mGroupName = getIntent().getStringExtra("groupName");
@@ -149,7 +151,6 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 //                        message.arg1 = 5;
 //                        mHandler.sendMessage(message);
 //                    }
-//
 //                }
 //
 //                @Override
@@ -174,7 +175,11 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 				mAddFriendButton.setVisibility(View.VISIBLE);
 				mChatButtonGroupLinearLayout.setVisibility(View.GONE);
 				mNoteNameLinearLayout.setVisibility(View.GONE);
-			}
+                if (conversationType == Conversation.ConversationType.CHATROOM.getValue()) {
+                    mAddFriendButton.setVisibility(View.GONE);
+                    mRechargeBt.setVisibility(View.GONE);
+                }
+            }
 		}
 	}
 

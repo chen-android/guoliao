@@ -24,8 +24,8 @@ import com.facebook.stetho.Stetho;
 import com.facebook.stetho.dumpapp.DumperPlugin;
 import com.facebook.stetho.inspector.database.DefaultDatabaseConnectionProvider;
 import com.facebook.stetho.inspector.protocol.ChromeDevtoolsDomain;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import io.rong.imageloader.core.DisplayImageOptions;
 import io.rong.imageloader.core.display.FadeInBitmapDisplayer;
@@ -41,14 +41,6 @@ public class App extends MultiDexApplication {
 	private static DisplayImageOptions options;
 	
 	public static App instance;
-	
-	private static final String WX_APP_ID = "wx0da4cc3e5489d38e";
-	
-	private IWXAPI iwxapi;
-	
-	public IWXAPI getIwxapi() {
-		return iwxapi;
-	}
 	
 	@Override
 	public void onCreate() {
@@ -70,11 +62,12 @@ public class App extends MultiDexApplication {
 				return defaultInspectorModulesBuilder.finish();
 			}
 		});
-		
-		iwxapi = WXAPIFactory.createWXAPI(this, WX_APP_ID, true);
-		iwxapi.registerApp(WX_APP_ID);
-		
-		if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
+        
+        PlatformConfig.setWeixin("wx0da4cc3e5489d38e", "76ac3b24ad657d11ba34160106457c6a");
+        PlatformConfig.setQQZone("1106453231", "GFidPnZtmuRY8Is2");
+        UMShareAPI.get(this);
+        
+        if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext()))) {
 
 //            LeakCanary.install(this);//内存泄露检测
 			RongPushClient.registerHWPush(this);
