@@ -532,6 +532,36 @@ public class SealAction extends BaseAction {
 	}
 	
 	/**
+	 * 群主转让
+	 *
+	 * @param groupId
+	 * @param newLeaderId
+	 * @return
+	 * @throws HttpException
+	 */
+	public BaseResponse transferLeader(String groupId, String newLeaderId) throws HttpException {
+		String url = getURL("TransGroupLeader.aspx");
+		Map<String, Object> map = new HashMap<>();
+		map.put("groupid", groupId);
+		map.put("touserid", newLeaderId);
+		map.put("token", SharedPreferencesContext.getInstance().getToken());
+		String json = JSON.toJSONString(map);
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		BaseResponse response = null;
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, BaseResponse.class);
+		}
+		return response;
+	}
+	
+	/**
 	 * 设置新支付密码
 	 *
 	 * @throws HttpException

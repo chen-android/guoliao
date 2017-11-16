@@ -239,6 +239,7 @@
 	<string name="sealtalk_version_update">SealTalk版本</string>
 	<string name="all_group_member">全部群成员</string>
 	<string name="group_announcement">群公告</string>
+	<string name="group_leader_transfer">群组转让</string>
 	<string name="group_code">群二维码</string>
 	<string name="total_member">群成员</string>
 	<string name="select_contact">选择联系人</string>

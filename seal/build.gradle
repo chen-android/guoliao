@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 // 默认版本号
-ext.appVersionCode = 115
+ext.appVersionCode = 116
 // 默认版本名
-ext.appVersionName = "1.1.5"
+ext.appVersionName = "1.1.6"
 // 默认apk输出路径
 ext.appReleaseDir = "/release-apk"
 // 默认正式包后缀名

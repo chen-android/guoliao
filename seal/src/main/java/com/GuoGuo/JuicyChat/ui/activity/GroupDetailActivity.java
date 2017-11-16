@@ -105,6 +105,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
     private static final int INTENT_ADD_AND_DEL_GROUP_MEMBER = 43;
     private static final int INTENT_UPDATE_NOTICE = 805;
     private static final int INTENT_GAG_MEMBER = 918;
+    private static final int INTENT_TRANSFER_LEADER = 556;
     
     
     private boolean isCreated = false;
@@ -120,6 +121,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout mGroupAnnouncementDividerLinearLayout;
     private LinearLayout redPacketLL;
     private LinearLayout canAddUserLl;
+    private LinearLayout leaderTransferLl;
     private SwitchButton canAddUserSb;
     private LinearLayout limitLl;
     private TextView redPacketTv;
@@ -265,9 +267,11 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                 }
             });
         }
-        
+    
         if (String.valueOf(mGroup.getLeaderid()).equals(SharedPreferencesContext.getInstance().getUserId())) {
             isCreated = true;
+        } else {
+            isCreated = false;
         }
         if (!isCreated) {
             mGroupAnnouncementDividerLinearLayout.setVisibility(View.VISIBLE);
@@ -730,6 +734,16 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                 gagIntent.putExtra("GroupId", mGroup.getGroupid());
                 startActivityForResult(gagIntent, INTENT_GAG_MEMBER);
                 break;
+            case R.id.group_leader_transfer_ll:
+                if (isCreated) {
+                    Intent leaderTransferIntent = new Intent(GroupDetailActivity.this, SelectFriendsActivity.class);
+                    leaderTransferIntent.putExtra("isTransferLeader", true);
+                    leaderTransferIntent.putExtra("GroupId", mGroup.getGroupid());
+                    startActivityForResult(leaderTransferIntent, INTENT_TRANSFER_LEADER);
+                } else {
+                    NToast.shortToast(mContext, "只有群主能设置该项");
+                }
+                break;
             default:
                 break;
         }
@@ -765,7 +779,8 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                 LoadDialog.show(this);
                 request(REQUEST_CAN_ADD_USER);
                 break;
-            
+            default:
+                break;
         }
     }
     
@@ -962,6 +977,15 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case PhotoUtils.INTENT_SELECT:
                 photoUtils.onActivityResult(GroupDetailActivity.this, requestCode, resultCode, data);
+                break;
+            case INTENT_TRANSFER_LEADER:
+                if (resultCode == RESULT_OK) {
+                    LoadDialog.show(mContext);
+                    getGroups();
+                    getGroupMembers();
+                }
+                break;
+            default:
                 break;
         }
         
@@ -1177,6 +1201,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         announcementTv = (TextView) findViewById(R.id.group_announcement_tv);
         canAddUserLl = (LinearLayout) findViewById(R.id.sw_group_canadduser_ll);
         canAddUserSb = (SwitchButton) findViewById(R.id.sw_group_canadduser);
+        leaderTransferLl = (LinearLayout) findViewById(R.id.group_leader_transfer_ll);
         mGroupPortL.setOnClickListener(this);
         mGroupNameL.setOnClickListener(this);
         redPacketLL.setOnClickListener(this);
@@ -1188,6 +1213,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         groupClean.setOnClickListener(this);
         mGroupNotice.setOnClickListener(this);
         mSearchMessagesLinearLayout.setOnClickListener(this);
+        leaderTransferLl.setOnClickListener(this);
         mUnlockMomeyTv.setOnClickListener(this);
         gagTv.setOnClickListener(this);
     }

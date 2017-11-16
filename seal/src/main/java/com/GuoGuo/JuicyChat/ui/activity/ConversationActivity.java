@@ -200,7 +200,7 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
 			public void onReceive(Context context, Intent intent) {
 				new AlertDialog.Builder(ConversationActivity.this)
 						.setTitle("提示")
-						.setMessage("对方已经解除好友关系")
+						.setMessage("对方已经和你解除好友关系")
 						.setCancelable(false)
 						.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 							@Override

@@ -1065,8 +1065,8 @@ public class SealUserInfoManager implements OnDataListener {
 				@Override
 				public void run() {
 					List<GroupMember> groupMembersList;
-					if (!doingGetAllUserInfo && (!hasGetAllGroupMembers() || hasGetPartGroupMembers())) {
-//					if (!doingGetAllUserInfo) {
+//					if (!doingGetAllUserInfo && (!hasGetAllGroupMembers() || hasGetPartGroupMembers())) {
+					if (!doingGetAllUserInfo) {//每次都请求
 						if (!isNetworkConnected()) {
 							onCallBackFail(callback);
 							return;
