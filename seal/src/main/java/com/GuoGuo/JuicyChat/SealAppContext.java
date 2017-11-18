@@ -267,14 +267,16 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
             } else if (contactNotificationMessage.getOperation().equals("Remove")) {
                 final String sourceUserId = contactNotificationMessage.getSourceUserId();
                 SealUserInfoManager.getInstance().deleteFriendById(sourceUserId);
-                RongIMClient.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, sourceUserId, new RongIMClient.ResultCallback<Boolean>() {
+    
+                RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, sourceUserId, new RongIMClient.ResultCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean aBoolean) {
                         BroadcastManager.getInstance(mContext).sendBroadcast(DELETE_FRIEND, sourceUserId);
                     }
-                    
+        
                     @Override
                     public void onError(RongIMClient.ErrorCode errorCode) {
+            
                     }
                 });
                 BroadcastManager.getInstance(mContext).sendBroadcast(UPDATE_FRIEND);
