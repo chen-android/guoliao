@@ -78,8 +78,8 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
 			} finally {
 				if (bean != null && !TextUtils.isEmpty(bean.getUsername())) {
 					if (content.getOperation().equals("AcceptResponse")) {
-						return new SpannableString(bean.getUsername() + "已同意你的好友请求");
-					}
+                        return new SpannableString(SealUserInfoManager.getInstance().getDiaplayName(bean) + "已同意你的好友请求");
+                    }
 				} else {
 					if (content.getOperation().equals("AcceptResponse")) {
 						return new SpannableString("对方已同意你的好友请求");

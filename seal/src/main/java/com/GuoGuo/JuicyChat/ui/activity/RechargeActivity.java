@@ -173,8 +173,8 @@ public class RechargeActivity extends BaseActivity {
 					SharedPreferences config = getSharedPreferences("config", MODE_PRIVATE);
 					String from = config.getString(GGConst.GUOGUO_LOGIN_NAME, "") + "(ID:" + config.getString(GGConst.GUOGUO_LOGIN_ID, "") + ")";
 					String to = SealUserInfoManager.getInstance().getDiaplayName(mFriend) + "(ID:" + mFriend.getFriendid() + ")";
-					String money = StringUtils.getFormatMoney(moneyEt.getText().toString());
-					String date = TimeUtils.date2String(new Date());
+                    String money = StringUtils.getFormatMoney(moneyEt.getText().toString() + "00");
+                    String date = TimeUtils.date2String(new Date());
 					new RechargeSuccessDialog(RechargeActivity.this, from, to, money, date).show();
 				} else if (response1.getCode() == 68001) {
 					NToast.shortToast(mContext, "余额不足");

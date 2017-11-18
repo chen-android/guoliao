@@ -166,7 +166,9 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 			if (mySelf.equals(mFriend.getFriendid())) {
 				mChatButtonGroupLinearLayout.setVisibility(View.GONE);
 				mAddFriendButton.setVisibility(View.GONE);
-				return;
+                mNoteNameLinearLayout.setVisibility(View.GONE);
+                mRechargeBt.setVisibility(View.GONE);
+                return;
 			}
 			if (mIsFriendsRelationship) {
 				mChatButtonGroupLinearLayout.setVisibility(View.VISIBLE);

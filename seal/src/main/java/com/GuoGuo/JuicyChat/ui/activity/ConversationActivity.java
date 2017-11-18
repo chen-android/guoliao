@@ -111,11 +111,11 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
 		mTargetId = intent.getData().getQueryParameter("targetId");
 		//10000 为 Demo Server 加好友的 id，若 targetId 为 10000，则为加好友消息，默认跳转到 NewFriendListActivity
 		// Demo 逻辑
-		if (mTargetId != null && mTargetId.equals("10000")) {
-			startActivity(new Intent(ConversationActivity.this, NewFriendListActivity.class));
-			return;
-		}
-		mConversationType = Conversation.ConversationType.valueOf(intent.getData()
+//		if (mTargetId != null && mTargetId.equals("10000")) {
+//			startActivity(new Intent(ConversationActivity.this, NewFriendListActivity.class));
+//			return;
+//		}
+        mConversationType = Conversation.ConversationType.valueOf(intent.getData()
 				.getLastPathSegment().toUpperCase(Locale.US));
 		
 		title = intent.getData().getQueryParameter("title");
@@ -198,17 +198,20 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
 		BroadcastManager.getInstance(this).addAction(SealAppContext.DELETE_FRIEND, new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				new AlertDialog.Builder(ConversationActivity.this)
-						.setTitle("提示")
-						.setMessage("对方已经和你解除好友关系")
-						.setCancelable(false)
-						.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								finish();
-							}
-						}).show();
-			}
+                if (mTargetId.equals(intent.getStringExtra("String")) &&
+                        mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+                    new AlertDialog.Builder(ConversationActivity.this)
+                            .setTitle("提示")
+                            .setMessage("对方已经和你解除好友关系")
+                            .setCancelable(false)
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            }).show();
+                }
+            }
 		});
 	}
 	
@@ -549,7 +552,8 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
 		
 		RongIMClient.setTypingStatusListener(null);
 		SealAppContext.getInstance().popActivity(this);
-		super.onDestroy();
+        BroadcastManager.getInstance(this).destroy(SealAppContext.DELETE_FRIEND);
+        super.onDestroy();
 	}
 	
 	@Override

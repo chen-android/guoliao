@@ -257,9 +257,36 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 										
 									}
 								});
+					} else if (isSingle && isAfterOpen) {
+						
+						String message = "您领取了" + this.detailEntity.getFromnickname() + "的红包";
+						
+						String message1 = SharedPreferencesContext.getInstance().getName() + "领取了您的红包";
+						//发给发包人
+						RongIM.getInstance().sendMessage(Message.obtain(this.message.getFromuserid() + "", Conversation.ConversationType.PRIVATE,
+								GGRedPacketNotifyMessage.obtain(this.message.getRedpacketId(), message1, message1,
+										this.message.getFromuserid() + "", SharedPreferencesContext.getInstance().getUserId(), message, 0)), null, null,
+								new IRongCallback.ISendMessageCallback() {
+									@Override
+									public void onAttached(Message message) {
+									
+									}
+									
+									@Override
+									public void onSuccess(Message message) {
+										isAfterOpen = false;
+									}
+									
+									@Override
+									public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+									
+									}
+								});
 					}
 					gotoDetail();
 				}
+				break;
+			default:
 				break;
 		}
 		

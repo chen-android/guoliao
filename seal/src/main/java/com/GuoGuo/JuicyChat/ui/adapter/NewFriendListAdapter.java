@@ -13,9 +13,9 @@ import com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView;
 
 import io.rong.imageloader.core.ImageLoader;
 
-public class NewFriendListAdapter extends BaseAdapters {
-	
-	public NewFriendListAdapter(Context context) {
+public class NewFriendListAdapter extends BaseAdapters<Friend> {
+    
+    public NewFriendListAdapter(Context context) {
 		super(context);
 	}
 	

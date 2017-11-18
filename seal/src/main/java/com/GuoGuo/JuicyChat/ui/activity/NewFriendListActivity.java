@@ -174,7 +174,11 @@ public class NewFriendListActivity extends BaseActivity implements NewFriendList
                     BaseResponse deleResp = (BaseResponse) result;
                     if (deleResp.getCode() == 200) {
                         if (selectPositionDelete >= 0 && selectPositionDelete < adapter.getCount()) {
-                            adapter.remove(selectPositionDelete);
+                            Friend remove = adapter.remove(selectPositionDelete);
+                            if (remove.getState() == 2) {
+                                //带接受的好友请求直接删除
+                                EventBus.getDefault().post(new UpdateFriendDeal(UpdateFriendDeal.UpdateAction.REDUCE));
+                            }
                             adapter.notifyDataSetChanged();
                             selectPositionDelete = -1;
                         }

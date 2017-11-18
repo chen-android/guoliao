@@ -65,10 +65,10 @@ public abstract class BaseAdapters<T> extends android.widget.BaseAdapter {
 			this.dataSet.remove(data);
 		}
 	}
-	
-	public void remove(int position) {
-		this.dataSet.remove(position);
-	}
+    
+    public T remove(int position) {
+        return this.dataSet.remove(position);
+    }
 	
 	public List<T> subData(int index, int count) {
 		return this.dataSet.subList(index, index + count);

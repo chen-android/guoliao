@@ -90,8 +90,8 @@ public class PrivateChatDetailActivity extends BaseActivity implements View.OnCl
 			
 			Friend friend = SealUserInfoManager.getInstance().getFriendByID(mUserInfo.getUserId());
 			if (friend != null && !TextUtils.isEmpty(friend.getUsername())) {
-				friendName.setText(ColorPhrase.from(friend.getUsername() + "  {(ID" + friend.getFriendid() + ")}").innerColor(Color.GRAY).format());
-			} else {
+                friendName.setText(ColorPhrase.from(SealUserInfoManager.getInstance().getDiaplayName(friend) + "  {(ID" + friend.getFriendid() + ")}").innerColor(Color.GRAY).format());
+            } else {
 				friendName.setText(mUserInfo.getName());
 			}
 		}
