@@ -30,6 +30,7 @@ import io.rong.message.ContactNotificationMessage;
  */
 @ProviderTag(messageContent = ContactNotificationMessage.class, showPortrait = false, centerInHorizontal = true, showProgress = false, showSummaryWithName = false)
 public class ContactNotificationMessageProvider extends IContainerItemProvider.MessageProvider<ContactNotificationMessage> {
+	private Context context;
 	@Override
 	public void bindView(View v, int position, ContactNotificationMessage content, UIMessage message) {
 		ViewHolder viewHolder = (ViewHolder) v.getTag();
@@ -66,7 +67,7 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
 	
 	
 	@Override
-	public Spannable getContentSummary(ContactNotificationMessage content) {
+	public Spannable getContentSummary(final ContactNotificationMessage content) {
 		if (content != null && !TextUtils.isEmpty(content.getMessage())) {
 			Friend bean = null;
 			try {
@@ -118,6 +119,7 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
 	
 	@Override
 	public View newView(Context context, ViewGroup group) {
+		this.context = context;
 		View view = LayoutInflater.from(context).inflate(R.layout.rc_item_group_information_notification_message, null);
 		ViewHolder viewHolder = new ViewHolder();
 		viewHolder.contentTextView = (TextView) view.findViewById(R.id.rc_msg);
