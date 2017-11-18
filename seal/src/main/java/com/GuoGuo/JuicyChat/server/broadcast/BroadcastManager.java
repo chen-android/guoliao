@@ -132,6 +132,14 @@ public class BroadcastManager {
 		mContext.sendBroadcast(intent);
 	}
 	
+	public void sendBroadcast(String action, String s, String ss) {
+		Intent intent = new Intent();
+		intent.setAction(action);
+		intent.putExtra("String", s);
+		intent.putExtra("String1", ss);
+		mContext.sendBroadcast(intent);
+	}
+	
 	
 	/**
 	 * 销毁广播

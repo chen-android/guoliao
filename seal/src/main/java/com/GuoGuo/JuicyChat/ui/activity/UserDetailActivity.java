@@ -241,6 +241,7 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 								public void onDelete() {
 									BroadcastManager.getInstance(mContext).sendBroadcast(SealAppContext.UPDATE_FRIEND);
 									RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, mFriend.getFriendid(), null);
+									BroadcastManager.getInstance(mContext).sendBroadcast(SealAppContext.DELETE_FRIEND, mFriend.getFriendid(), "no");
 									finish();
 								}
 							});

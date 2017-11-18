@@ -71,7 +71,7 @@ android {
         if (variant.buildType.name == "release") {
             variant.outputs.all { output ->
                 //开始输出,自定义输出路径
-                output.outputFileName = new File( "v" + appVersionName +  "_" + getTime() + appSuffixName)
+                output.outputFileName = new File( "v" + appVersionName +  "_" + getDate()+"_"+getTime() + appSuffixName)
             }
         }
     }
