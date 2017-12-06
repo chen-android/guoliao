@@ -90,6 +90,12 @@ android {
     greendao {
         schemaVersion 3
     }
+
+}
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
@@ -97,12 +103,12 @@ dependencies {
     compile project(':Recognizer')
     compile project(':contactcard')
     compile project(':sticker')
-    compile files('libs/MiPush_SDK_Client_3_1_2.jar')
     compile project(':IMKit')
     compile project(':CallKit')
     compile project(':umengshare')
     //    compile project(':RedPacket')
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile(name:'HMS-SDK-2.4.0.300',ext:'aar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:multidex:1.0.1'

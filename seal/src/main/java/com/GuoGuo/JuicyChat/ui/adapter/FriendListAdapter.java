@@ -96,9 +96,9 @@ public class FriendListAdapter extends BaseAdapter {
 		}
 		if (position == map.get(mContent.getLetter())) {
 			viewHolder.tvLetter.setVisibility(View.VISIBLE);
-			viewHolder.tvLetter.setText(mContent.getLetter());
-		} else {
-			viewHolder.tvLetter.setVisibility(View.GONE);
+            viewHolder.tvLetter.setText(mContent.getLetter().substring(0, 1));
+        } else {
+            viewHolder.tvLetter.setVisibility(View.GONE);
 		}
 		viewHolder.tvTitle.setText(SealUserInfoManager.getInstance().getDiaplayName(this.list.get(position)));
 		

@@ -183,10 +183,11 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
     @Override
     public boolean onConversationPortraitClick(Context context, Conversation.ConversationType conversationType, String s) {
         if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
-            if (!SealUserInfoManager.getInstance().isFriendsRelationship(s)) {
+            if (!SealUserInfoManager.getInstance().isFriendsRelationship(s) && !SharedPreferencesContext.getInstance().getUserId().equals(s)) {
                 context.startActivity(new Intent(context, NewFriendListActivity.class));
                 return true;
             }
+    
         }
         return false;
     }

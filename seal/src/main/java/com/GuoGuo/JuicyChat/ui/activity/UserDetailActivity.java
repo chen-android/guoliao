@@ -273,9 +273,9 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	public void startVoice(View view) {
 		RongCallSession profile = RongCallClient.getInstance().getCallSession();
 		if (profile != null && profile.getActiveTime() > 0) {
-			Toast.makeText(mContext, getString(io.rong.callkit.R.string.rc_voip_call_start_fail), Toast.LENGTH_SHORT).show();
-			return;
-		}
+            Toast.makeText(mContext, getString(io.rong.callkit.R.string.rc_voip_call_audio_start_fail), Toast.LENGTH_SHORT).show();
+            return;
+        }
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		if (networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()) {
@@ -295,9 +295,9 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	public void startVideo(View view) {
 		RongCallSession profile = RongCallClient.getInstance().getCallSession();
 		if (profile != null && profile.getActiveTime() > 0) {
-			Toast.makeText(mContext, getString(io.rong.callkit.R.string.rc_voip_call_start_fail), Toast.LENGTH_SHORT).show();
-			return;
-		}
+            Toast.makeText(mContext, getString(io.rong.callkit.R.string.rc_voip_call_audio_start_fail), Toast.LENGTH_SHORT).show();
+            return;
+        }
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		if (networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()) {

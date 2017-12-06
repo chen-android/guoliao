@@ -90,20 +90,20 @@ public class SealExtensionModule extends DefaultExtensionModule {
 	public List<IPluginModule> getPluginModules(Conversation.ConversationType conversationType) {
 		List<IPluginModule> pluginModules = super.getPluginModules(conversationType);
 		//图片  位置  语音聊天  视频聊天  文件  语音输入  名片  红包
-		pluginModules.remove(2);
-		pluginModules.remove(2);//这样就删去了系统带的语音聊天和视频聊天
 		if (conversationType.equals(Conversation.ConversationType.PRIVATE)
 				|| conversationType.equals(Conversation.ConversationType.GROUP)) {
-			pluginModules.add(ContactCardPlugin.getInstance());
-			pluginModules.add(RedPackPlugin.getInstance());
+            pluginModules.remove(2);
+            pluginModules.remove(2);//这样就删去了系统带的语音聊天和视频聊天
+            pluginModules.add(ContactCardPlugin.getInstance());
+            pluginModules.add(RedPackPlugin.getInstance());
             if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 pluginModules.add(TransferPlugin.getInstance());
             }
         }
-		//TODO 聊天室红包
-        if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
-            pluginModules.add(ContactCardPlugin.getInstance());
-        }
+//		//TODO 聊天室红包
+//        if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
+//            pluginModules.add(ContactCardPlugin.getInstance());
+//        }
 
 //	    if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
 //	    }

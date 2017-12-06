@@ -33,8 +33,8 @@ public class ConversationFragmentEx extends ConversationFragment {
     private boolean hasReflect = false;
     
     @Override
-    public boolean onResendItemClick(io.rong.imlib.model.Message message) {
-        return false;
+    public void onResendItemClick(io.rong.imlib.model.Message message) {
+    
     }
     
     @Override
@@ -46,6 +46,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         }
     }
     
+    @Override
     public void onWarningDialog(String msg) {
         String typeStr = getUri().getLastPathSegment();
         if (!typeStr.equals("chatroom")) {
