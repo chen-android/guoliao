@@ -127,12 +127,14 @@ public class SinglePopWindow extends PopupWindow {
 							public void onSuccess(int requestCode, Object result) {
 								if (result != null) {
 									if (((DeleteFriendResponse) result).getCode() == 200) {
-										SealUserInfoManager.getInstance().deleteFriend(friend);
-										RongIM.getInstance().removeFromBlacklist(friend.getFriendid(), null);
-										if (mListener != null) {
-											mListener.onDelete();
-										}
 										NToast.shortToast(context, "删除成功");
+									} else {
+										NToast.shortToast(context, "已经不是好友关系");
+									}
+									SealUserInfoManager.getInstance().deleteFriend(friend);
+									RongIM.getInstance().removeFromBlacklist(friend.getFriendid(), null);
+									if (mListener != null) {
+										mListener.onDelete();
 									}
 								}
 								SinglePopWindow.this.dismiss();

@@ -204,6 +204,9 @@ public class ConversationActivity extends BaseActivity implements View.OnClickLi
                         //自己删除了对方
                         finish();
                     } else {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
                         new AlertDialog.Builder(ConversationActivity.this)
                                 .setTitle("提示")
                                 .setMessage("对方已经和你解除好友关系")
