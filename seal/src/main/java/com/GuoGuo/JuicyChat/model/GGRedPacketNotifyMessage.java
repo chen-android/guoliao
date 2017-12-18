@@ -18,7 +18,7 @@ import io.rong.imlib.model.MessageContent;
 
 @MessageTag(
 		value = "JC:RedPacketNtf",
-		flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED
+        flag = MessageTag.ISPERSISTED
 )
 public class GGRedPacketNotifyMessage extends MessageContent {
 	private String redpacketId;

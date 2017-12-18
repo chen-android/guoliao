@@ -1194,16 +1194,22 @@ public class SealAction extends BaseAction {
 		return response;
 	}
 	
+	public GetFriendListResponse getAllUserRelationship() throws HttpException {
+		return getAllUserRelationship(0);
+	}
 	
 	/**
 	 * 获取发生过用户关系的列表
 	 *
 	 * @throws HttpException
 	 */
-	public GetFriendListResponse getAllUserRelationship() throws HttpException {
+	public GetFriendListResponse getAllUserRelationship(int state) throws HttpException {
 		String url = getURL("GetFriends.aspx");
 		
-		String json = JsonMananger.beanToJson(new BaseTokenRequest(SharedPreferencesContext.getInstance().getToken()));
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", state);
+		map.put("token", SharedPreferencesContext.getInstance().getToken());
+		String json = JSON.toJSONString(map);
 		StringEntity entity = null;
 		try {
 			entity = new StringEntity(json, ENCODING);

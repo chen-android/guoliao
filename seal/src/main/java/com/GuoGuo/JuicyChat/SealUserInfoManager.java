@@ -399,6 +399,22 @@ public class SealUserInfoManager implements OnDataListener {
 		return friendsList;
 	}
 	
+	private List<Friend> pullFriends(int state) throws HttpException {
+		List<Friend> friendsList = null;
+		GetFriendListResponse getFriendListResponse;
+		try {
+			getFriendListResponse = action.getAllUserRelationship(state);
+		} catch (JSONException e) {
+			NLog.d(TAG, "pullFriends occurs JSONException e=" + e.toString());
+			return null;
+		}
+		if (getFriendListResponse != null && getFriendListResponse.getCode() == 200) {
+			List<Friend> list = getFriendListResponse.getData();
+			friendsList = list;
+		}
+		return friendsList;
+	}
+	
 	private boolean fetchGroups() throws HttpException {
 		GetGroupResponse groupResponse;
 		try {
@@ -948,6 +964,34 @@ public class SealUserInfoManager implements OnDataListener {
 		});
 	}
 	
+	public void getTrueFriends(final ResultCallback<List<Friend>> callback) {
+		mWorkHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				List<Friend> friendsList;
+				if (!doingGetAllUserInfo && !hasGetFriends()) {
+					if (!isNetworkConnected()) {
+						onCallBackFail(callback);
+						return;
+					}
+					try {
+						friendsList = pullFriends(1);
+						sp.edit().putInt("getAllUserInfoState", mGetAllUserInfoState).apply();
+					} catch (HttpException e) {
+						onCallBackFail(callback);
+						NLog.d(TAG, "getFriends occurs HttpException e=" + e.toString() + "mGetAllUserInfoState=" + mGetAllUserInfoState);
+						return;
+					}
+				} else {
+					friendsList = getFriends();
+				}
+				if (callback != null) {
+					callback.onCallback(friendsList);
+				}
+			}
+		});
+	}
+	
 	private List<Friend> syncGetFriends() {
 		List<Friend> friendsList = null;
 		if (!doingGetAllUserInfo && !hasGetFriends()) {
@@ -1365,8 +1409,10 @@ public class SealUserInfoManager implements OnDataListener {
 	public boolean isFriendsRelationship(String userID) {
 		if (TextUtils.isEmpty(userID))
 			return false;
-		else
-			return getFriendByID(userID) != null;
+		else {
+			Friend friend = getFriendByID(userID);
+			return friend != null && friend.getState() == 1;
+		}
 	}
 	
 	/**

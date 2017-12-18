@@ -326,7 +326,7 @@ public class SelectFriendsActivity extends BaseActivity implements View.OnClickL
     }
     
     private void fillSourceDataListWithFriendsInfo() {
-        SealUserInfoManager.getInstance().getFriends(new SealUserInfoManager.ResultCallback<List<Friend>>() {
+        SealUserInfoManager.getInstance().getTrueFriends(new SealUserInfoManager.ResultCallback<List<Friend>>() {
             @Override
             public void onSuccess(List<Friend> friendList) {
                 if (mListView != null) {
