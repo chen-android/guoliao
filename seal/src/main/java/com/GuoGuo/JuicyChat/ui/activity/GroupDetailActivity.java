@@ -104,6 +104,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
     private static final int REQUEST_CAN_ADD_USER = 945;
     private static final int INTENT_ADD_AND_DEL_GROUP_MEMBER = 43;
     private static final int INTENT_UPDATE_NOTICE = 805;
+    private static final int INTENT_SEND_ALL = 218;
     private static final int INTENT_GAG_MEMBER = 918;
     private static final int INTENT_TRANSFER_LEADER = 556;
     
@@ -122,6 +123,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout redPacketLL;
     private LinearLayout canAddUserLl;
     private LinearLayout leaderTransferLl;
+    private LinearLayout notifyAllLl;
     private SwitchButton canAddUserSb;
     private LinearLayout limitLl;
     private TextView redPacketTv;
@@ -744,6 +746,18 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                     NToast.shortToast(mContext, "只有群主能设置该项");
                 }
                 break;
+            case R.id.group_notify_all_ll:
+                if (isCreated) {
+                    Intent sendAllIntent = new Intent(mContext, GroupNoticeActivity.class);
+                    sendAllIntent.putExtra("conversationType", Conversation.ConversationType.GROUP.getValue());
+                    sendAllIntent.putExtra("targetId", fromConversationId);
+                    sendAllIntent.putExtra("isSendAll", true);
+                    sendAllIntent.putExtra("isCreated", true);
+                    startActivity(sendAllIntent);
+                } else {
+                    NToast.shortToast(mContext, "只有群主能设置该项");
+                }
+                break;
             default:
                 break;
         }
@@ -1141,7 +1155,6 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         dialog.show();
     }
     
-    
     public void uploadImage(final String domain, String imageToken, Uri imagePath) {
         if (TextUtils.isEmpty(domain) && TextUtils.isEmpty(imageToken) && TextUtils.isEmpty(imagePath.toString())) {
             throw new RuntimeException("upload parameter is null!");
@@ -1199,6 +1212,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         redPacketTv = (TextView) findViewById(R.id.group_red_packet_tv);
         limitTv = (TextView) findViewById(R.id.group_limit_money_tv);
         announcementTv = (TextView) findViewById(R.id.group_announcement_tv);
+        notifyAllLl = (LinearLayout) findViewById(R.id.group_notify_all_ll);
         canAddUserLl = (LinearLayout) findViewById(R.id.sw_group_canadduser_ll);
         canAddUserSb = (SwitchButton) findViewById(R.id.sw_group_canadduser);
         leaderTransferLl = (LinearLayout) findViewById(R.id.group_leader_transfer_ll);
@@ -1206,6 +1220,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         mGroupNameL.setOnClickListener(this);
         redPacketLL.setOnClickListener(this);
         limitLl.setOnClickListener(this);
+        notifyAllLl.setOnClickListener(this);
         totalGroupMember.setOnClickListener(this);
         mGroupDisplayName.setOnClickListener(this);
         mQuitBtn.setOnClickListener(this);

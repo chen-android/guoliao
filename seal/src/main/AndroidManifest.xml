@@ -600,7 +600,9 @@
 		</activity>
 		<activity android:name=".ui.activity.ShareWebActivity">
 		</activity>
-	
+		<activity
+			android:name=".ui.activity.AddFriendConfirmActivity">
+		</activity>
 	</application>
 
 </manifest>

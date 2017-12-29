@@ -29,6 +29,7 @@ public class Friend implements Parcelable {
 	private String letter;
 	private String whatsup;
 	private int isvisible;
+	private String note;
 	
 	public long getId() {
 		return id;
@@ -150,6 +151,14 @@ public class Friend implements Parcelable {
 		this.isvisible = isvisible;
 	}
 	
+	public String getNote() {
+		return note;
+	}
+	
+	public void setNote(String note) {
+		this.note = note;
+	}
+	
 	public Friend() {
 	}
 	
@@ -159,25 +168,6 @@ public class Friend implements Parcelable {
 		this.headico = headico;
 	}
 	
-	@Generated(hash = 165268151)
-	public Friend(long id, String myid, String friendid, String remark, int isblacklist, int isnonotice, String username, String nickname, String headico, String createtime, int sex, int state, String letter, String whatsup, int isvisible) {
-		this.id = id;
-		this.myid = myid;
-		this.friendid = friendid;
-		this.remark = remark;
-		this.isblacklist = isblacklist;
-		this.isnonotice = isnonotice;
-		this.username = username;
-		this.nickname = nickname;
-		this.headico = headico;
-		this.createtime = createtime;
-		this.sex = sex;
-		this.state = state;
-		this.letter = letter;
-		this.whatsup = whatsup;
-		this.isvisible = isvisible;
-	}
-
 	@Override
 	public int describeContents() {
 		return 0;
@@ -200,6 +190,7 @@ public class Friend implements Parcelable {
 		dest.writeString(this.letter);
 		dest.writeString(this.whatsup);
 		dest.writeInt(this.isvisible);
+		dest.writeString(this.note);
 	}
 	
 	protected Friend(Parcel in) {
@@ -218,6 +209,29 @@ public class Friend implements Parcelable {
 		this.letter = in.readString();
 		this.whatsup = in.readString();
 		this.isvisible = in.readInt();
+		this.note = in.readString();
+	}
+	
+	@Generated(hash = 831418950)
+	public Friend(long id, String myid, String friendid, String remark, int isblacklist, int isnonotice,
+	              String username, String nickname, String headico, String createtime, int sex, int state,
+	              String letter, String whatsup, int isvisible, String note) {
+		this.id = id;
+		this.myid = myid;
+		this.friendid = friendid;
+		this.remark = remark;
+		this.isblacklist = isblacklist;
+		this.isnonotice = isnonotice;
+		this.username = username;
+		this.nickname = nickname;
+		this.headico = headico;
+		this.createtime = createtime;
+		this.sex = sex;
+		this.state = state;
+		this.letter = letter;
+		this.whatsup = whatsup;
+		this.isvisible = isvisible;
+		this.note = note;
 	}
 	
 	public static final Creator<Friend> CREATOR = new Creator<Friend>() {

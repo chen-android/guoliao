@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="@dimen/middle_space"
+	tools:context="com.GuoGuo.JuicyChat.ui.activity.AddFriendConfirmActivity">
+	
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="您需要发送验证申请，等待对方认证"/>
+	
+	<com.GuoGuo.JuicyChat.server.widget.ClearWriteEditText
+		android:id="@+id/add_friend_confirm_et"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/small_space"/>
+</LinearLayout>

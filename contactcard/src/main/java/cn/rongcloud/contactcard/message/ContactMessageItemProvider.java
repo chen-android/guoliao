@@ -27,6 +27,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
 /**
+ * 名片
  * Created by Beyond on 2016/12/5.
  */
 

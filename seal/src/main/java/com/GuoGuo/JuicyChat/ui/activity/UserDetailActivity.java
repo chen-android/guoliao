@@ -25,12 +25,10 @@ import com.GuoGuo.JuicyChat.SealUserInfoManager;
 import com.GuoGuo.JuicyChat.db.Friend;
 import com.GuoGuo.JuicyChat.server.broadcast.BroadcastManager;
 import com.GuoGuo.JuicyChat.server.network.http.HttpException;
-import com.GuoGuo.JuicyChat.server.response.FriendInvitationResponse;
 import com.GuoGuo.JuicyChat.server.response.GetFriendInfoByIDResponse;
 import com.GuoGuo.JuicyChat.server.response.GetUserInfoByIdResponse;
 import com.GuoGuo.JuicyChat.server.utils.ColorPhrase;
 import com.GuoGuo.JuicyChat.server.utils.NToast;
-import com.GuoGuo.JuicyChat.server.widget.LoadDialog;
 import com.GuoGuo.JuicyChat.ui.widget.SinglePopWindow;
 import com.squareup.picasso.Picasso;
 
@@ -60,7 +58,6 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	private Button mRechargeBt;
 	private LinearLayout mNoteNameLinearLayout;
 	
-	private static final int ADD_FRIEND = 10086;
 	private static final int SYN_USER_INFO = 10087;
 	private Friend mFriend;
 	private String addMessage;
@@ -328,33 +325,9 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.ac_bt_add_friend:
-//				DialogWithYesOrNoUtils.getInstance().showEditDialog(mContext, getString(R.string.add_text), getString(R.string.confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
-//					@Override
-//					public void executeEvent() {
-//
-//					}
-//
-//					@Override
-//					public void executeEditEvent(String editText) {
-//						if (TextUtils.isEmpty(editText)) {
-//							if (mGroupName != null && !TextUtils.isEmpty(mGroupName)) {
-//								addMessage = "我是" + mGroupName + "群的" + getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
-//							} else {
-//								addMessage = "我是" + getSharedPreferences("config", MODE_PRIVATE).getString(GGConst.GUOGUO_LOGIN_NAME, "");
-//							}
-//						} else {
-//							addMessage = editText;
-//						}
-//					}
-//
-//					@Override
-//					public void updatePassword(String oldPassword, String newPassword) {
-//
-//					}
-//				});
-				LoadDialog.show(mContext);
-				request(ADD_FRIEND, true);
-				break;
+                startActivity(new Intent(this, AddFriendConfirmActivity.class)
+                        .putExtra("friendId", mFriend.getId()));
+                break;
 			case R.id.contact_phone:
 				if (!TextUtils.isEmpty(mPhoneString)) {
 					Uri telUri = Uri.parse("tel:" + mPhoneString);
@@ -363,7 +336,9 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 					startActivity(intent);
 				}
 				break;
-		}
+            default:
+                break;
+        }
 		
 	}
 	
@@ -384,8 +359,6 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		switch (requestCode) {
-			case ADD_FRIEND:
-				return action.sendFriendInvitation(mFriend.getFriendid());
 			case SYN_USER_INFO:
 				return action.getUserInfoById(mFriend.getFriendid());
 			case SYNC_FRIEND_INFO:
@@ -398,16 +371,6 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	public void onSuccess(int requestCode, Object result) {
 		if (result != null) {
 			switch (requestCode) {
-				case ADD_FRIEND:
-					FriendInvitationResponse response = (FriendInvitationResponse) result;
-					LoadDialog.dismiss(mContext);
-					if (response.getCode() == 200) {
-						NToast.shortToast(mContext, getString(R.string.request_success));
-						this.finish();
-					} else {
-						NToast.shortToast(mContext, response.getMessage());
-					}
-					break;
 				case SYN_USER_INFO:
 					GetUserInfoByIdResponse userInfoByIdResponse = (GetUserInfoByIdResponse) result;
 					if (userInfoByIdResponse.getCode() == 200 && userInfoByIdResponse.getData() != null &&
@@ -526,9 +489,8 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	
 	@Override
 	public void onFailure(int requestCode, int state, Object result) {
-		if (requestCode == ADD_FRIEND)//添加好友时报网络异常,其余操作不需要
-			super.onFailure(requestCode, state, result);
-	}
+    
+    }
 	
 	@Override
 	public void onBackPressed() {

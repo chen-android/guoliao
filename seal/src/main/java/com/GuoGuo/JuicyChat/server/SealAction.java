@@ -1176,9 +1176,9 @@ public class SealAction extends BaseAction {
 	 * @param userid 好友id
 	 * @throws HttpException
 	 */
-	public FriendInvitationResponse sendFriendInvitation(String userid) throws HttpException {
+	public FriendInvitationResponse sendFriendInvitation(String userid, String note) throws HttpException {
 		String url = getURL("AddFriend.aspx");
-		String json = JsonMananger.beanToJson(new FriendInvitationRequest(userid, SharedPreferencesContext.getInstance().getToken()));
+		String json = JsonMananger.beanToJson(new FriendInvitationRequest(userid, SharedPreferencesContext.getInstance().getToken(), note));
 		StringEntity entity = null;
 		try {
 			entity = new StringEntity(json, ENCODING);

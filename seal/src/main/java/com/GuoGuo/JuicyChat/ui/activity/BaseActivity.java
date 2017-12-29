@@ -40,8 +40,9 @@ public abstract class BaseActivity extends FragmentActivity implements OnDataLis
 	protected TextView mTitle;
 	protected TextView mHeadRightText;
 	private Drawable mBtnBackDrawable;
-	
-	@Override
+    
+    
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.layout_base);

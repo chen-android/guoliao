@@ -24,163 +24,196 @@ import io.rong.message.TextMessage;
 
 @SuppressWarnings("deprecation")
 public class GroupNoticeActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
-	EditText mEdit;
-	Conversation.ConversationType mConversationType;
-	String mTargetId;
-	private boolean isCreated;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_group_notice);
-		mEdit = (EditText) findViewById(R.id.edit_area);
-		Intent intent = getIntent();
-		mConversationType = Conversation.ConversationType.setValue(intent.getIntExtra("conversationType", 0));
-		mTargetId = getIntent().getStringExtra("targetId");
-		isCreated = getIntent().getBooleanExtra("isCreated", false);
-		String gonggao = getIntent().getStringExtra("gonggao");
-		setTitle(R.string.group_announcement);
-		Button rightButton = getHeadRightButton();
-		rightButton.setVisibility(View.GONE);
-		mEdit.setText(gonggao);
-		if (isCreated) {
-			mHeadRightText.setVisibility(View.VISIBLE);
-			mHeadRightText.setText(R.string.Done);
-			mHeadRightText.setTextColor(getResources().getColor(android.R.color.darker_gray));
-			mHeadRightText.setClickable(false);
-			mHeadRightText.setOnClickListener(this);
-			mEdit.addTextChangedListener(this);
-		} else {
-			if (TextUtils.isEmpty(gonggao)) {
-				mEdit.setText("暂无公告");
-			}
-			mEdit.setEnabled(false);
-		}
-	}
-	
-	@Override
-	public void onHeadLeftButtonClick(View v) {
-		if (!isCreated) {
-			finish();
-		} else {
-			DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_exist_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
-				@Override
-				public void executeEvent() {
-					finish();
-				}
-				
-				@Override
-				public void executeEditEvent(String editText) {
-					
-				}
-				
-				@Override
-				public void updatePassword(String oldPassword, String newPassword) {
-					
-				}
-			});
-		}
-	}
-	
-	@Override
-	public void onBackPressed() {
-		
-		if (!isCreated) {
-			finish();
-		} else {
-			DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_exist_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
-				@Override
-				public void executeEvent() {
-					finish();
-				}
-				
-				@Override
-				public void executeEditEvent(String editText) {
-					
-				}
-				
-				@Override
-				public void updatePassword(String oldPassword, String newPassword) {
-					
-				}
-			});
-		}
-		
-		super.onBackPressed();
-	}
-	
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.text_right:
-				DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_post_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
-					@Override
-					public void executeEvent() {
-						TextMessage textMessage = TextMessage.obtain(RongContext.getInstance().getString(R.string.group_notice_prefix) + mEdit.getText().toString());
-						MentionedInfo mentionedInfo = new MentionedInfo(MentionedInfo.MentionedType.ALL, null, null);
-						textMessage.setMentionedInfo(mentionedInfo);
-						
-						RongIM.getInstance().sendMessage(Message.obtain(mTargetId, mConversationType, textMessage), null, null, new IRongCallback.ISendMessageCallback() {
-							@Override
-							public void onAttached(Message message) {
-								
-							}
-							
-							@Override
-							public void onSuccess(Message message) {
-								
-							}
-							
-							@Override
-							public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-								
-							}
-						});
-						Intent intent = new Intent();
-						intent.putExtra("notice", mEdit.getText().toString());
-						setResult(RESULT_OK, intent);
-						finish();
-					}
-					
-					@Override
-					public void executeEditEvent(String editText) {
-						
-					}
-					
-					@Override
-					public void updatePassword(String oldPassword, String newPassword) {
-						
-					}
-				});
-				break;
-		}
-	}
-	
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		
-	}
-	
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		if (s.toString().length() > 0) {
-			mHeadRightText.setClickable(true);
-			mHeadRightText.setTextColor(getResources().getColor(android.R.color.white));
-		} else {
-			mHeadRightText.setClickable(false);
-			mHeadRightText.setTextColor(getResources().getColor(android.R.color.darker_gray));
-		}
-	}
-	
-	@Override
-	public void afterTextChanged(Editable s) {
-		if (s != null) {
-			int start = mEdit.getSelectionStart();
-			int end = mEdit.getSelectionEnd();
-			mEdit.removeTextChangedListener(this);
-			mEdit.setText(AndroidEmoji.ensure(s.toString()));
-			mEdit.addTextChangedListener(this);
-			mEdit.setSelection(start, end);
-		}
-	}
+    EditText mEdit;
+    Conversation.ConversationType mConversationType;
+    String mTargetId;
+    private boolean isCreated;
+    private boolean isSendAll;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group_notice);
+        mEdit = (EditText) findViewById(R.id.edit_area);
+        Intent intent = getIntent();
+        mConversationType = Conversation.ConversationType.setValue(intent.getIntExtra("conversationType", 0));
+        mTargetId = getIntent().getStringExtra("targetId");
+        isCreated = getIntent().getBooleanExtra("isCreated", false);
+        isSendAll = getIntent().getBooleanExtra("isSendAll", false);
+        String gonggao = getIntent().getStringExtra("gonggao");
+        if (isSendAll) {
+            setTitle(R.string.group_notify_all);
+            mEdit.setHint("请编辑要通知的内容");
+        } else {
+            setTitle(R.string.group_announcement);
+            mEdit.setText(gonggao);
+        }
+        Button rightButton = getHeadRightButton();
+        rightButton.setVisibility(View.GONE);
+        if (isCreated) {
+            mHeadRightText.setVisibility(View.VISIBLE);
+            mHeadRightText.setText(R.string.Done);
+            mHeadRightText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            mHeadRightText.setClickable(false);
+            mHeadRightText.setOnClickListener(this);
+            mEdit.addTextChangedListener(this);
+        } else {
+            if (TextUtils.isEmpty(gonggao)) {
+                mEdit.setText("暂无公告");
+            }
+            mEdit.setEnabled(false);
+        }
+    }
+    
+    @Override
+    public void onHeadLeftButtonClick(View v) {
+        if (!isCreated) {
+            finish();
+        } else {
+            DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_exist_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
+                @Override
+                public void executeEvent() {
+                    finish();
+                }
+                
+                @Override
+                public void executeEditEvent(String editText) {
+                
+                }
+                
+                @Override
+                public void updatePassword(String oldPassword, String newPassword) {
+                
+                }
+            });
+        }
+    }
+    
+    @Override
+    public void onBackPressed() {
+        
+        if (!isCreated) {
+            finish();
+        } else {
+            DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_exist_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
+                @Override
+                public void executeEvent() {
+                    finish();
+                }
+                
+                @Override
+                public void executeEditEvent(String editText) {
+                
+                }
+                
+                @Override
+                public void updatePassword(String oldPassword, String newPassword) {
+                
+                }
+            });
+        }
+        
+        super.onBackPressed();
+    }
+    
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.text_right:
+                if (isSendAll) {
+                    TextMessage textMessage = TextMessage.obtain(RongContext.getInstance().getString(R.string.group_notice_prefix) + mEdit.getText().toString());
+                    MentionedInfo mentionedInfo = new MentionedInfo(MentionedInfo.MentionedType.ALL, null, null);
+                    textMessage.setMentionedInfo(mentionedInfo);
+                    
+                    RongIM.getInstance().sendMessage(Message.obtain(mTargetId, mConversationType, textMessage), null, null, new IRongCallback.ISendMessageCallback() {
+                        @Override
+                        public void onAttached(Message message) {
+                        
+                        }
+                        
+                        @Override
+                        public void onSuccess(Message message) {
+                        
+                        }
+                        
+                        @Override
+                        public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+                        
+                        }
+                    });
+                    finish();
+                } else {
+                    DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_post_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {
+                        @Override
+                        public void executeEvent() {
+                            TextMessage textMessage = TextMessage.obtain(RongContext.getInstance().getString(R.string.group_notice_prefix) + mEdit.getText().toString());
+                            MentionedInfo mentionedInfo = new MentionedInfo(MentionedInfo.MentionedType.ALL, null, null);
+                            textMessage.setMentionedInfo(mentionedInfo);
+                            
+                            RongIM.getInstance().sendMessage(Message.obtain(mTargetId, mConversationType, textMessage), null, null, new IRongCallback.ISendMessageCallback() {
+                                @Override
+                                public void onAttached(Message message) {
+                                
+                                }
+                                
+                                @Override
+                                public void onSuccess(Message message) {
+                                
+                                }
+                                
+                                @Override
+                                public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+                                
+                                }
+                            });
+                            Intent intent = new Intent();
+                            intent.putExtra("notice", mEdit.getText().toString());
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                        
+                        @Override
+                        public void executeEditEvent(String editText) {
+                        
+                        }
+                        
+                        @Override
+                        public void updatePassword(String oldPassword, String newPassword) {
+                        
+                        }
+                    });
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    
+    }
+    
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.toString().length() > 0) {
+            mHeadRightText.setClickable(true);
+            mHeadRightText.setTextColor(getResources().getColor(android.R.color.white));
+        } else {
+            mHeadRightText.setClickable(false);
+            mHeadRightText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        }
+    }
+    
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s != null) {
+            int start = mEdit.getSelectionStart();
+            int end = mEdit.getSelectionEnd();
+            mEdit.removeTextChangedListener(this);
+            mEdit.setText(AndroidEmoji.ensure(s.toString()));
+            mEdit.addTextChangedListener(this);
+            mEdit.setSelection(start, end);
+        }
+    }
 }

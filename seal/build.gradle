@@ -20,6 +20,7 @@ def getTime() {
     def formattedDate = date.format('HHmm')
     return formattedDate
 }
+
 android {
     compileSdkVersion 23
     buildToolsVersion '26.0.2'
@@ -71,7 +72,7 @@ android {
         if (variant.buildType.name == "release") {
             variant.outputs.all { output ->
                 //开始输出,自定义输出路径
-                output.outputFileName = new File( "v" + appVersionName +  "_" + getDate()+"_"+getTime() + appSuffixName)
+                output.outputFileName = new File("v" + appVersionName + "_" + getDate() + "_" + getTime() + appSuffixName)
             }
         }
     }
@@ -86,13 +87,14 @@ android {
 
     /**
      * 3 :Friend 对象增加isvisible
+     * 4 :Friend 对象增加note
      */
     greendao {
-        schemaVersion 3
+        schemaVersion 4
     }
 
 }
-repositories{
+repositories {
     flatDir {
         dirs 'libs'
     }
@@ -108,7 +110,7 @@ dependencies {
     compile project(':umengshare')
     //    compile project(':RedPacket')
     compile files('libs/pinyin4j-2.5.0.jar')
-    compile(name:'HMS-SDK-2.4.0.300',ext:'aar')
+    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:multidex:1.0.1'
@@ -123,5 +125,9 @@ dependencies {
     compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

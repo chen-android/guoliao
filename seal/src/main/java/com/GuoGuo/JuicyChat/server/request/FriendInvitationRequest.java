@@ -8,11 +8,13 @@ package com.GuoGuo.JuicyChat.server.request;
 public class FriendInvitationRequest {
 	private String friendId;
 	private String token;
-	
-	public FriendInvitationRequest(String userid, String token) {
-		this.token = token;
+    private String note;
+    
+    public FriendInvitationRequest(String userid, String token, String note) {
+        this.token = token;
 		this.friendId = userid;
-	}
+        this.note = note;
+    }
 	
 	public String getFriendId() {
 		return friendId;
@@ -29,4 +31,14 @@ public class FriendInvitationRequest {
 	public void setToken(String token) {
 		this.token = token;
 	}
+    
+    public String getNote() {
+        return note;
+    }
+    
+    public void setNote(String note) {
+        this.note = note;
+    }
 }
+
+

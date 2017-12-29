@@ -1,6 +1,7 @@
 package com.GuoGuo.JuicyChat.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,6 +37,8 @@ public class NewFriendListAdapter extends BaseAdapters<Friend> {
 		}
 		final Friend bean = (Friend) dataSet.get(position);
 		holder.mName.setText(bean.getNickname());
+		holder.mMessage.setVisibility(TextUtils.isEmpty(bean.getNote()) ? View.GONE : View.VISIBLE);
+		holder.mMessage.setText(bean.getNote());
 		String portraitUri = bean.getHeadico();
 		ImageLoader.getInstance().displayImage(portraitUri, holder.mHead, App.getOptions());
 		holder.mState.setOnClickListener(new View.OnClickListener() {

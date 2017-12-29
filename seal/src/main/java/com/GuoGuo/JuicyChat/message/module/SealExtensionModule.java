@@ -9,6 +9,7 @@ import com.GuoGuo.JuicyChat.SealUserInfoManager;
 import com.GuoGuo.JuicyChat.db.Friend;
 import com.GuoGuo.JuicyChat.model.RedPackPlugin;
 import com.GuoGuo.JuicyChat.model.TransferPlugin;
+import com.GuoGuo.JuicyChat.model.VideoFilePlugin;
 import com.GuoGuo.JuicyChat.server.pinyin.CharacterParser;
 import com.GuoGuo.JuicyChat.server.utils.RongGenerate;
 import com.GuoGuo.JuicyChat.ui.activity.UserDetailActivity;
@@ -92,13 +93,14 @@ public class SealExtensionModule extends DefaultExtensionModule {
 		//图片  位置  语音聊天  视频聊天  文件  语音输入  名片  红包
 		if (conversationType.equals(Conversation.ConversationType.PRIVATE)
 				|| conversationType.equals(Conversation.ConversationType.GROUP)) {
-            pluginModules.remove(2);
-            pluginModules.remove(2);//这样就删去了系统带的语音聊天和视频聊天
             pluginModules.add(ContactCardPlugin.getInstance());
             pluginModules.add(RedPackPlugin.getInstance());
             if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 pluginModules.add(TransferPlugin.getInstance());
             }
+            pluginModules.add(VideoFilePlugin.getInstance());
+            IPluginModule location = pluginModules.remove(1);
+            pluginModules.add(location);
         }
 //		//TODO 聊天室红包
 //        if (conversationType.equals(Conversation.ConversationType.CHATROOM)) {
