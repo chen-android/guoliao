@@ -113,7 +113,7 @@
 	<string name="Search">搜索</string>
 	<string name="new_friends">新的朋友</string>
 	<string name="group">群组</string>
-	<string name="public_service">公众号</string>
+	<string name="public_service">客服助手</string>
 	<string name="chatroom">聊天室</string>
 	<string name="groups">群聊</string>
 	<string name="chatroom1">聊天室 I</string>
@@ -510,4 +510,5 @@
 	<string name="loading">加载中...</string>
 	<string name="waiting">请稍后...</string>
 	<string name="title_activity_add_friend_confirm">AddFriendConfirmActivity</string>
+	<string name="title_activity_service_assistant">ServiceAssistantActivity</string>
 </resources>

@@ -35,7 +35,7 @@ import com.GuoGuo.JuicyChat.server.pinyin.SideBar;
 import com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView;
 import com.GuoGuo.JuicyChat.ui.activity.GroupListActivity;
 import com.GuoGuo.JuicyChat.ui.activity.NewFriendListActivity;
-import com.GuoGuo.JuicyChat.ui.activity.PublicServiceActivity;
+import com.GuoGuo.JuicyChat.ui.activity.ServiceAssistantActivity;
 import com.GuoGuo.JuicyChat.ui.activity.UserDetailActivity;
 import com.GuoGuo.JuicyChat.ui.adapter.FriendListAdapter;
 
@@ -227,11 +227,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener {
 				startActivity(new Intent(getActivity(), GroupListActivity.class));
 				break;
 			case R.id.publicservice:
-				Intent intentPublic = new Intent(getActivity(), PublicServiceActivity.class);
+				Intent intentPublic = new Intent(getActivity(), ServiceAssistantActivity.class);
 				startActivity(intentPublic);
+				
 				break;
 			case R.id.contact_me_item:
 				RongIM.getInstance().startPrivateChat(getActivity(), mId, mCacheName);
+				break;
+			default:
 				break;
 		}
 	}

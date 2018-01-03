@@ -107,7 +107,7 @@
 		android:layout_height="52dp"
 		android:background="@drawable/btn_list_item_bg"
 		android:clickable="true"
-		android:visibility="gone">
+		android:visibility="visible">
 		
 		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
 			android:id="@+id/iv_avatar4"
@@ -116,7 +116,7 @@
 			android:layout_alignParentLeft="true"
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="12dp"
-			android:src="@drawable/default_servicebrand_contact"
+			android:src="@drawable/icon_service"
 			app:sriv_left_bottom_corner_radius="3dip"
 			app:sriv_left_top_corner_radius="3dip"
 			app:sriv_right_bottom_corner_radius="3dip"

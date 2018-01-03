@@ -1227,6 +1227,32 @@ public class SealAction extends BaseAction {
 	}
 	
 	/**
+	 * 获取系统客服
+	 *
+	 * @return
+	 * @throws HttpException
+	 */
+	public GetFriendListResponse getServiceList() throws HttpException {
+		String url = getURL("GetSysFriend.aspx");
+		
+		String json = JsonMananger.beanToJson(new BaseTokenRequest());
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		
+		GetFriendListResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, GetFriendListResponse.class);
+		}
+		return response;
+	}
+	
+	/**
 	 * 根据userId去服务器查询好友信息
 	 *
 	 * @throws HttpException
