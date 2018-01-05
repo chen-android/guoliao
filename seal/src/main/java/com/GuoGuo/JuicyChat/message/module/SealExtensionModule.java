@@ -98,7 +98,7 @@ public class SealExtensionModule extends DefaultExtensionModule {
             if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 pluginModules.add(TransferPlugin.getInstance());
             }
-            pluginModules.add(VideoFilePlugin.getInstance());
+            pluginModules.add(VideoFilePlugin.INSTANCE);
             IPluginModule location = pluginModules.remove(1);
             pluginModules.add(location);
         }

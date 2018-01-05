@@ -36,7 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.Date;
 
 import io.rong.imageloader.core.ImageLoader;
 import io.rong.imkit.RongIM;
@@ -162,7 +161,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 			case R.id.tv_my_sign:
 				startActivity(new Intent(this, UpdateSignActivity.class));
 				break;
-		}
+            default:
+                break;
+        }
 	}
 	
 	
@@ -175,7 +176,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 				return action.getQiNiuToken();
 			case UPDATE_SEX:
 				return action.setSex(sex);
-		}
+            default:
+                break;
+        }
 		return super.doInBackground(requestCode, id);
 	}
 	
@@ -208,7 +211,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 					editor.putString(GGConst.GUOGUO_LOGIN_SEX, sex);
 					editor.commit();
 					break;
-			}
+                default:
+                    break;
+            }
 		}
 	}
 	
@@ -221,7 +226,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 				NToast.shortToast(mContext, "设置头像请求失败");
 				LoadDialog.dismiss(mContext);
 				break;
-		}
+            default:
+                break;
+        }
 	}
 	
 	static public final int REQUEST_CODE_ASK_PERMISSIONS = 101;
@@ -312,9 +319,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 		if (this.uploadManager == null) {
 			this.uploadManager = new UploadManager();
 		}
-		this.uploadManager.put(imageFile, new Date().getTime() + imageFile.getName(), imageToken, new UpCompletionHandler() {
-			
-			@Override
+        this.uploadManager.put(imageFile, System.currentTimeMillis() + imageFile.getName(), imageToken, new UpCompletionHandler() {
+    
+            @Override
 			public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
 				if (responseInfo.isOK()) {
 					try {

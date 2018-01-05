@@ -68,81 +68,86 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 	
 	public GGRedPacketMessageProvider() {
 	}
-	
-	public void bindView(View var1, int var2, GGRedPacketMessage var3, UIMessage var4) {
-		GGRedPacketMessageProvider.ViewHolder var5 = (GGRedPacketMessageProvider.ViewHolder) var1.getTag();
-		if (var4.getMessageDirection() == Message.MessageDirection.SEND) {
-			var5.bri_bg.setBackgroundResource(R.drawable.bg_from_hongbao);
-			var5.tv_bri_target.setText("查看红包");
-			var5.tv_bri_name.setPadding(28, 0, 0, 0);
-		} else {
-			var5.bri_bg.setBackgroundResource(R.drawable.bg_to_hongbao);
-			var5.tv_bri_target.setText("领取红包");
-			var5.tv_bri_name.setPadding(48, 0, 0, 0);
-		}
-		String content = var3.getContent();
-		if (!TextUtils.isEmpty(content) && content.startsWith(GGRedPacketMessage.CONTENT_PREFIX)) {
-			content = content.replace(GGRedPacketMessage.CONTENT_PREFIX, "");
-		}
-		var5.tv_bri_mess.setText(content);
-	}
-	
-	public Spannable getContentSummary(GGRedPacketMessage var1) {
-		return var1 != null && !TextUtils.isEmpty(var1.getContent()) ? new SpannableString(var1.getContent()) : null;
-	}
-	
-	public void onItemClick(View var1, int var2, final GGRedPacketMessage var3, final UIMessage var4) {
+    
+    @Override
+    public void bindView(View var1, int var2, GGRedPacketMessage var3, UIMessage var4) {
+        GGRedPacketMessageProvider.ViewHolder var5 = (GGRedPacketMessageProvider.ViewHolder) var1.getTag();
+        if (var4.getMessageDirection() == Message.MessageDirection.SEND) {
+            var5.bri_bg.setBackgroundResource(R.drawable.bg_from_hongbao);
+            var5.tv_bri_target.setText("查看红包");
+            var5.tv_bri_name.setPadding(28, 0, 0, 0);
+        } else {
+            var5.bri_bg.setBackgroundResource(R.drawable.bg_to_hongbao);
+            var5.tv_bri_target.setText("领取红包");
+            var5.tv_bri_name.setPadding(48, 0, 0, 0);
+        }
+        String content = var3.getContent();
+        if (!TextUtils.isEmpty(content) && content.startsWith(GGRedPacketMessage.CONTENT_PREFIX)) {
+            content = content.replace(GGRedPacketMessage.CONTENT_PREFIX, "");
+        }
+        var5.tv_bri_mess.setText(content);
+    }
+    
+    @Override
+    public Spannable getContentSummary(GGRedPacketMessage var1) {
+        return var1 != null && !TextUtils.isEmpty(var1.getContent()) ? new SpannableString(var1.getContent()) : null;
+    }
+    
+    @Override
+    public void onItemClick(View var1, int var2, final GGRedPacketMessage var3, final UIMessage var4) {
 //		SendUser.sendUserId = var4.getSenderUserId();
 //		SendUser.conversationType = var4.getConversationType();
-		this.targetId = Long.valueOf(var4.getTargetId());
-		LoadDialog.show(context);
-		if (var4.getMessageDirection() == Message.MessageDirection.SEND) {
-			if (var4.getConversationType() == Conversation.ConversationType.GROUP) {
-				this.message = var3;
-				isSingle = false;
-				isForDetail = false;
-				AsyncTaskManager.getInstance(context).request(REQUEST_CHECK_HAS_OPENED, this);
-			}
-			if (var4.getConversationType() == Conversation.ConversationType.PRIVATE) {
-				this.message = var3;
-				this.isSingle = true;
-				isForDetail = true;
-				AsyncTaskManager.getInstance(context).request(REQUEST_DETAIL, this);
-			}
-		} else if (var4.getMessageDirection() == Message.MessageDirection.RECEIVE) {
-			if (var4.getConversationType() == Conversation.ConversationType.PRIVATE) {
-				this.message = var3;
-				this.isSingle = true;
-				this.isForDetail = false;
-				AsyncTaskManager.getInstance(context).request(REQUEST_CHECK_HAS_OPENED, this);
-			}
-			if (var4.getConversationType() == Conversation.ConversationType.GROUP) {
-				this.message = var3;
-				this.isSingle = false;
-				this.isForDetail = false;
-				AsyncTaskManager.getInstance(context).request(REQUEST_CHECK_HAS_OPENED, this);
-			}
-		}
-		
-	}
-	
-	public void onItemLongClick(View var1, int var2, GGRedPacketMessage var3, final UIMessage var4) {
-		
-	}
-	
-	public View newView(Context var1, ViewGroup var2) {
-		this.context = var1;
-		action = new SealAction(context);
-		View var3 = LayoutInflater.from(var1).inflate(R.layout.item_red_packet, null);
-		GGRedPacketMessageProvider.ViewHolder var4 = new GGRedPacketMessageProvider.ViewHolder();
-		var4.layout = (RelativeLayout) var3.findViewById(R.id.layout);
-		var4.tv_bri_mess = (TextView) var3.findViewById(R.id.tv_bri_mess);
-		var4.tv_bri_target = (TextView) var3.findViewById(R.id.tv_bri_target);
-		var4.tv_bri_name = (TextView) var3.findViewById(R.id.tv_bri_name);
-		var4.bri_bg = (RelativeLayout) var3.findViewById(R.id.bri_bg);
-		var3.setTag(var4);
-		return var3;
-	}
+        this.targetId = Long.valueOf(var4.getTargetId());
+        LoadDialog.show(context);
+        if (var4.getMessageDirection() == Message.MessageDirection.SEND) {
+            if (var4.getConversationType() == Conversation.ConversationType.GROUP) {
+                this.message = var3;
+                isSingle = false;
+                isForDetail = false;
+                AsyncTaskManager.getInstance(context).request(REQUEST_CHECK_HAS_OPENED, this);
+            }
+            if (var4.getConversationType() == Conversation.ConversationType.PRIVATE) {
+                this.message = var3;
+                this.isSingle = true;
+                isForDetail = true;
+                AsyncTaskManager.getInstance(context).request(REQUEST_DETAIL, this);
+            }
+        } else if (var4.getMessageDirection() == Message.MessageDirection.RECEIVE) {
+            if (var4.getConversationType() == Conversation.ConversationType.PRIVATE) {
+                this.message = var3;
+                this.isSingle = true;
+                this.isForDetail = false;
+                AsyncTaskManager.getInstance(context).request(REQUEST_CHECK_HAS_OPENED, this);
+            }
+            if (var4.getConversationType() == Conversation.ConversationType.GROUP) {
+                this.message = var3;
+                this.isSingle = false;
+                this.isForDetail = false;
+                AsyncTaskManager.getInstance(context).request(REQUEST_CHECK_HAS_OPENED, this);
+            }
+        }
+        
+    }
+    
+    @Override
+    public void onItemLongClick(View var1, int var2, GGRedPacketMessage var3, final UIMessage var4) {
+    
+    }
+    
+    @Override
+    public View newView(Context var1, ViewGroup var2) {
+        this.context = var1;
+        action = new SealAction(context);
+        View var3 = LayoutInflater.from(var1).inflate(R.layout.item_red_packet, null);
+        GGRedPacketMessageProvider.ViewHolder var4 = new GGRedPacketMessageProvider.ViewHolder();
+        var4.layout = (RelativeLayout) var3.findViewById(R.id.layout);
+        var4.tv_bri_mess = (TextView) var3.findViewById(R.id.tv_bri_mess);
+        var4.tv_bri_target = (TextView) var3.findViewById(R.id.tv_bri_target);
+        var4.tv_bri_name = (TextView) var3.findViewById(R.id.tv_bri_name);
+        var4.bri_bg = (RelativeLayout) var3.findViewById(R.id.bri_bg);
+        var3.setTag(var4);
+        return var3;
+    }
 	
 	@Override
 	public Object doInBackground(int requestCode, String parameter) throws HttpException {

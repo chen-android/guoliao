@@ -30,7 +30,7 @@
 	<!-- 商店下载按钮背景颜色      下载后 -->
 	<color name="bqmm_download_button_background_color_downloaded">#ffffffff</color>
 	<!-- 商店下载按钮进度条颜色 -->
-	<color name="bqmm_download_button_progress_color">#ff36cab6</color>
+	<color name="bqmm_download_button_progress_color">#36cab6</color>
 	<!-- 商店下载按钮进度条背景颜色 -->
 	<color name="bqmm_download_button_progress_background_color">#00000000</color>
 	

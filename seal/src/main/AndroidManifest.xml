@@ -606,6 +606,12 @@
 			android:name=".ui.activity.ServiceAssistantActivity"
 			android:label="@string/title_activity_service_assistant">
 		</activity>
+		<activity android:name=".ui.activity.VideoSendActivity">
+		</activity>
+		
+		<service
+			android:name=".server.UploadService"
+			android:exported="false"/>
 	</application>
 
 </manifest>
