@@ -1,68 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
-              android:padding="@dimen/middle_space">
-	
-	<ImageView
-		android:id="@+id/upload_video_iv"
-		android:layout_width="80dp"
-		android:layout_height="80dp"
-		android:scaleType="fitXY"
-		android:src="@drawable/icon_video_default"/>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/upload_video_sml"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 	
 	<LinearLayout
+		android:id="@+id/upload_video_ll"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:layout_marginLeft="@dimen/middle_space">
-		
-		<TextView
-			android:id="@+id/upload_video_name_tv"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			tools:text="小香菇"
-			android:textColor="@color/black"
-			android:textSize="16sp"
-			android:maxLines="1"
-			android:ellipsize="end"/>
-		
-		<TextView
-			android:id="@+id/upload_video_duration_tv"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			tools:text="时长 02:05"
-			android:layout_marginTop="@dimen/small_space"/>
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		android:padding="@dimen/middle_space">
 		
 		<RelativeLayout
-			android:id="@+id/upload_video_progress_rl"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			tools:visibility="visible">
+			android:layout_width="80dp"
+			android:layout_height="80dp">
 			
-			<ProgressBar
-				android:id="@+id/upload_video_pb"
-				style="@style/rc_pb_file_download_progress"
+			<ImageView
+				android:id="@+id/upload_video_iv"
 				android:layout_width="match_parent"
-				android:layout_height="8dp"
-				tools:max="100"
-				tools:progress="30"
-				android:layout_marginTop="@dimen/middle_space"
-				android:layout_marginRight="10dp"
-				android:layout_toLeftOf="@+id/upload_tip"
-				android:layout_centerVertical="true"/>
+				android:layout_height="match_parent"
+				android:scaleType="fitXY"
+				android:src="@drawable/icon_video_default"/>
 			
-			<TextView
-				android:id="@+id/upload_tip"
+			<ImageView
+				android:id="@+id/upload_video_logo_iv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:src="@drawable/icon_video_logo"
 				android:layout_alignParentRight="true"
-				android:text="上传中..."
-				android:textSize="12sp"/>
+				android:layout_alignParentBottom="true"
+				android:layout_margin="@dimen/small_space"
+				android:visibility="gone"/>
 		</RelativeLayout>
-	
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/middle_space"
+			android:orientation="vertical">
+			
+			<TextView
+				android:id="@+id/upload_video_name_tv"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:textColor="@color/black"
+				android:textSize="16sp"
+				tools:text="小香菇"/>
+			
+			<TextView
+				android:id="@+id/upload_video_duration_tv"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/small_space"
+				tools:text="时长 02:05"/>
+			
+			<RelativeLayout
+				android:id="@+id/upload_video_progress_rl"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				tools:visibility="visible">
+				
+				<ProgressBar
+					android:id="@+id/upload_video_pb"
+					style="@style/rc_pb_file_download_progress"
+					android:layout_width="match_parent"
+					android:layout_height="8dp"
+					android:layout_centerVertical="true"
+					android:layout_marginRight="10dp"
+					android:layout_marginTop="@dimen/middle_space"
+					android:layout_toLeftOf="@+id/upload_tip"
+					tools:max="100"
+					tools:progress="30"/>
+				
+				<TextView
+					android:id="@+id/upload_tip"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:text="上传中..."
+					android:textSize="12sp"/>
+			</RelativeLayout>
+		
+		</LinearLayout>
 	</LinearLayout>
-</LinearLayout>
+	
+	<Button
+		android:id="@+id/upload_video_delete_bt"
+		android:layout_width="70dp"
+		android:layout_height="match_parent"
+		android:background="@color/red"
+		android:text="删除"
+		android:textColor="@color/white"/>
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

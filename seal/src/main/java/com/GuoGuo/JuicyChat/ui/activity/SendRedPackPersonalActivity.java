@@ -166,10 +166,10 @@ public class SendRedPackPersonalActivity extends BaseActivity {
                         RedPacketMessage data = redPacketResponse.getData();
                         RongIM.getInstance().sendMessage(
                                 Message.obtain(targetId, Conversation.ConversationType.PRIVATE,
-                                        GGRedPacketMessage.obtain(data.getId() + "", data.getTomemberid(), data.getFromuserid(),
-                                                data.getType(), data.getMoney(), GGRedPacketMessage.CONTENT_PREFIX + data.getNote(), data.getSort(), data.getCount(),
+                                        GGRedPacketMessage.Companion.obtain(data.getId() + "", data.getTomemberid(), data.getFromuserid(),
+                                                data.getType(), data.getMoney(), GGRedPacketMessage.Companion.getCONTENT_PREFIX() + data.getNote(), data.getSort(), data.getCount(),
                                                 data.getState(), data.getCreatetime())),
-                                GGRedPacketMessage.CONTENT_PREFIX + data.getNote(),
+                                GGRedPacketMessage.Companion.getCONTENT_PREFIX() + data.getNote(),
                                 null,
                                 new IRongCallback.ISendMessageCallback() {
                                     @Override

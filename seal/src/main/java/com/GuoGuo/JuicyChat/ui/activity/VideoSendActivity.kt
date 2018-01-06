@@ -13,20 +13,26 @@ import android.os.Message
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
+import com.GuoGuo.JuicyChat.GGConst
 import com.GuoGuo.JuicyChat.R
-import com.GuoGuo.JuicyChat.server.UploadService
+import com.GuoGuo.JuicyChat.model.GGVideoFileMessage
+import com.GuoGuo.JuicyChat.server.UploadVideoService
+import com.GuoGuo.JuicyChat.server.response.BaseResponse
 import com.GuoGuo.JuicyChat.server.response.VideoListResponse
+import com.GuoGuo.JuicyChat.server.widget.LoadDialog
 import com.GuoGuo.JuicyChat.utils.CommonUtils
 import com.GuoGuo.JuicyChat.utils.StrongHandler
 import com.blankj.utilcode.util.ToastUtils
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import io.rong.imkit.RongIM
+import io.rong.imlib.IRongCallback
+import io.rong.imlib.RongIMClient
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_video_send.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -38,19 +44,52 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
     companion object {
         val REQUEST_LIST = 1
         val REQUEST_LIMIT = 2
+        val REQUEST_DELETE = 3
         val INTENT_VIDEO = 100
     }
 
+    private var targetId: String? = null
+    private var conversationType: Conversation.ConversationType? = null
     private var adapter: VideoAdapter? = null
 
     private var handler: StrongHandler? = null
     private var threadService = Executors.newFixedThreadPool(4)
-    private var binder: UploadService.MyBinder? = null
+    private var binder: UploadVideoService.MyBinder? = null
+    private val imgCache: MutableMap<String, Bitmap> = mutableMapOf()
+    private var removeIndex: Int = -1
+    private var conn: ServiceConnection = object : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
 
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            binder = service as UploadVideoService.MyBinder
+            binder!!.setProgressListener(object : UploadVideoService.OnProgressUpdateListener {
+                override fun update(key: String, percent: Int) {
+                    if (adapter != null) {
+                        val videoList = adapter!!.videoList
+                        if (videoList != null && videoList.isNotEmpty()) {
+                            for (index in videoList.indices) {
+                                val videoData = videoList[index]
+                                if (videoData.key == key) {
+                                    videoData.progress = percent
+                                    adapter!!.notifyItemChanged(index, "progress")
+                                    break
+                                }
+                            }
+
+                        }
+                    }
+                }
+            })
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_send)
         setTitle("视频文件")
+        this.targetId = intent.getStringExtra("targetId")
+        this.conversationType = intent.getSerializableExtra("type") as Conversation.ConversationType
         initView()
         request(REQUEST_LIST)
     }
@@ -77,34 +116,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
         this.adapter = VideoAdapter(this, mutableListOf())
         videoSendRv.adapter = this.adapter
         if (binder == null) {
-            bindService(Intent(this, UploadService::class.java), object : ServiceConnection {
-                override fun onServiceDisconnected(name: ComponentName?) {
-
-                }
-
-                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                    binder = service as UploadService.MyBinder
-                    binder!!.setProgressListener(object : UploadService.OnProgressUpdateListener {
-                        override fun update(key: String, percent: Int) {
-                            if (adapter != null) {
-                                val videoList = adapter!!.videoList
-                                if (videoList != null && videoList.isNotEmpty()) {
-                                    for (index in videoList.indices) {
-                                        val videoData = videoList[index]
-                                        if (videoData.key == key) {
-                                            videoData.progress = percent
-                                            adapter!!.notifyItemChanged(index)
-                                            break
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    })
-                }
-
-            }, Context.BIND_AUTO_CREATE)
+            bindService(Intent(this, UploadVideoService::class.java), conn, Context.BIND_AUTO_CREATE)
         }
     }
 
@@ -117,6 +129,9 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
         when (requestCode) {
             REQUEST_LIST -> {
                 return action.videoList
+            }
+            REQUEST_DELETE -> {
+                return action.deleteVideo(id!!)
             }
             else -> {
             }
@@ -136,6 +151,23 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                     }
                     adapter!!.videoList = videoList
                     adapter!!.notifyDataSetChanged()
+                } else {
+                    ToastUtils.showShort(result.message)
+                }
+            }
+            REQUEST_DELETE -> {
+                LoadDialog.dismiss(this)
+                result as BaseResponse
+                if (result.code == 200) {
+                    if (removeIndex != -1) {
+                        this.adapter!!.videoList!!.removeAt(removeIndex)
+                        this.adapter!!.notifyItemRemoved(removeIndex)
+                        this.adapter!!.notifyItemRangeRemoved(removeIndex, this.adapter!!.videoList!!.size)
+                        removeIndex = -1
+                        ToastUtils.showShort("删除成功")
+                    }
+                } else {
+                    ToastUtils.showShort(result.message)
                 }
             }
             else -> {
@@ -164,52 +196,115 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
         override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
             val item = videoList!![position]
             holder!!.img!!.setBackgroundResource(R.drawable.icon_video_default)
+            holder.logo!!.visibility = View.GONE
             if (item.url.isNullOrBlank().not()) {
                 threadService.execute({
-                    val media = MediaMetadataRetriever()
-                    try {
-                        media.setDataSource(item.url, hashMapOf())
+                    if (imgCache[item.url] != null) {
                         val obtain = Message.obtain()
-                        obtain.obj = ImgHolder(holder?.img, media.frameAtTime)
+                        obtain.obj = ImgHolder(holder.img, holder.logo, imgCache[item.url])
                         handler!!.sendMessage(obtain)
-                    } catch (exc: Exception) {
+                    } else {
+                        val media = MediaMetadataRetriever()
+                        try {
+                            media.setDataSource(item.url, hashMapOf())
+                            val obtain = Message.obtain()
+                            val bitmap = media.frameAtTime
+                            imgCache.put(item.url!!, bitmap)
+                            obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
+                            handler!!.sendMessage(obtain)
+                        } catch (exc: Exception) {
 
-                    } finally {
-                        media.release()
+                        } finally {
+                            media.release()
+                        }
                     }
                 })
             } else if (item.picurl.isNullOrBlank().not()) {
                 threadService.execute({
-                    val media = MediaMetadataRetriever()
-                    try {
-                        media.setDataSource(item.picurl)
+                    if (imgCache[item.picurl] != null) {
                         val obtain = Message.obtain()
-                        obtain.obj = ImgHolder(holder?.img, media.frameAtTime)
+                        obtain.obj = ImgHolder(holder.img, holder.logo, imgCache[item.picurl])
                         handler!!.sendMessage(obtain)
-                    } catch (exc: Exception) {
+                    } else {
+                        val media = MediaMetadataRetriever()
+                        try {
+                            media.setDataSource(item.picurl)
+                            val obtain = Message.obtain()
+                            val bitmap = media.frameAtTime
+                            imgCache.put(item.picurl!!, bitmap)
+                            obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
+                            handler!!.sendMessage(obtain)
+                        } catch (exc: Exception) {
 
-                    } finally {
-                        media.release()
+                        } finally {
+                            media.release()
+                        }
                     }
                 })
             }
-            holder!!.name!!.text = item.name
-            holder.duration!!.text = "时长  " + SimpleDateFormat("mm:ss", Locale.CHINA).format(item.duration * 1000).toString()
-            holder!!.tip!!.setTextColor(resources.getColor(R.color.rc_text_color_primary))
+            holder.name!!.text = item.name
+            holder.duration!!.text = "时长  " + SimpleDateFormat("mm:ss", Locale.CHINA).format(item.duration).toString()
+            holder.tip!!.setTextColor(resources.getColor(R.color.rc_text_color_primary))
 
             if (item.progress <= 0) {
                 holder.pbRl!!.visibility = View.GONE
                 if (item.progress == -2) {
-                    holder!!.tip!!.text = "上传出错"
-                    holder!!.tip!!.setTextColor(resources.getColor(R.color.red))
+                    holder.tip!!.text = "上传出错"
+                    holder.tip!!.setTextColor(resources.getColor(R.color.red))
                 }
             } else {
                 holder.pbRl!!.visibility = View.VISIBLE
-                holder!!.pb!!.progress = item.progress
+                holder.pb!!.progress = item.progress
                 if (item.progress == 100) {
-                    holder!!.tip!!.text = "完成"
+                    holder.tip!!.text = "完成"
                 }
             }
+            holder.del!!.setOnClickListener {
+                if (item.id.isNullOrBlank() && item.progress != 100) {
+                    //本地正在上传，或上传错误的条目
+                    if (item.progress >= 0) {
+                        binder?.cancelUpload(item.key)
+                        ToastUtils.showShort("取消上传")
+                    } else {
+                        ToastUtils.showShort("删除成功")
+                    }
+                    this.videoList!!.removeAt(holder.adapterPosition)
+                    this.notifyItemRemoved(holder.adapterPosition)
+                    this.notifyItemRangeRemoved(holder.adapterPosition, this.videoList!!.size)
+                    this.notifyDataSetChanged()
+                } else {
+                    //上传成功的条目
+                    removeIndex = holder.adapterPosition
+                    LoadDialog.show(context)
+                    request(item.id, REQUEST_DELETE)
+                }
+            }
+            holder.root!!.setOnClickListener({
+                if (item.id.isNullOrBlank() && item.progress != 100) {
+
+                } else {
+                    val url: String = if (item.progress == 100) {
+                        GGConst.QINIU_URL + item.key
+                    } else {
+                        item.url!!
+                    }
+                    RongIM.getInstance().sendMessage(
+                            io.rong.imlib.model.Message.obtain(targetId!!, conversationType!!, GGVideoFileMessage.Companion.obtain(url!!, item.duration)),
+                            GGVideoFileMessage.Companion.CONTENT_PREFIX,
+                            null,
+                            object : IRongCallback.ISendMessageCallback {
+                                override fun onAttached(p0: io.rong.imlib.model.Message?) {
+                                }
+
+                                override fun onSuccess(p0: io.rong.imlib.model.Message?) {
+                                    finish()
+                                }
+
+                                override fun onError(p0: io.rong.imlib.model.Message?, p1: RongIMClient.ErrorCode?) {
+                                }
+                            })
+                }
+            })
         }
 
         override fun onBindViewHolder(holder: ViewHolder?, position: Int, payloads: List<Any>?) {
@@ -238,39 +333,48 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-            return ViewHolder(View.inflate(this.context, R.layout.item_video_upload, null))
+            return ViewHolder(LayoutInflater.from(this.context).inflate(R.layout.item_video_upload, parent, false))
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            var root: LinearLayout? = null
             var img: ImageView? = null
+            var logo: ImageView? = null
             var name: TextView? = null
             var duration: TextView? = null
             var pbRl: RelativeLayout? = null
             var pb: ProgressBar? = null
             var tip: TextView? = null
+            var del: Button? = null
 
             init {
+                root = itemView.findViewById(R.id.upload_video_ll) as LinearLayout
                 img = itemView.findViewById(R.id.upload_video_iv) as ImageView
+                logo = itemView.findViewById(R.id.upload_video_logo_iv) as ImageView
                 name = itemView.findViewById(R.id.upload_video_name_tv) as TextView
                 duration = itemView.findViewById(R.id.upload_video_duration_tv) as TextView
                 pb = itemView.findViewById(R.id.upload_video_pb) as ProgressBar
                 pbRl = itemView.findViewById(R.id.upload_video_progress_rl) as RelativeLayout
                 tip = itemView.findViewById(R.id.upload_tip) as TextView
+                del = itemView.findViewById(R.id.upload_video_delete_bt) as Button
             }
         }
     }
 
-    inner class ImgHolder(img: ImageView?, bitmap: Bitmap?) {
+    inner class ImgHolder(img: ImageView?, logo: ImageView?, bitmap: Bitmap?) {
         var img: ImageView? = null
+        var logo: ImageView? = null
         var bitmap: Bitmap? = null
 
         init {
             this.img = img
             this.bitmap = bitmap
+            this.logo = logo
         }
 
         fun setImg() {
             img?.setImageBitmap(this.bitmap)
+            this.logo!!.visibility = View.VISIBLE
         }
     }
 
@@ -293,7 +397,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                         video.key = System.currentTimeMillis().toString() + file.name
                         this.adapter!!.addItem(video)
                         this.adapter!!.notifyDataSetChanged()
-                        var intent = Intent(this, UploadService::class.java)
+                        var intent = Intent(this, UploadVideoService::class.java)
                         intent.putExtra("path", file.absolutePath)
                         intent.putExtra("fileKey", video.key)
                         startService(intent)
@@ -304,5 +408,10 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onDestroy() {
+        unbindService(conn)
+        super.onDestroy()
     }
 }

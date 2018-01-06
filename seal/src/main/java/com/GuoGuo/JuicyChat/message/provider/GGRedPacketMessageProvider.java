@@ -82,9 +82,9 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
             var5.tv_bri_name.setPadding(48, 0, 0, 0);
         }
         String content = var3.getContent();
-        if (!TextUtils.isEmpty(content) && content.startsWith(GGRedPacketMessage.CONTENT_PREFIX)) {
-            content = content.replace(GGRedPacketMessage.CONTENT_PREFIX, "");
-        }
+	    if (!TextUtils.isEmpty(content) && content.startsWith(GGRedPacketMessage.Companion.getCONTENT_PREFIX())) {
+		    content = content.replace(GGRedPacketMessage.Companion.getCONTENT_PREFIX(), "");
+	    }
         var5.tv_bri_mess.setText(content);
     }
     

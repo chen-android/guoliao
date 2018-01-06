@@ -27,7 +27,12 @@ object VideoFilePlugin : IPluginModule {
     }
 
     override fun onClick(fragment: Fragment, rongExtension: RongExtension) {
-        rongExtension.startActivityForPluginResult(Intent(fragment.context, VideoSendActivity::class.java), 1, this)
+        rongExtension.startActivityForPluginResult(
+                Intent(fragment.context, VideoSendActivity::class.java)
+                        .putExtra("targetId", rongExtension.targetId)
+                        .putExtra("type", rongExtension.conversationType),
+                1,
+                this)
         rongExtension.collapseExtension()
     }
 

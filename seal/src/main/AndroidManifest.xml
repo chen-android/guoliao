@@ -610,7 +610,7 @@
 		</activity>
 		
 		<service
-			android:name=".server.UploadService"
+			android:name=".server.UploadVideoService"
 			android:exported="false"/>
 	</application>
 

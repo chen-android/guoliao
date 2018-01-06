@@ -1316,6 +1316,36 @@ public class SealAction extends BaseAction {
     }
     
     /**
+     * 删除视频
+     *
+     * @param id
+     * @return
+     * @throws HttpException
+     */
+    public BaseResponse deleteVideo(String id) throws HttpException {
+        String url = getURL("RemoveVideo.aspx");
+        
+        Map<String, String> map = new HashMap<>(2);
+        map.put("videoid", id);
+        map.put("token", SharedPreferencesContext.getInstance().getToken());
+        String json = JSON.toJSONString(map);
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENT_TYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+        
+        BaseResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, BaseResponse.class);
+        }
+        return response;
+    }
+    
+    /**
      * 根据userId去服务器查询好友信息
      *
      * @throws HttpException

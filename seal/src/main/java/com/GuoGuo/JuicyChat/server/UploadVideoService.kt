@@ -13,18 +13,17 @@ import com.GuoGuo.JuicyChat.server.response.QiNiuTokenResponse
 import com.GuoGuo.JuicyChat.server.response.VideoListResponse
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.qiniu.android.storage.Configuration
-import com.qiniu.android.storage.UploadManager
-import com.qiniu.android.storage.UploadOptions
+import com.qiniu.android.storage.*
 import org.json.JSONException
 import java.io.File
 
 /**
  * Created by chenshuai12619 on 2018-01-04.
  */
-class UploadService : Service(), OnDataListener {
+class UploadVideoService : Service(), OnDataListener {
 
     private val videoMap: MutableMap<String, VideoListResponse.VideoData> = mutableMapOf()
+    private val videoCancelMap: MutableMap<String, Boolean> = mutableMapOf()
     private var uploadManager: UploadManager? = null
     private var reqMap: MutableMap<Int, PK> = mutableMapOf()
     private val myBinder: MyBinder = MyBinder()
@@ -43,6 +42,11 @@ class UploadService : Service(), OnDataListener {
 
         fun setProgressListener(listener: OnProgressUpdateListener) {
             progressListener = listener
+        }
+
+        fun cancelUpload(key: String) {
+            videoCancelMap[key] = true
+            videoMap.remove(key)
         }
     }
 
@@ -80,7 +84,7 @@ class UploadService : Service(), OnDataListener {
             try {
                 val media = MediaMetadataRetriever()
                 media.setDataSource(v!!.picurl)
-                v.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong() / 1000
+                v.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
             } catch (exc: Exception) {
 
             }
@@ -125,6 +129,7 @@ class UploadService : Service(), OnDataListener {
         video.name = File(path).name
         video.key = fileKey
         this.videoMap.put(fileKey, video)
+        this.videoCancelMap.put(fileKey, false)
         this.uploadManager!!.put(file, fileKey, token, { s, responseInfo, jsonObject ->
             /*成功的回调*/
             if (responseInfo.isOK) {
@@ -140,15 +145,16 @@ class UploadService : Service(), OnDataListener {
                     e.printStackTrace()
                 }
             }
-        }, UploadOptions(null, null, false, { key: String?, percent: Double ->
+        }, UploadOptions(null, null, false, UpProgressHandler { key: String?, percent: Double ->
             LogUtils.d("upload_progress", key + "###" + percent)
             var p = percent * 100
             videoMap[key]!!.progress = if (p.toInt() < 99) p.toInt() else 99
-//            EventBus.getDefault().post(UploadMsg(key,percent.toInt()))
             if (this.progressListener != null) {
                 this.progressListener!!.update(key!!, p.toInt())
             }
-        }, null))
+        }, UpCancellationSignal {
+            this.videoCancelMap[fileKey]!!
+        }))
     }
 
     data class PK(var path: String, var key: String)
