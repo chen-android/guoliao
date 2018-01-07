@@ -24,9 +24,11 @@ import com.GuoGuo.JuicyChat.ui.activity.LoginActivity;
 import com.GuoGuo.JuicyChat.ui.activity.MainActivity;
 import com.GuoGuo.JuicyChat.ui.activity.NewFriendListActivity;
 import com.GuoGuo.JuicyChat.ui.activity.UserDetailActivity;
+import com.GuoGuo.JuicyChat.utils.CommonUtils;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
 import com.alibaba.fastjson.JSONException;
 import com.blankj.utilcode.util.EmptyUtils;
+import com.squareup.picasso.LruCache;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -92,7 +94,8 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
         this.mContext = mContext;
         initListener();
         mActivities = new ArrayList<>();
-        SealUserInfoManager.init(mContext);
+	    CommonUtils.imgCache = new LruCache(mContext);
+	    SealUserInfoManager.init(mContext);
     }
     
     /**

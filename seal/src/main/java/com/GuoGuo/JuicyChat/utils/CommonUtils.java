@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.GuoGuo.JuicyChat.model.SealSearchConversationResult;
+import com.squareup.picasso.LruCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,10 @@ import io.rong.imlib.model.SearchConversationResult;
  * Created by bob on 2015/2/2.
  */
 public class CommonUtils {
-    
-    /**
+
+	public static LruCache imgCache;
+
+	/**
      * 得到屏幕高度
      *
      * @param context

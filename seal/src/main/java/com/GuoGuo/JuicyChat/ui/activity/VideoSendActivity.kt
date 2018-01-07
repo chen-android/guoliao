@@ -55,7 +55,6 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
     private var handler: StrongHandler? = null
     private var threadService = Executors.newFixedThreadPool(4)
     private var binder: UploadVideoService.MyBinder? = null
-    private val imgCache: MutableMap<String, Bitmap> = mutableMapOf()
     private var removeIndex: Int = -1
     private var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -199,9 +198,9 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
             holder.logo!!.visibility = View.GONE
             if (item.url.isNullOrBlank().not()) {
                 threadService.execute({
-                    if (imgCache[item.url] != null) {
+                    if (CommonUtils.imgCache[item.url] != null) {
                         val obtain = Message.obtain()
-                        obtain.obj = ImgHolder(holder.img, holder.logo, imgCache[item.url])
+                        obtain.obj = ImgHolder(holder.img, holder.logo, CommonUtils.imgCache[item.url])
                         handler!!.sendMessage(obtain)
                     } else {
                         val media = MediaMetadataRetriever()
@@ -209,7 +208,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                             media.setDataSource(item.url, hashMapOf())
                             val obtain = Message.obtain()
                             val bitmap = media.frameAtTime
-                            imgCache.put(item.url!!, bitmap)
+                            CommonUtils.imgCache.set(item.url!!, bitmap)
                             obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
                             handler!!.sendMessage(obtain)
                         } catch (exc: Exception) {
@@ -221,9 +220,9 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                 })
             } else if (item.picurl.isNullOrBlank().not()) {
                 threadService.execute({
-                    if (imgCache[item.picurl] != null) {
+                    if (CommonUtils.imgCache[item.picurl] != null) {
                         val obtain = Message.obtain()
-                        obtain.obj = ImgHolder(holder.img, holder.logo, imgCache[item.picurl])
+                        obtain.obj = ImgHolder(holder.img, holder.logo, CommonUtils.imgCache[item.picurl])
                         handler!!.sendMessage(obtain)
                     } else {
                         val media = MediaMetadataRetriever()
@@ -231,7 +230,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                             media.setDataSource(item.picurl)
                             val obtain = Message.obtain()
                             val bitmap = media.frameAtTime
-                            imgCache.put(item.picurl!!, bitmap)
+                            CommonUtils.imgCache.set(item.picurl!!, bitmap)
                             obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
                             handler!!.sendMessage(obtain)
                         } catch (exc: Exception) {
