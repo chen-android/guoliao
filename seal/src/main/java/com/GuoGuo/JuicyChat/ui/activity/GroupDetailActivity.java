@@ -129,6 +129,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
     private TextView redPacketTv;
     private TextView limitTv;
     private TextView mGroupName;
+    private TextView mGroupId;
     private TextView announcementTv;
     private TextView gagTv;
     private PhotoUtils photoUtils;
@@ -225,6 +226,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         if (!TextUtils.isEmpty(portraitUri)) {
             Picasso.with(mContext).load(portraitUri).into(mGroupHeader);
         }
+        mGroupId.setText(mGroup.getGroupid());
         mGroupName.setText(mGroup.getGroupname());
         limitTv.setText(StringUtils.getFormatMoney(mGroup.getLocklimit() + ""));
         redPacketTv.setText(StringUtils.getFormatMoney(mGroup.getRedpacketlimit() + ""));
@@ -1198,6 +1200,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
         mGroupDisplayNameText = (TextView) findViewById(R.id.group_displayname_text);
         mUnlockMomeyTv = (TextView) findViewById(R.id.group_unlock_limit_money_tv);
         mGroupName = (TextView) findViewById(R.id.group_name);
+        mGroupId = (TextView) findViewById(R.id.group_id_tv);
         mQuitBtn = (Button) findViewById(R.id.group_quit);
         mDismissBtn = (Button) findViewById(R.id.group_dismiss);
         gagTv = (TextView) findViewById(R.id.group_detail_gag_tv);

@@ -200,6 +200,7 @@
 	<string name="upload_portrait_failed">上传头像失败</string>
 	<string name="phone_unregister">此号码未被注册</string>
 	<string name="group_portrait">群头像</string>
+	<string name="group_id">群ID</string>
 	<string name="add_friend">加为好友</string>
 	<string name="add_text">加好友信息...</string>
 	<string name="request_success">添加好友请求已发送</string>

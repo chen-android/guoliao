@@ -85,7 +85,9 @@ import com.GuoGuo.JuicyChat.server.response.TransferRecordResponse;
 import com.GuoGuo.JuicyChat.server.response.TransferRecordTypesRes;
 import com.GuoGuo.JuicyChat.server.response.VerifyCodeResponse;
 import com.GuoGuo.JuicyChat.server.response.VersionResponse;
+import com.GuoGuo.JuicyChat.server.response.VideoLimitResponse;
 import com.GuoGuo.JuicyChat.server.response.VideoListResponse;
+import com.GuoGuo.JuicyChat.server.response.VideoUploadResponse;
 import com.GuoGuo.JuicyChat.server.utils.NLog;
 import com.GuoGuo.JuicyChat.server.utils.json.JsonMananger;
 import com.GuoGuo.JuicyChat.utils.SharedPreferencesContext;
@@ -1254,6 +1256,31 @@ public class SealAction extends BaseAction {
     }
     
     /**
+     * 获取视频上传的限制
+     *
+     * @return
+     * @throws HttpException
+     */
+    public VideoLimitResponse getVideoLimit() throws HttpException {
+        String url = getURL("GetUserVideoLimit.aspx");
+        
+        String json = JsonMananger.beanToJson(new BaseTokenRequest());
+        StringEntity entity = null;
+        try {
+            entity = new StringEntity(json, ENCODING);
+            entity.setContentType(CONTENT_TYPE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+        
+        VideoLimitResponse response = null;
+        if (!TextUtils.isEmpty(result)) {
+            response = jsonToBean(result, VideoLimitResponse.class);
+        }
+        return response;
+    }
+    /**
      * 获取视频文件列表
      *
      * @return
@@ -1289,7 +1316,7 @@ public class SealAction extends BaseAction {
      * @return
      * @throws HttpException
      */
-    public BaseResponse uploadVideo(String path, String name, long duration, long size) throws HttpException {
+    public VideoUploadResponse uploadVideo(String path, String name, long duration, long size) throws HttpException {
         String url = getURL("UploadVideo.aspx");
         
         Map<String, String> map = new HashMap<>(5);
@@ -1307,10 +1334,10 @@ public class SealAction extends BaseAction {
             e.printStackTrace();
         }
         String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
-        
-        BaseResponse response = null;
+    
+        VideoUploadResponse response = null;
         if (!TextUtils.isEmpty(result)) {
-            response = jsonToBean(result, BaseResponse.class);
+            response = jsonToBean(result, VideoUploadResponse.class);
         }
         return response;
     }

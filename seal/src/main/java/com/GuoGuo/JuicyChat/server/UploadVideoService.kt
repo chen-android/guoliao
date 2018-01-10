@@ -8,9 +8,9 @@ import android.os.IBinder
 import com.GuoGuo.JuicyChat.GGConst
 import com.GuoGuo.JuicyChat.server.network.async.AsyncTaskManager
 import com.GuoGuo.JuicyChat.server.network.async.OnDataListener
-import com.GuoGuo.JuicyChat.server.response.BaseResponse
 import com.GuoGuo.JuicyChat.server.response.QiNiuTokenResponse
 import com.GuoGuo.JuicyChat.server.response.VideoListResponse
+import com.GuoGuo.JuicyChat.server.response.VideoUploadResponse
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.qiniu.android.storage.*
@@ -84,7 +84,7 @@ class UploadVideoService : Service(), OnDataListener {
             try {
                 val media = MediaMetadataRetriever()
                 media.setDataSource(v!!.picurl)
-                v.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
+                v.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong() / 1000
             } catch (exc: Exception) {
 
             }
@@ -104,10 +104,10 @@ class UploadVideoService : Service(), OnDataListener {
                 this.progressListener?.update(reqMap[requestCode]!!.key, -2)
             }
         } else {
-            val baseResp = result as BaseResponse
+            val resp = result as VideoUploadResponse
             var fileKey = reqMap[requestCode]!!.key
-            if (baseResp.code == 200) {
-                this.progressListener?.update(fileKey!!, 100)
+            if (resp.code == 200) {
+                this.progressListener?.update(fileKey!!, 100, resp.data?.id)
                 this.videoMap.remove(fileKey)
             } else {
                 ToastUtils.showShort("上传错误")
@@ -148,7 +148,7 @@ class UploadVideoService : Service(), OnDataListener {
         }, UploadOptions(null, null, false, UpProgressHandler { key: String?, percent: Double ->
             LogUtils.d("upload_progress", key + "###" + percent)
             var p = percent * 100
-            videoMap[key]!!.progress = if (p.toInt() < 99) p.toInt() else 99
+            videoMap[key]?.progress = if (p.toInt() < 99) p.toInt() else 99
             if (this.progressListener != null) {
                 this.progressListener!!.update(key!!, p.toInt())
             }
@@ -160,7 +160,7 @@ class UploadVideoService : Service(), OnDataListener {
     data class PK(var path: String, var key: String)
 
     interface OnProgressUpdateListener {
-        fun update(key: String, percent: Int)
+        fun update(key: String, percent: Int, id: String? = null)
     }
 
     override fun onDestroy() {

@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.GuoGuo.JuicyChat.R
 import com.GuoGuo.JuicyChat.model.GGVideoFileMessage
+import com.GuoGuo.JuicyChat.ui.activity.SealWebActivity
 import com.GuoGuo.JuicyChat.utils.CommonUtils
 import io.rong.imkit.model.ProviderTag
 import io.rong.imkit.model.UIMessage
@@ -81,8 +82,7 @@ class GGVideoFileMessageProvider : IContainerItemProvider.MessageProvider<GGVide
     }
 
     override fun onItemClick(p0: View?, p1: Int, p2: GGVideoFileMessage?, p3: UIMessage?) {
-        val action = "io.rong.imkit.intent.action.webview"
-        var intent = Intent(action)
+        var intent = Intent(p0!!.context, SealWebActivity::class.java)
         intent.`package` = p0!!.context.packageName
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
         if (p2!!.url.isNullOrBlank().not()) {

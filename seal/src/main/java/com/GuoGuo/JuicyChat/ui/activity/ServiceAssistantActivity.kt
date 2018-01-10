@@ -1,7 +1,6 @@
 package com.GuoGuo.JuicyChat.ui.activity
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +15,8 @@ import com.GuoGuo.JuicyChat.server.response.GetFriendListResponse
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog
 import com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
 import io.rong.imageloader.core.ImageLoader
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_service_assistant.*
 
 class ServiceAssistantActivity : BaseActivity() {
@@ -27,10 +28,8 @@ class ServiceAssistantActivity : BaseActivity() {
         setContentView(R.layout.activity_service_assistant)
         setTitle(R.string.public_service)
         service_assist_lv.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val intent = Intent(this, UserDetailActivity::class.java)
-            intent.putExtra("type", 2)
-            intent.putExtra("friend", this.adapter!!.list!![position])
-            startActivity(intent)
+            val item = adapter!!.getItem(position)
+            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, item!!.friendid, item!!.nickname)
         }
         LoadDialog.show(this)
         request(REQUEST_LIST)
@@ -82,7 +81,7 @@ class ServiceAssistantActivity : BaseActivity() {
             return if (list != null) list!!.size else 0
         }
 
-        override fun getItem(position: Int): Any? {
+        override fun getItem(position: Int): Friend? {
             if (list == null)
                 return null
 

@@ -22,6 +22,7 @@ import com.GuoGuo.JuicyChat.R
 import com.GuoGuo.JuicyChat.model.GGVideoFileMessage
 import com.GuoGuo.JuicyChat.server.UploadVideoService
 import com.GuoGuo.JuicyChat.server.response.BaseResponse
+import com.GuoGuo.JuicyChat.server.response.VideoLimitResponse
 import com.GuoGuo.JuicyChat.server.response.VideoListResponse
 import com.GuoGuo.JuicyChat.server.widget.LoadDialog
 import com.GuoGuo.JuicyChat.utils.CommonUtils
@@ -56,6 +57,8 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
     private var threadService = Executors.newFixedThreadPool(4)
     private var binder: UploadVideoService.MyBinder? = null
     private var removeIndex: Int = -1
+    private var maxSize: Long = 100
+    private var maxCount: Int = 20
     private var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
 
@@ -64,7 +67,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             binder = service as UploadVideoService.MyBinder
             binder!!.setProgressListener(object : UploadVideoService.OnProgressUpdateListener {
-                override fun update(key: String, percent: Int) {
+                override fun update(key: String, percent: Int, id: String?) {
                     if (adapter != null) {
                         val videoList = adapter!!.videoList
                         if (videoList != null && videoList.isNotEmpty()) {
@@ -72,6 +75,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                                 val videoData = videoList[index]
                                 if (videoData.key == key) {
                                     videoData.progress = percent
+                                    videoData.id = id
                                     adapter!!.notifyItemChanged(index, "progress")
                                     break
                                 }
@@ -91,6 +95,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
         this.conversationType = intent.getSerializableExtra("type") as Conversation.ConversationType
         initView()
         request(REQUEST_LIST)
+        request(REQUEST_LIMIT)
     }
 
     private fun initView() {
@@ -132,6 +137,9 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
             REQUEST_DELETE -> {
                 return action.deleteVideo(id!!)
             }
+            REQUEST_LIMIT -> {
+                return action.videoLimit
+            }
             else -> {
             }
         }
@@ -169,10 +177,24 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                     ToastUtils.showShort(result.message)
                 }
             }
+            REQUEST_LIMIT -> {
+                result as VideoLimitResponse
+                if (result.code == 200) {
+                    this.maxSize = result.data!!.maxSize
+                    this.maxCount = result.data!!.maxCount
+                } else {
+                    ToastUtils.showShort(result.message)
+                }
+            }
             else -> {
             }
         }
         super.onSuccess(requestCode, result)
+    }
+
+    override fun onFailure(requestCode: Int, state: Int, result: Any?) {
+        super.onFailure(requestCode, state, result)
+        ToastUtils.showShort(getString(R.string.net_error_l))
     }
 
     private inner class VideoAdapter(context: Context, videoList: MutableList<VideoListResponse.VideoData>) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
@@ -242,7 +264,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                 })
             }
             holder.name!!.text = item.name
-            holder.duration!!.text = "时长  " + SimpleDateFormat("mm:ss", Locale.CHINA).format(item.duration).toString()
+            holder.duration!!.text = "时长  " + SimpleDateFormat("mm:ss", Locale.CHINA).format(item.duration * 1000).toString()
             holder.tip!!.setTextColor(resources.getColor(R.color.rc_text_color_primary))
 
             if (item.progress <= 0) {
@@ -385,7 +407,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 
                     val file = File(CommonUtils.getRealFilePath(this, uri))
                     if (file.exists()) {
-                        if (file.length() / 1024 / 1024 > 100) {
+                        if (file.length() - (maxSize * 1024 * 1024) > 0) {
                             ToastUtils.showShort("视频不能超过100M")
                             return
                         }
@@ -393,7 +415,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                         video.picurl = file.absolutePath
                         video.progress = 1
                         video.name = file.name
-                        video.key = System.currentTimeMillis().toString() + file.name
+                        video.key = "a_" + System.currentTimeMillis().toString() + file.name
                         this.adapter!!.addItem(video)
                         this.adapter!!.notifyDataSetChanged()
                         var intent = Intent(this, UploadVideoService::class.java)

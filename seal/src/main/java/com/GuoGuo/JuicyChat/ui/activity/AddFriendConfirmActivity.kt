@@ -1,6 +1,7 @@
 package com.GuoGuo.JuicyChat.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import com.GuoGuo.JuicyChat.R
 import com.GuoGuo.JuicyChat.server.response.FriendInvitationResponse
 import com.GuoGuo.JuicyChat.server.utils.NToast
@@ -19,8 +20,10 @@ class AddFriendConfirmActivity : BaseActivity() {
 
     fun init() {
         setTitle("好友验证")
-        headRightButton.text = "发送"
-        headRightButton.setOnClickListener {
+	    val rightText = getmHeadRightText()
+	    rightText.visibility = View.VISIBLE
+	    rightText.text = "发送"
+	    rightText.setOnClickListener {
             request(REQUEST_ADD_FRIEND)
         }
         add_friend_confirm_et.setText(SharedPreferencesContext.getInstance().name + "想加你为好友")
