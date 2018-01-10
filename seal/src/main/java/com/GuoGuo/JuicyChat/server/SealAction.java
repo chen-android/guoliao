@@ -1207,7 +1207,7 @@ public class SealAction extends BaseAction {
      * @throws HttpException
      */
     public GetFriendListResponse getAllUserRelationship(int state) throws HttpException {
-        String url = getURL("GetFriends.aspx");
+        String url = getURL("GetPreFriends.aspx");
         
         Map<String, Object> map = new HashMap<>(2);
         map.put("state", state);
