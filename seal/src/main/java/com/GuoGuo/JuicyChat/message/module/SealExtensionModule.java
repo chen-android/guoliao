@@ -93,8 +93,9 @@ public class SealExtensionModule extends DefaultExtensionModule {
 		//图片  位置  语音聊天  视频聊天  文件  语音输入  名片  红包
 		if (conversationType.equals(Conversation.ConversationType.PRIVATE)
 				|| conversationType.equals(Conversation.ConversationType.GROUP)) {
-            pluginModules.add(ContactCardPlugin.getInstance());
-            pluginModules.add(RedPackPlugin.getInstance());
+			pluginModules.remove(4);
+			pluginModules.add(ContactCardPlugin.getInstance());
+			pluginModules.add(RedPackPlugin.getInstance());
             if (conversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 pluginModules.add(TransferPlugin.getInstance());
             }
