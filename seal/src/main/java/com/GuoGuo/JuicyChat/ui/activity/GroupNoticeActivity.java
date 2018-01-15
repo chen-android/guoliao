@@ -141,6 +141,7 @@ public class GroupNoticeActivity extends BaseActivity implements View.OnClickLis
                         
                         }
                     });
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                     DialogWithYesOrNoUtils.getInstance().showDialog(this, getString(R.string.group_notice_post_confirm), new DialogWithYesOrNoUtils.DialogCallBack() {

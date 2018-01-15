@@ -105,6 +105,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
     private static final int INTENT_ADD_AND_DEL_GROUP_MEMBER = 43;
     private static final int INTENT_UPDATE_NOTICE = 805;
     private static final int INTENT_SEND_ALL = 218;
+    private static final int INTENT_NOTIFY_ALL = 232;
     private static final int INTENT_GAG_MEMBER = 918;
     private static final int INTENT_TRANSFER_LEADER = 556;
     
@@ -755,7 +756,7 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                     sendAllIntent.putExtra("targetId", fromConversationId);
                     sendAllIntent.putExtra("isSendAll", true);
                     sendAllIntent.putExtra("isCreated", true);
-                    startActivity(sendAllIntent);
+                    startActivityForResult(sendAllIntent, INTENT_NOTIFY_ALL);
                 } else {
                     NToast.shortToast(mContext, "只有群主能设置该项");
                 }
@@ -999,6 +1000,11 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
                     LoadDialog.show(mContext);
                     getGroups();
                     getGroupMembers();
+                }
+                break;
+            case INTENT_NOTIFY_ALL:
+                if (resultCode == RESULT_OK) {
+                    finish();
                 }
                 break;
             default:
