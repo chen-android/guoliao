@@ -84,6 +84,12 @@ public class RedPacketNotificationMessageProvider extends IContainerItemProvider
     @Override
     public Spannable getContentSummary(GGRedPacketNotifyMessage content) {
         if (content != null) {
+            if (!TextUtils.isEmpty(content.getShowuserids())) {
+                List<String> ids = Arrays.asList(content.getShowuserids().split(","));
+                if (ids.contains(SharedPreferencesContext.getInstance().getUserId())) {
+                    return new SpannableString(content.getTipmessage());
+                }
+            }
             return new SpannableString(content.getMessage());
         }
         return null;

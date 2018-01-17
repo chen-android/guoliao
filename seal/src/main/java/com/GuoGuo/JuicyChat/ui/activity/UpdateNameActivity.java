@@ -58,6 +58,7 @@ public class UpdateNameActivity extends BaseActivity implements View.OnClickList
 	@Override
 	public void onSuccess(int requestCode, Object result) {
 		SetNameResponse sRes = (SetNameResponse) result;
+		LoadDialog.dismiss(mContext);
 		if (sRes.getCode() == 200) {
 			editor.putString(GGConst.GUOGUO_LOGIN_NAME, newName);
 			editor.commit();
@@ -66,16 +67,17 @@ public class UpdateNameActivity extends BaseActivity implements View.OnClickList
 			
 			RongIM.getInstance().refreshUserInfoCache(new UserInfo(sp.getString(GGConst.GUOGUO_LOGIN_ID, ""), newName, Uri.parse(sp.getString(GGConst.GUOGUO_LOGING_PORTRAIT, ""))));
 			RongIM.getInstance().setCurrentUserInfo(new UserInfo(sp.getString(GGConst.GUOGUO_LOGIN_ID, ""), newName, Uri.parse(sp.getString(GGConst.GUOGUO_LOGING_PORTRAIT, ""))));
-			LoadDialog.dismiss(mContext);
 			NToast.shortToast(mContext, "昵称更改成功");
 			finish();
+		} else {
+			NToast.shortToast(mContext, "修改失败，请检查是否存在非法字符");
 		}
 	}
 	
 	@Override
 	public void onClick(View v) {
 		newName = mNameEditText.getText().toString().trim();
-		if (!TextUtils.isEmpty(newName) && newName.length() > 2 && newName.length() < 20) {
+		if (!TextUtils.isEmpty(newName) && newName.length() >= 2 && newName.length() < 20) {
 			LoadDialog.show(mContext);
 			request(UPDATE_NAME, true);
 		} else {

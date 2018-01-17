@@ -67,7 +67,7 @@ class UploadVideoService : Service(), OnDataListener {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val path = intent!!.getStringExtra("path")
-        val key = intent!!.getStringExtra("fileKey")
+        val key = intent.getStringExtra("fileKey")
         val i = REQUEST_TOKEN++
         this.reqMap.put(i, PK(path, key))
         requestToken(i)
@@ -105,9 +105,9 @@ class UploadVideoService : Service(), OnDataListener {
             }
         } else {
             val resp = result as VideoUploadResponse
-            var fileKey = reqMap[requestCode]!!.key
+            val fileKey = reqMap[requestCode]!!.key
             if (resp.code == 200) {
-                this.progressListener?.update(fileKey!!, 100, resp.data?.id)
+                this.progressListener?.update(fileKey, 100, resp.data?.id)
                 this.videoMap.remove(fileKey)
             } else {
                 ToastUtils.showShort("上传错误")
@@ -130,13 +130,13 @@ class UploadVideoService : Service(), OnDataListener {
         video.key = fileKey
         this.videoMap.put(fileKey, video)
         this.videoCancelMap.put(fileKey, false)
-        this.uploadManager!!.put(file, fileKey, token, { s, responseInfo, jsonObject ->
+        this.uploadManager!!.put(file, fileKey, token, { _, responseInfo, jsonObject ->
             /*成功的回调*/
             if (responseInfo.isOK) {
                 try {
-                    var key = jsonObject["key"]
+                    val key = jsonObject["key"]
                     LogUtils.d("qiniu_key", key)
-                    var videoUrl = GGConst.QINIU_URL + key
+                    val videoUrl = GGConst.QINIU_URL + key
                     video.url = videoUrl
                     val req = REQUEST_UPLOAD_VIDEO++
                     reqMap.put(req, PK(path, fileKey))
@@ -147,7 +147,7 @@ class UploadVideoService : Service(), OnDataListener {
             }
         }, UploadOptions(null, null, false, UpProgressHandler { key: String?, percent: Double ->
             LogUtils.d("upload_progress", key + "###" + percent)
-            var p = percent * 100
+            val p = percent * 100
             videoMap[key]?.progress = if (p.toInt() < 99) p.toInt() else 99
             if (this.progressListener != null) {
                 this.progressListener!!.update(key!!, p.toInt())
@@ -163,7 +163,4 @@ class UploadVideoService : Service(), OnDataListener {
         fun update(key: String, percent: Int, id: String? = null)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }
