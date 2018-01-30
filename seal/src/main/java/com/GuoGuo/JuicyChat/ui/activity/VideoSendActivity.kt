@@ -234,7 +234,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 						try {
 							media.setDataSource(item.url, hashMapOf())
 							val obtain = Message.obtain()
-							val bitmap = media.frameAtTime
+							val bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
 							CommonUtils.imgCache.set(item.url!!, bitmap)
 							obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
 							handler!!.sendMessage(obtain)
@@ -257,7 +257,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 						try {
 							media.setDataSource(item.picurl)
 							val obtain = Message.obtain()
-							val bitmap = media.frameAtTime
+							val bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
 							CommonUtils.imgCache.set(item.picurl!!, bitmap)
 							obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
 							handler!!.sendMessage(obtain)

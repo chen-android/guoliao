@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
+import android.media.MediaMetadataRetriever.OPTION_CLOSEST
 import android.text.Spannable
 import android.text.SpannableString
 import android.view.LayoutInflater
@@ -64,13 +65,14 @@ class GGVideoFileMessageProvider : IContainerItemProvider.MessageProvider<GGVide
                 val media = MediaMetadataRetriever()
                 try {
                     media.setDataSource(p2!!.url, hashMapOf())
-                    val duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
-                    val bitmap = media.frameAtTime
+//                    val duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
+                    val bitmap = media.getFrameAtTime(1, OPTION_CLOSEST)
+                    val si = bitmap.byteCount
                     CommonUtils.imgCache.set(p2!!.url, bitmap)
                     (context as Activity).runOnUiThread({
                         holder.img!!.setImageBitmap(bitmap)
                         setLayoutParam(bitmap, holder.img!!)
-                        holder.duration!!.text = SimpleDateFormat("mm:ss", Locale.CHINA).format(duration).toString()
+                        holder.duration!!.text = SimpleDateFormat("mm:ss", Locale.CHINA).format(p2?.duration).toString()
                     })
                 } catch (exc: Exception) {
 
