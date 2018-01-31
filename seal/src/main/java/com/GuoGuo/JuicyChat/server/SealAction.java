@@ -1316,7 +1316,7 @@ public class SealAction extends BaseAction {
      * @return
      * @throws HttpException
      */
-    public VideoUploadResponse uploadVideo(String path, String name, long duration, long size) throws HttpException {
+    public VideoUploadResponse uploadVideo(String path, String name, String picurl, long duration, long size) throws HttpException {
         String url = getURL("UploadVideo.aspx");
         
         Map<String, String> map = new HashMap<>(5);
@@ -1324,6 +1324,7 @@ public class SealAction extends BaseAction {
         map.put("token", SharedPreferencesContext.getInstance().getToken());
         map.put("name", name);
         map.put("duration", duration + "");
+        map.put("picurl", picurl);
         map.put("size", size + "");
         String json = JSON.toJSONString(map);
         StringEntity entity = null;

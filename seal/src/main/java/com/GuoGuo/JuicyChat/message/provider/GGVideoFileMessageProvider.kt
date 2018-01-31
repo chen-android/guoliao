@@ -1,11 +1,9 @@
 package com.GuoGuo.JuicyChat.message.provider
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
-import android.media.MediaMetadataRetriever.OPTION_CLOSEST
+import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.view.LayoutInflater
@@ -17,13 +15,13 @@ import com.GuoGuo.JuicyChat.R
 import com.GuoGuo.JuicyChat.model.GGVideoFileMessage
 import com.GuoGuo.JuicyChat.ui.activity.SealWebActivity
 import com.GuoGuo.JuicyChat.utils.CommonUtils
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import io.rong.imkit.model.ProviderTag
 import io.rong.imkit.model.UIMessage
 import io.rong.imkit.utilities.RongUtils
 import io.rong.imkit.widget.provider.IContainerItemProvider
 import io.rong.imlib.model.Message
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -61,24 +59,37 @@ class GGVideoFileMessageProvider : IContainerItemProvider.MessageProvider<GGVide
             holder.img!!.setImageBitmap(bm)
             setLayoutParam(bm, holder.img!!)
         } else {
-            threadPool.execute({
-                val media = MediaMetadataRetriever()
-                try {
-                    media.setDataSource(p2!!.url, hashMapOf())
-//                    val duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
-                    val bitmap = media.getFrameAtTime(1, OPTION_CLOSEST)
-                    val si = bitmap.byteCount
-                    CommonUtils.imgCache.set(p2!!.url, bitmap)
-                    (context as Activity).runOnUiThread({
-                        holder.img!!.setImageBitmap(bitmap)
-                        setLayoutParam(bitmap, holder.img!!)
-                        holder.duration!!.text = SimpleDateFormat("mm:ss", Locale.CHINA).format(p2?.duration).toString()
-                    })
-                } catch (exc: Exception) {
-
-                } finally {
-                    media.release()
+//            threadPool.execute({
+//                val media = MediaMetadataRetriever()
+//                try {
+//                    media.setDataSource(p2!!.url, hashMapOf())
+////                    val duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()
+//                    val bitmap = media.getFrameAtTime(1, OPTION_CLOSEST)
+//                    val si = bitmap.byteCount
+//                    CommonUtils.imgCache.set(p2!!.url, bitmap)
+//                    (context as Activity).runOnUiThread({
+//                        holder.img!!.setImageBitmap(bitmap)
+//                        setLayoutParam(bitmap, holder.img!!)
+//                        holder.duration!!.text = SimpleDateFormat("mm:ss", Locale.CHINA).format(p2?.duration).toString()
+//                    })
+//                } catch (exc: Exception) {
+//
+//                } finally {
+//                    media.release()
+//                }
+//            })
+            Picasso.with(context).load(p2.picurl).into(object : Target {
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 }
+
+                override fun onBitmapFailed(errorDrawable: Drawable?) {
+                }
+
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                    setLayoutParam(bitmap!!, holder.img!!)
+                    holder.img!!.setImageBitmap(bitmap)
+                }
+
             })
         }
     }

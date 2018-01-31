@@ -30,6 +30,7 @@ import com.GuoGuo.JuicyChat.utils.StrongHandler
 import com.blankj.utilcode.util.ToastUtils
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import com.squareup.picasso.Picasso
 import io.rong.imkit.RongIM
 import io.rong.imlib.IRongCallback
 import io.rong.imlib.RongIMClient
@@ -67,7 +68,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 		override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
 			binder = service as UploadVideoService.MyBinder
 			binder!!.setProgressListener(object : UploadVideoService.OnProgressUpdateListener {
-				override fun update(key: String, percent: Int, id: String?) {
+				override fun update(key: String, percent: Int, id: String?, picurl: String?, url: String?) {
 					if (adapter != null) {
 						val videoList = adapter!!.videoList
 						if (videoList != null && videoList.isNotEmpty()) {
@@ -76,6 +77,8 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 								if (videoData.key == key) {
 									videoData.progress = percent
 									videoData.id = id
+									videoData.picurl = picurl
+									videoData.url = url
 									adapter!!.notifyItemChanged(index, "progress")
 									break
 								}
@@ -223,52 +226,26 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 			val item = videoList!![position]
 			holder!!.img!!.setImageResource(R.drawable.icon_video_default)
 			holder.logo!!.visibility = View.GONE
-			if (item.url.isNullOrBlank().not()) {
-				if (CommonUtils.imgCache[item.url] != null) {
-					val obtain = Message.obtain()
-					obtain.obj = ImgHolder(holder.img, holder.logo, CommonUtils.imgCache[item.url])
-					handler!!.sendMessage(obtain)
-				} else {
-					threadService.execute({
-						val media = MediaMetadataRetriever()
-						try {
-							media.setDataSource(item.url, hashMapOf())
-							val obtain = Message.obtain()
-							val bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
-							CommonUtils.imgCache.set(item.url!!, bitmap)
-							obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
-							handler!!.sendMessage(obtain)
-						} catch (exc: Exception) {
+			if (item.url.isNullOrBlank().not() && item.progress == 1) {
+				threadService.execute({
+					val media = MediaMetadataRetriever()
+					try {
+						media.setDataSource(item.url)
+						val obtain = Message.obtain()
+						val bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
+						obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
+						handler!!.sendMessage(obtain)
+					} catch (exc: Exception) {
 
-						} finally {
-							media.release()
-						}
+					} finally {
+						media.release()
+					}
 
-					})
-				}
+				})
+
 			} else if (item.picurl.isNullOrBlank().not()) {
-				if (CommonUtils.imgCache[item.picurl] != null) {
-					val obtain = Message.obtain()
-					obtain.obj = ImgHolder(holder.img, holder.logo, CommonUtils.imgCache[item.picurl])
-					handler!!.sendMessage(obtain)
-				} else {
-					threadService.execute({
-						val media = MediaMetadataRetriever()
-						try {
-							media.setDataSource(item.picurl)
-							val obtain = Message.obtain()
-							val bitmap = media.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
-							CommonUtils.imgCache.set(item.picurl!!, bitmap)
-							obtain.obj = ImgHolder(holder.img, holder.logo, bitmap)
-							handler!!.sendMessage(obtain)
-						} catch (exc: Exception) {
-
-						} finally {
-							media.release()
-						}
-
-					})
-				}
+				Picasso.with(context).load(item.picurl).into(holder.img)
+				holder.logo!!.visibility = View.VISIBLE
 			}
 			holder.name!!.text = item.name
 			holder.duration!!.text = "时长  " + SimpleDateFormat("mm:ss", Locale.CHINA).format(item.duration * 1000).toString()
@@ -317,7 +294,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 						item.url!!
 					}
 					RongIM.getInstance().sendMessage(
-							io.rong.imlib.model.Message.obtain(targetId!!, conversationType!!, GGVideoFileMessage.Companion.obtain(url!!, item.duration)),
+							io.rong.imlib.model.Message.obtain(targetId!!, conversationType!!, GGVideoFileMessage.Companion.obtain(url!!, item.picurl!!, item.duration)),
 							GGVideoFileMessage.Companion.CONTENT_PREFIX,
 							null,
 							object : IRongCallback.ISendMessageCallback {
@@ -424,7 +401,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 							return
 						}
 						val video = VideoListResponse.VideoData()
-						video.picurl = file.absolutePath
+						video.url = file.absolutePath
 						video.progress = 1
 						video.name = file.name
 						video.key = "a_" + System.currentTimeMillis().toString() + fileEx

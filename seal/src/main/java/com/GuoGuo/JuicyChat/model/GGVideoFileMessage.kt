@@ -13,10 +13,12 @@ import org.json.JSONObject
 @MessageTag(value = "JC:VideoFileMsg", flag = MessageTag.ISCOUNTED or MessageTag.ISPERSISTED)
 class GGVideoFileMessage : MessageContent {
     var url: String? = null
+    var picurl: String? = null
     var duration: Long = 0
 
-    constructor(url: String, duration: Long) {
+    constructor(url: String, picurl: String, duration: Long) {
         this.url = url
+        this.picurl = picurl
         this.duration = duration
     }
 
@@ -25,6 +27,9 @@ class GGVideoFileMessage : MessageContent {
         try {
             if (!TextUtils.isEmpty(this.url)) {
                 json.put("url", this.url)
+            }
+            if (!TextUtils.isEmpty(this.picurl)) {
+                json.put("picurl", this.picurl)
             }
             if (duration != -1L) {
                 json.put("duration", this.duration)
@@ -45,6 +50,9 @@ class GGVideoFileMessage : MessageContent {
             if (json.has("url")) {
                 this.url = json.optString("url")
             }
+            if (json.has("picurl")) {
+                this.picurl = json.optString("picurl")
+            }
             if (json.has("duration")) {
                 this.duration = json.optLong("duration")
             }
@@ -61,19 +69,21 @@ class GGVideoFileMessage : MessageContent {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(this.url)
+        dest.writeString(this.picurl)
         dest.writeLong(this.duration)
     }
 
     protected constructor(`in`: Parcel) {
         this.url = `in`.readString()
+        this.picurl = `in`.readString()
         this.duration = `in`.readLong()
     }
 
     companion object {
         val CONTENT_PREFIX = "[视频]"
 
-        fun obtain(url: String, duration: Long): GGVideoFileMessage {
-            return GGVideoFileMessage(url, duration)
+        fun obtain(url: String, picurl: String, duration: Long): GGVideoFileMessage {
+            return GGVideoFileMessage(url, picurl, duration)
         }
 
         @JvmField
