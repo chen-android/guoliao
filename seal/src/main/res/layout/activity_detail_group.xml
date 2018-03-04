@@ -16,8 +16,8 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:paddingBottom="30dp">
-			
-			<com.GuoGuo.JuicyChat.ui.widget.DemoGridView
+
+			<com.kuaishou.hb.ui.widget.DemoGridView
 				android:id="@+id/gridview"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -175,8 +175,8 @@
 					android:text="@string/group_portrait"
 					android:textColor="@color/text_color"
 					android:textSize="16sp"/>
-				
-				<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+
+				<com.kuaishou.hb.server.widget.SelectableRoundedImageView
 					android:id="@+id/group_header"
 					android:layout_width="30dp"
 					android:layout_height="30dp"
@@ -607,8 +607,8 @@
 					android:text="@string/message_canadduser"
 					android:textColor="@color/text_color"
 					android:textSize="16sp"/>
-				
-				<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+				<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 					android:id="@+id/sw_group_canadduser"
 					style="@style/SwitchButtonStyle"
 					android:layout_width="wrap_content"
@@ -642,8 +642,8 @@
 					android:text="@string/message_notice"
 					android:textColor="@color/text_color"
 					android:textSize="16sp"/>
-				
-				<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+				<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 					android:id="@+id/sw_group_notfaction"
 					style="@style/SwitchButtonStyle"
 					android:layout_width="wrap_content"
@@ -691,8 +691,8 @@
 					android:text="@string/set_top"
 					android:textColor="@color/text_color"
 					android:textSize="16sp"/>
-				
-				<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+				<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 					android:id="@+id/sw_group_top"
 					style="@style/SwitchButtonStyle"
 					android:layout_width="wrap_content"

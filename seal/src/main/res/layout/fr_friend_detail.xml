@@ -12,8 +12,8 @@
 		android:layout_height="80dp"
 		android:background="#ffffff"
 		android:orientation="horizontal">
-		
-		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+
+		<com.kuaishou.hb.server.widget.SelectableRoundedImageView
 			android:id="@+id/friend_header"
 			android:layout_width="64dp"
 			android:layout_height="64dp"
@@ -101,8 +101,8 @@
 			android:text="@string/message_notice"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			android:id="@+id/sw_friend_notfaction"
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"
@@ -149,8 +149,8 @@
 			android:text="@string/set_top"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			android:id="@+id/sw_freind_top"
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"

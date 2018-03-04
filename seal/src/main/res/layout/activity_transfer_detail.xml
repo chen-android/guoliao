@@ -4,7 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context="com.GuoGuo.JuicyChat.ui.activity.TransferDetailActivity"
+	tools:context="com.kuaishou.hb.ui.activity.TransferDetailActivity"
 	android:orientation="vertical"
 	android:background="@color/background">
 	
@@ -53,7 +53,7 @@
 				android:id="@+id/transfer_detail_money_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				tools:text="+12,3421,34果币"
+				tools:text="+12,3421,34快豆"
 				android:layout_alignParentRight="true"
 				android:textColor="@color/black"
 				android:textSize="18sp"/>

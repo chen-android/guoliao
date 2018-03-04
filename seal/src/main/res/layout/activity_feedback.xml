@@ -31,8 +31,8 @@
 			android:layout_margin="@dimen/large_space"
 			android:text="图片证据"
 			android:textColor="@color/black"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.DemoGridView
+
+		<com.kuaishou.hb.ui.widget.DemoGridView
 			android:id="@+id/gridview"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

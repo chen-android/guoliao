@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.GuoGuo.JuicyChat">
+          package="com.kuaishou.hb">
 	
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -31,17 +31,17 @@
 	
 	<!-- ⼩米 配置开始 < -->
 	<permission
-		android:name="com.GuoGuo.JuicyChat.permission.MIPUSH_RECEIVE"
+		android:name="com.kuaishou.hb.permission.MIPUSH_RECEIVE"
 		android:protectionLevel="signature"/>
-	
-	<uses-permission android:name="com.GuoGuo.JuicyChat.permission.MIPUSH_RECEIVE"/>
+
+	<uses-permission android:name="com.kuaishou.hb.permission.MIPUSH_RECEIVE"/>
 	<!-- ⼩米 配置结束 < -->
 	<!-- GCM 配置开始 < -->
 	<permission
-		android:name="com.GuoGuo.JuicyChat.permission.C2D_MESSAGE"
+		android:name="com.kuaishou.hb.permission.C2D_MESSAGE"
 		android:protectionLevel="signature"/>
-	
-	<uses-permission android:name="com.GuoGuo.JuicyChat.permission.C2D_MESSAGE"/>
+
+	<uses-permission android:name="com.kuaishou.hb.permission.C2D_MESSAGE"/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 	
 	<!-- GCM 配置结束 < -->
@@ -72,7 +72,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				
 				<data
-					android:host="com.GuoGuo.JuicyChat"
+					android:host="com.kuaishou.hb"
 					android:pathPrefix="/push_message"
 					android:scheme="rong"/>
 			</intent-filter>
@@ -232,7 +232,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				
 				<data
-					android:host="com.GuoGuo.JuicyChat"
+					android:host="com.kuaishou.hb"
 					android:pathPrefix="/publicServiceProfile"
 					android:scheme="rong"/>
 			</intent-filter>
@@ -242,7 +242,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				
 				<data
-					android:host="com.GuoGuo.JuicyChat"
+					android:host="com.kuaishou.hb"
 					android:pathPrefix="/publicServiceInfo"
 					android:scheme="rong"/>
 			</intent-filter>
@@ -261,7 +261,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				
 				<data
-					android:host="com.GuoGuo.JuicyChat"
+					android:host="com.kuaishou.hb"
 					android:pathPrefix="/conversation/"
 					android:scheme="rong"/>
 			</intent-filter>
@@ -278,7 +278,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				
 				<data
-					android:host="com.GuoGuo.JuicyChat"
+					android:host="com.kuaishou.hb"
 					android:path="/subconversationlist"
 					android:scheme="rong"/>
 			</intent-filter>
@@ -296,7 +296,7 @@
 				<category android:name="android.intent.category.DEFAULT"/>
 				
 				<data
-					android:host="com.GuoGuo.JuicyChat"
+					android:host="com.kuaishou.hb"
 					android:path="/conversationlist"
 					android:scheme="rong"/>
 			</intent-filter>
@@ -538,8 +538,8 @@
 			android:permission="com.google.android.c2dm.permission.SEND">
 			<intent-filter>
 				<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-				
-				<category android:name="com.GuoGuo.JuicyChat"/>
+
+				<category android:name="com.kuaishou.hb"/>
 				<!-- 替换为自己的packagename < -->
 			</intent-filter>
 		</receiver>
@@ -565,7 +565,7 @@
 		
 		<provider
 			android:name="android.support.v4.content.FileProvider"
-			android:authorities="com.GuoGuo.JuicyChat.FileProvider"
+			android:authorities="com.kuaishou.hb.FileProvider"
 			android:exported="false"
 			android:grantUriPermissions="true">
 			<meta-data

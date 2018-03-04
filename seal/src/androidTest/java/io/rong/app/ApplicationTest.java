@@ -3,7 +3,7 @@ package io.rong.app;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
-import com.GuoGuo.JuicyChat.server.pinyin.CharacterParser;
+import com.kuaishou.hb.server.pinyin.CharacterParser;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>

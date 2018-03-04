@@ -54,7 +54,7 @@
 				android:layout_marginLeft="@dimen/base_padding"
 				android:layout_marginRight="@dimen/base_padding"
 				android:gravity="center_vertical"
-				android:text="果币"/>
+				android:text="快豆"/>
 		</LinearLayout>
 		
 		<LinearLayout

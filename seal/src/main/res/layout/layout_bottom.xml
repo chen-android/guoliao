@@ -62,8 +62,8 @@
 						android:textSize="12sp"/>
 				
 				</RelativeLayout>
-				
-				<com.GuoGuo.JuicyChat.ui.widget.DragPointView
+
+				<com.kuaishou.hb.ui.widget.DragPointView
 					android:id="@+id/seal_num"
 					android:layout_width="19dp"
 					android:layout_height="19dp"
@@ -123,8 +123,8 @@
 				
 				
 				</RelativeLayout>
-				
-				<com.GuoGuo.JuicyChat.ui.widget.DragPointView
+
+				<com.kuaishou.hb.ui.widget.DragPointView
 					android:id="@+id/tab_num_contact"
 					android:layout_width="19dp"
 					android:layout_height="19dp"

@@ -29,7 +29,7 @@
 					android:layout_height="wrap_content"
 					android:drawableLeft="@drawable/icon_charge"
 					android:drawablePadding="@dimen/middle_space"
-					android:text="我的果币"
+					android:text="我的快豆"
 					android:textColor="@color/white"
 					android:textSize="20sp"/>
 				
@@ -93,7 +93,7 @@
 			android:drawableRight="@drawable/icon_right_arrow_gray"
 			android:gravity="center_vertical"
 			android:padding="15dp"
-			android:text="冻结果币"/>
+			android:text="冻结快豆"/>
 		
 		<TextView
 			android:id="@+id/my_wallet_setting_tv"

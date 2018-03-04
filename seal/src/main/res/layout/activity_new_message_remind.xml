@@ -21,8 +21,8 @@
 			android:text="@string/new_message"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			android:id="@+id/remind_switch"
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"
@@ -83,8 +83,8 @@
 			android:text="@string/message_show_details"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -119,8 +119,8 @@
 			android:text="@string/new_message_voice"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -160,8 +160,8 @@
 			android:text="@string/new_message_vibration"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

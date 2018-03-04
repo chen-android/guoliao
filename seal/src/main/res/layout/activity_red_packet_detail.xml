@@ -102,7 +102,7 @@
 							android:textColor="@color/black"
 							android:textSize="12sp"
 							android:layout_marginLeft="@dimen/small_space"
-							android:text="果币"/>
+							android:text="快豆"/>
 					</LinearLayout>
 				</LinearLayout>
 			</RelativeLayout>

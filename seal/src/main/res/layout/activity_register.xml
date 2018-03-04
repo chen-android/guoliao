@@ -44,8 +44,8 @@
 			android:textStyle="bold"
 			android:layout_gravity="center_horizontal"
 			android:layout_marginTop="10dp"/>
-		
-		<com.GuoGuo.JuicyChat.server.widget.ClearWriteEditText
+
+		<com.kuaishou.hb.server.widget.ClearWriteEditText
 			android:id="@+id/reg_phone"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -70,9 +70,9 @@
 			android:layout_marginRight="20dp"
 			android:layout_marginTop="20dp"
 			android:orientation="horizontal">
-			
-			
-			<com.GuoGuo.JuicyChat.server.widget.ClearWriteEditText
+
+
+			<com.kuaishou.hb.server.widget.ClearWriteEditText
 				android:id="@+id/reg_code"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
@@ -105,8 +105,8 @@
 				android:textSize="12sp"/>
 		
 		</LinearLayout>
-		
-		<com.GuoGuo.JuicyChat.server.widget.ClearWriteEditText
+
+		<com.kuaishou.hb.server.widget.ClearWriteEditText
 			android:id="@+id/reg_password"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

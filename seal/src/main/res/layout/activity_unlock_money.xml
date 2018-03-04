@@ -35,8 +35,8 @@
 			android:textColor="#ffffffff"
 			android:textSize="30.0dip"
 			android:visibility="invisible"/>
-		
-		<com.GuoGuo.JuicyChat.server.pinyin.SideBar
+
+		<com.kuaishou.hb.server.pinyin.SideBar
 			android:id="@+id/unlocak_money_sidrbar_sb"
 			android:layout_width="30.0dip"
 			android:layout_height="fill_parent"

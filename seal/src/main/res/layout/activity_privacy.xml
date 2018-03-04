@@ -24,8 +24,8 @@
 			android:text="@string/friend_confirmation"
 			android:textColor="@color/text_color"
 			android:textSize="16sp"/>
-		
-		<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+		<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 			style="@style/SwitchButtonStyle"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

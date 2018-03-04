@@ -10,8 +10,8 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal">
-		
-		<com.GuoGuo.JuicyChat.server.widget.ProgressWheel
+
+		<com.kuaishou.hb.server.widget.ProgressWheel
 			android:id="@+id/progress_wheel"
 			android:layout_width="110dp"
 			android:layout_height="110dp"

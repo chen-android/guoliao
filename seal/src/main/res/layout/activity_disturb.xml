@@ -28,8 +28,8 @@
 				android:text="@string/new_message_notice"
 				android:textColor="@color/text_color"
 				android:textSize="16sp"/>
-			
-			<com.GuoGuo.JuicyChat.ui.widget.switchbutton.SwitchButton
+
+			<com.kuaishou.hb.ui.widget.switchbutton.SwitchButton
 				android:id="@+id/disturb_switch"
 				style="@style/SwitchButtonStyle"
 				android:layout_width="wrap_content"

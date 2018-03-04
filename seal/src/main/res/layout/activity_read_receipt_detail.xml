@@ -153,12 +153,12 @@
 					</RelativeLayout>
 				</LinearLayout>
 			</LinearLayout>
-			
-			<com.GuoGuo.JuicyChat.ui.widget.ReadReceiptViewPager
+
+			<com.kuaishou.hb.ui.widget.ReadReceiptViewPager
 				android:id="@+id/viewpager"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
-			</com.GuoGuo.JuicyChat.ui.widget.ReadReceiptViewPager>
+			</com.kuaishou.hb.ui.widget.ReadReceiptViewPager>
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	tools:context="com.GuoGuo.JuicyChat.ui.activity.TransferDetailActivity"
+	tools:context="com.kuaishou.hb.ui.activity.TransferDetailActivity"
 	android:orientation="vertical"
 	android:background="@color/background">
 	
@@ -16,8 +16,8 @@
 		android:background="@color/white"
 		android:padding="@dimen/middle_space"
 		android:gravity="center_vertical">
-		
-		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+
+		<com.kuaishou.hb.server.widget.SelectableRoundedImageView
 			android:id="@+id/redpacket_record_detail_head_iv"
 			android:layout_width="30dp"
 			android:layout_height="30dp"
@@ -59,7 +59,7 @@
 				android:id="@+id/redpacket_record_detail_money_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				tools:text="+12,3421,34果币"
+				tools:text="+12,3421,34快豆"
 				android:layout_alignParentRight="true"
 				android:textColor="@color/black"
 				android:textSize="18sp"/>

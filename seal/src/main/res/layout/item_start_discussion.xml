@@ -25,8 +25,8 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="horizontal">
-		
-		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+
+		<com.kuaishou.hb.server.widget.SelectableRoundedImageView
 			android:id="@+id/dis_frienduri"
 			android:layout_width="36dp"
 			android:layout_height="36dp"

@@ -8,7 +8,7 @@
 			"client_info": {
 				"mobilesdk_app_id": "1:396364826160:android:a10a4a74ea61b328",
 				"android_client_info": {
-					"package_name": "com.GuoGuo.JuicyChat"
+                  "package_name": "com.kuaishou.hb"
 				}
 			},
 			"oauth_client": [],

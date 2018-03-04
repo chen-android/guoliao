@@ -7,14 +7,14 @@
 	android:layout_height="match_parent">
 	
 	<LinearLayout
-		
+
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical"
 		android:padding="20dp"
-		tools:context="com.GuoGuo.JuicyChat.ui.activity.RechargeActivity">
-		
-		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+		tools:context="com.kuaishou.hb.ui.activity.RechargeActivity">
+
+		<com.kuaishou.hb.server.widget.SelectableRoundedImageView
 			android:id="@+id/recharge_head_iv"
 			android:layout_width="64dp"
 			android:layout_height="64dp"
@@ -38,7 +38,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/large_space"
-			android:text="转账果币"
+			android:text="转账快豆"
 			android:textColor="@color/black"
 			android:textSize="16sp"/>
 		
@@ -73,7 +73,7 @@
 				android:layout_marginLeft="@dimen/base_padding"
 				android:layout_marginRight="@dimen/base_padding"
 				android:gravity="center_vertical"
-				android:text="果币"/>
+				android:text="快豆"/>
 		</LinearLayout>
 		
 		<EditText

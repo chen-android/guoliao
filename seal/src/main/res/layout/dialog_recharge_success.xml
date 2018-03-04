@@ -58,7 +58,7 @@
 		<TextView
 			android:layout_width="80dp"
 			android:layout_height="wrap_content"
-			android:text="转账果币："
+			android:text="转账快豆："
 			android:gravity="right"
 			android:textColor="@color/black"/>
 		

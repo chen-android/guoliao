@@ -5,9 +5,9 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	tools:context="com.GuoGuo.JuicyChat.ui.activity.UpdateSignActivity">
-	
-	<com.GuoGuo.JuicyChat.server.widget.ClearWriteEditText
+	tools:context="com.kuaishou.hb.ui.activity.UpdateSignActivity">
+
+	<com.kuaishou.hb.server.widget.ClearWriteEditText
 		android:id="@+id/update_sign_et"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

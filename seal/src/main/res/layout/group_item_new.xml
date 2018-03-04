@@ -14,8 +14,8 @@
 		android:layout_height="52dp"
 		android:background="@drawable/btn_list_item_bg"
 		android:orientation="horizontal">
-		
-		<com.GuoGuo.JuicyChat.server.widget.SelectableRoundedImageView
+
+		<com.kuaishou.hb.server.widget.SelectableRoundedImageView
 			android:id="@+id/groupuri"
 			android:layout_width="36dp"
 			android:layout_height="36dp"
