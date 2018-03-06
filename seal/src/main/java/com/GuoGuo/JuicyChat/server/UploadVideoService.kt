@@ -82,8 +82,8 @@ class UploadVideoService : Service(), OnDataListener {
             val v = this.videoMap[parameter]
             try {
                 val media = MediaMetadataRetriever()
-                media.setDataSource(v!!.url)
-                v.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong() / 1000
+                media.setDataSource(reqMap[requestCode]!!.path)
+                v?.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong() / 1000
             } catch (exc: Exception) {
 
             }
