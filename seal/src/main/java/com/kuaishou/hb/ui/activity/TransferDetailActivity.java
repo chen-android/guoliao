@@ -30,11 +30,11 @@ public class TransferDetailActivity extends BaseActivity {
 			if (data.getFromuserid().equals(SharedPreferencesContext.getInstance().getUserId())) {
 				headUrl = data.getTouserheadico();
 				toUserName = data.getTouser();
-				moneyTv.setText("- " + data.getMoney() + "快豆");
+				moneyTv.setText("- " + data.getMoney());
 			} else {
 				headUrl = data.getFromuserheadico();
 				toUserName = data.getFromuser();
-				moneyTv.setText("+ " + data.getMoney() + "快豆");
+				moneyTv.setText("+ " + data.getMoney());
 			}
 			Picasso.with(this).load(headUrl).into(new Target() {
 				@Override

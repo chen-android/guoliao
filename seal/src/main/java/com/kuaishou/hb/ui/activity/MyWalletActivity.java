@@ -77,9 +77,8 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 				GetMoneyResponse response = (GetMoneyResponse) result;
 				srl.finishRefresh(500);
 				if (response.getCode() == 200) {
-					String money = response.getData().getMoney() + "";
-					moneyTv.setText(StringUtils.getFormatMoney(money));
-					chineseMoneyTv.setText(StringUtils.getChineseMoney(money));
+					moneyTv.setText(StringUtils.getFormatMoney(response.getData().getMoney()));
+//					chineseMoneyTv.setText(StringUtils.getChineseMoney(money));
 				}
 			}
 		}

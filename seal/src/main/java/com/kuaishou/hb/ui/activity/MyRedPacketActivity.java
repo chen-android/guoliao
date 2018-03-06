@@ -365,7 +365,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 			}
 			RedPacketReceiveData item = getItem(position);
 			vh.name.setText(item.getFromuser());
-			vh.money.setText(StringUtils.getFormatMoney(item.getUnpackmoney() + ""));
+			vh.money.setText(StringUtils.getFormatMoney(item.getUnpackmoney()));
 			vh.date.setText(StringUtils.sTimeToString(item.getCreatetime()));
 			vh.group.setVisibility(item.getType() == 2 ? View.VISIBLE : View.GONE);
 			return convertView;
@@ -431,7 +431,7 @@ public class MyRedPacketActivity extends BaseActivity implements View.OnClickLis
 			}
 			RedPacketSendData item = getItem(position);
 			vh.name.setText(item.getFromuser());
-			vh.money.setText(StringUtils.getFormatMoney(item.getMoney() + ""));
+			vh.money.setText(StringUtils.getFormatMoney(item.getMoney()));
 			vh.date.setText(StringUtils.sTimeToString(item.getCreatetime()));
 			String status;
 			if (item.getCount() == item.getUnpackcount()) {

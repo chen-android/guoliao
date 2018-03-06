@@ -1,5 +1,6 @@
 package com.kuaishou.hb.server.utils;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,15 +29,10 @@ public class StringUtils {
 	public static String sTimeToTimeStr(String dateTime) {
 		return dateTime.substring(11, 16);
 	}
-
-	public static String getFormatMoney(String money) {
-		StringBuilder sb = new StringBuilder(money);
-		if (sb.length() > 2) {
-			for (int i = sb.length() - 2; i > 0; i -= 4) {
-				sb.insert(i, ",");
-			}
-		}
-		return sb.toString();
+	
+	public static String getFormatMoney(double money) {
+		DecimalFormat df = new DecimalFormat("###,###,###.00");
+		return df.format(money);
 	}
 
 	public static String getChineseMoney(String money) {

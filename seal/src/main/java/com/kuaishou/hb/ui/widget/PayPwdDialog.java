@@ -29,9 +29,9 @@ public class PayPwdDialog extends Dialog {
 	private StringBuffer stringBuffer;
 	private InputCompleteListener mInputCompleteListener;
 	private Context mContext;
-
-	private String money;
-	private String remainMoney;
+	
+	private double money;
+	private double remainMoney;
 
 	public PayPwdDialog(@NonNull Context context) {
 		super(context, R.style.WinDialog);
@@ -109,12 +109,12 @@ public class PayPwdDialog extends Dialog {
 	public void setInputCompleteListener(InputCompleteListener inputCompleteListener) {
 		mInputCompleteListener = inputCompleteListener;
 	}
-
-	public void setMoney(String money) {
+	
+	public void setMoney(double money) {
 		this.money = money;
 	}
-
-	public void setRemain(String remain) {
+	
+	public void setRemain(double remain) {
 		this.remainMoney = remain;
 	}
 

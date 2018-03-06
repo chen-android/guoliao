@@ -19,8 +19,8 @@ public class Groups implements Parcelable {
 	private String groupid;
 	private String userid;
 	private String groupname;
-	private long redpacketlimit;
-	private long locklimit;
+	private double redpacketlimit;
+	private double locklimit;
 	private String grouphead;
 	private String username;
 	private String nickname;
@@ -63,20 +63,20 @@ public class Groups implements Parcelable {
 	public void setGroupname(String groupname) {
 		this.groupname = groupname;
 	}
-
-	public long getRedpacketlimit() {
+	
+	public double getRedpacketlimit() {
 		return redpacketlimit;
 	}
-
-	public void setRedpacketlimit(long redpacketlimit) {
+	
+	public void setRedpacketlimit(double redpacketlimit) {
 		this.redpacketlimit = redpacketlimit;
 	}
-
-	public long getLocklimit() {
+	
+	public double getLocklimit() {
 		return locklimit;
 	}
-
-	public void setLocklimit(long locklimit) {
+	
+	public void setLocklimit(double locklimit) {
 		this.locklimit = locklimit;
 	}
 
@@ -174,8 +174,8 @@ public class Groups implements Parcelable {
 		dest.writeString(this.groupid);
 		dest.writeString(this.userid);
 		dest.writeString(this.groupname);
-		dest.writeLong(this.redpacketlimit);
-		dest.writeLong(this.locklimit);
+		dest.writeDouble(this.redpacketlimit);
+		dest.writeDouble(this.locklimit);
 		dest.writeString(this.grouphead);
 		dest.writeString(this.username);
 		dest.writeString(this.nickname);
@@ -193,8 +193,8 @@ public class Groups implements Parcelable {
 		this.groupid = in.readString();
 		this.userid = in.readString();
 		this.groupname = in.readString();
-		this.redpacketlimit = in.readLong();
-		this.locklimit = in.readLong();
+		this.redpacketlimit = in.readDouble();
+		this.locklimit = in.readDouble();
 		this.grouphead = in.readString();
 		this.username = in.readString();
 		this.nickname = in.readString();
@@ -206,10 +206,10 @@ public class Groups implements Parcelable {
 		this.iscanadduser = in.readInt();
 		this.remark = in.readString();
 	}
-
-	@Generated(hash = 1616116409)
-	public Groups(String id, String groupid, String userid, String groupname, long redpacketlimit,
-	              long locklimit, String grouphead, String username, String nickname, String userhead, int sex,
+	
+	@Generated(hash = 1713503368)
+	public Groups(String id, String groupid, String userid, String groupname, double redpacketlimit,
+	              double locklimit, String grouphead, String username, String nickname, String userhead, int sex,
 	              String leaderid, int isnonotice, String gonggao, int iscanadduser, String remark) {
 		this.id = id;
 		this.groupid = groupid;

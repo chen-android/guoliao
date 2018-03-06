@@ -19,7 +19,6 @@ import com.kuaishou.hb.server.network.http.HttpException;
 import com.kuaishou.hb.server.response.GetMoneyResponse;
 import com.kuaishou.hb.server.response.SendRedPacketResponse;
 import com.kuaishou.hb.server.utils.NToast;
-import com.kuaishou.hb.server.utils.StringUtils;
 import com.kuaishou.hb.server.widget.LoadDialog;
 import com.kuaishou.hb.ui.widget.PayPwdDialog;
 import com.kuaishou.hb.utils.SharedPreferencesContext;
@@ -46,10 +45,10 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 	private String userId;
 	private String userName;
 	private String userHead;
-
+	
 	private PayPwdDialog dialog;
 	private String payPwd;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +60,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 //		userName = getIntent().getStringExtra("user_name");
 //		userHead = getIntent().getStringExtra("user_icon");
 	}
-
+	
 	private void initView() {
 		moneyEt = (EditText) findViewById(R.id.et_amount);
 		msgEt = (EditText) findViewById(R.id.et_message);
@@ -71,21 +70,17 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 		moneyEt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+			
 			}
-
+			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+			
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (s.length() == 0) {
-					moneyTv.setText("0");
-				} else {
-					moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
-				}
+				moneyTv.setText(s.toString());
 				checkCanSubmitClick();
 			}
 		});
@@ -97,7 +92,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 				request(SEND_RED_PACKET, true);
 			}
 		});
-
+		
 		submitBt.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -119,12 +114,12 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 					return;
 				}
 				LoadDialog.show(mContext);
-				dialog.setMoney(moneyEt.getText().toString() + "00");
+				dialog.setMoney(Double.valueOf(moneyEt.getText().toString()));
 				request(GET_MONEY, true);
 			}
 		});
 	}
-
+	
 	private void checkCanSubmitClick() {
 		String money = moneyEt.getText().toString();
 		if (!TextUtils.isEmpty(money) && Long.valueOf(money) > 0) {
@@ -133,18 +128,20 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 			submitBt.setEnabled(false);
 		}
 	}
-
+	
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		switch (requestCode) {
 			case GET_MONEY:
 				return action.getRemainMoney();
 			case SEND_RED_PACKET:
-				return action.sendRedPacket(Integer.valueOf(targetId), Long.valueOf(moneyEt.getText().toString()) * 100, payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(), 1, 1, 1);
+				return action.sendRedPacket(Integer.valueOf(targetId), Double.valueOf(moneyEt.getText().toString()), payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(), 1, 1, 1);
+			default:
+				break;
 		}
 		return null;
 	}
-
+	
 	@Override
 	public void onSuccess(int requestCode, Object result) {
 		if (result != null) {
@@ -153,7 +150,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 					LoadDialog.dismiss(mContext);
 					GetMoneyResponse response = (GetMoneyResponse) result;
 					if (response.getCode() == 200) {
-						dialog.setRemain(response.getData().getMoney() + "");
+						dialog.setRemain(response.getData().getMoney());
 						dialog.show();
 					}
 					break;
@@ -174,17 +171,17 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 								new IRongCallback.ISendMessageCallback() {
 									@Override
 									public void onAttached(Message message) {
-
+									
 									}
-
+									
 									@Override
 									public void onSuccess(Message message) {
 										finish();
 									}
-
+									
 									@Override
 									public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-
+									
 									}
 								});
 					} else if (redPacketResponse.getCode() == 66006) {

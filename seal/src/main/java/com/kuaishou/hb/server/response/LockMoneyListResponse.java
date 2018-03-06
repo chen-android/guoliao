@@ -31,7 +31,7 @@ public class LockMoneyListResponse {
 		private String groupid;
 		private String groupname;
 		private String groupheadico;
-		private String lockmoney;
+		private double lockmoney;
 		private String locktime;
 
 		public String getGroupid() {
@@ -57,12 +57,12 @@ public class LockMoneyListResponse {
 		public void setGroupheadico(String groupheadico) {
 			this.groupheadico = groupheadico;
 		}
-
-		public String getLockmoney() {
+		
+		public double getLockmoney() {
 			return lockmoney;
 		}
-
-		public void setLockmoney(String lockmoney) {
+		
+		public void setLockmoney(double lockmoney) {
 			this.lockmoney = lockmoney;
 		}
 

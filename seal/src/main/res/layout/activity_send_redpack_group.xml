@@ -35,26 +35,10 @@
 				android:layout_weight="1"
 				android:background="@null"
 				android:gravity="right|center_vertical"
-				android:hint="0"
-				android:inputType="numberSigned"
-				android:digits="0123456789"
+				android:hint="0.0"
+				android:inputType="numberDecimal"
+				android:paddingRight="20dp"
 				android:textCursorDrawable="@drawable/selector_cursor"/>
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="00"
-				android:textColor="@color/black"
-				android:textSize="16sp"/>
-			
-			<TextView
-				style="@style/text_black_16"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:layout_marginLeft="@dimen/base_padding"
-				android:layout_marginRight="@dimen/base_padding"
-				android:gravity="center_vertical"
-				android:text="快豆"/>
 		</LinearLayout>
 		
 		<LinearLayout
@@ -86,16 +70,8 @@
 				android:inputType="numberSigned"
 				android:digits="0123456789"
 				android:maxLength="6"
+				android:paddingRight="20dp"
 				android:textCursorDrawable="@drawable/selector_cursor"/>
-			
-			<TextView
-				style="@style/text_black_16"
-				android:layout_width="wrap_content"
-				android:layout_height="match_parent"
-				android:layout_marginLeft="@dimen/base_padding"
-				android:layout_marginRight="@dimen/base_padding"
-				android:gravity="center_vertical"
-				android:text="个"/>
 		</LinearLayout>
 		
 		<TextView

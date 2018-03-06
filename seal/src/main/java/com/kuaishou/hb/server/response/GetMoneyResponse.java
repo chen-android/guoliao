@@ -26,13 +26,13 @@ public class GetMoneyResponse {
 	}
 
 	public static class ResultEntity {
-		private long money;
-
-		public long getMoney() {
+		private double money;
+		
+		public double getMoney() {
 			return money;
 		}
-
-		public void setMoney(long money) {
+		
+		public void setMoney(double money) {
 			this.money = money;
 		}
 	}

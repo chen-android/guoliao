@@ -346,8 +346,8 @@ public class SealAction extends BaseAction {
 		}
 		return "";
 	}
-
-	public BaseResponse requestRecharge(long money, long toUserId, String paypwd, String note) throws HttpException {
+	
+	public BaseResponse requestRecharge(double money, long toUserId, String paypwd, String note) throws HttpException {
 		String url = getURL("TransferMoney.aspx");
 		Map<String, Object> map = new HashMap<>();
 		map.put("token", SharedPreferencesContext.getInstance().getToken());
@@ -698,7 +698,7 @@ public class SealAction extends BaseAction {
 	 *
 	 * @throws HttpException
 	 */
-	public SendRedPacketResponse sendRedPacket(int toId, long money, String pwd, String note, int sort, int type, int count) throws HttpException {
+	public SendRedPacketResponse sendRedPacket(int toId, double money, String pwd, String note, int sort, int type, int count) throws HttpException {
 		String url = getURL("SendRedPacket.aspx");
 		Map<String, Object> map = new HashMap<>();
 		map.put("toMemberId", toId);

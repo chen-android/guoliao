@@ -99,11 +99,7 @@ public class RechargeActivity extends BaseActivity {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (s.length() == 0) {
-					moneyTv.setText("0");
-				} else {
-					moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
-				}
+				moneyTv.setText(s.toString());
 				checkCanSubmitClick();
 			}
 		});
@@ -135,7 +131,7 @@ public class RechargeActivity extends BaseActivity {
 
 	private void checkCanSubmitClick() {
 		String money = moneyEt.getText().toString();
-		if (!TextUtils.isEmpty(money) && Long.valueOf(money) > 0) {
+		if (!TextUtils.isEmpty(money) && Double.valueOf(money) > 0) {
 			submitBt.setEnabled(true);
 		} else {
 			submitBt.setEnabled(false);
@@ -145,7 +141,7 @@ public class RechargeActivity extends BaseActivity {
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		if (requestCode == REQUEST_RECHARGE) {
-			return action.requestRecharge(Long.valueOf(moneyEt.getText().toString()) * 100, Long.valueOf(mFriend.getFriendid()), payPwd, noteEt.getText().toString());
+			return action.requestRecharge(Double.valueOf(moneyEt.getText().toString()), Long.valueOf(mFriend.getFriendid()), payPwd, noteEt.getText().toString());
 		} else if (requestCode == REQUEST_REMAIN_MONEY) {
 			return action.getRemainMoney();
 		}
@@ -159,8 +155,8 @@ public class RechargeActivity extends BaseActivity {
 				LoadDialog.dismiss(mContext);
 				GetMoneyResponse response = (GetMoneyResponse) result;
 				if (response.getCode() == 200) {
-					dialog.setMoney(moneyEt.getText().toString() + "00");
-					dialog.setRemain(response.getData().getMoney() + "");
+					dialog.setMoney(Double.valueOf(moneyEt.getText().toString()));
+					dialog.setRemain(response.getData().getMoney());
 					dialog.show();
 				} else {
 					NToast.shortToast(mContext, "服务器开小差了");
@@ -173,7 +169,7 @@ public class RechargeActivity extends BaseActivity {
 					SharedPreferences config = getSharedPreferences("config", MODE_PRIVATE);
 					String from = config.getString(GGConst.GUOGUO_LOGIN_NAME, "") + "(ID:" + config.getString(GGConst.GUOGUO_LOGIN_ID, "") + ")";
 					String to = SealUserInfoManager.getInstance().getDiaplayName(mFriend) + "(ID:" + mFriend.getFriendid() + ")";
-					String money = StringUtils.getFormatMoney(moneyEt.getText().toString() + "00");
+					String money = StringUtils.getFormatMoney(Double.valueOf(moneyEt.getText().toString()));
 					String date = TimeUtils.date2String(new Date());
 					new RechargeSuccessDialog(RechargeActivity.this, from, to, money, date).show();
 				} else if (response1.getCode() == 68001) {

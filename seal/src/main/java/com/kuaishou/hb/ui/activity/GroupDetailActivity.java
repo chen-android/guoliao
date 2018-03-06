@@ -229,8 +229,8 @@ public class GroupDetailActivity extends BaseActivity implements View.OnClickLis
 		}
 		mGroupId.setText(mGroup.getGroupid());
 		mGroupName.setText(mGroup.getGroupname());
-		limitTv.setText(StringUtils.getFormatMoney(mGroup.getLocklimit() + ""));
-		redPacketTv.setText(StringUtils.getFormatMoney(mGroup.getRedpacketlimit() + ""));
+		limitTv.setText(StringUtils.getFormatMoney(mGroup.getLocklimit()));
+		redPacketTv.setText(StringUtils.getFormatMoney(mGroup.getRedpacketlimit()));
 		announcementTv.setText(TextUtils.isEmpty(mGroup.getGonggao()) ? "未设置" : isCreated ? "点击修改" : "点击查看");
 		canAddUserSb.setChecked(mGroup.getIscanadduser() == 1);
 		canAddUserSb.setOnCheckedChangeListener(this);

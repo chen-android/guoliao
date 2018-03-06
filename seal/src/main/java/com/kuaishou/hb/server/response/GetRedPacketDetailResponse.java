@@ -30,7 +30,7 @@ public class GetRedPacketDetailResponse {
 		private int id;
 		private int fromuserid;
 		private int type;//1个人  2群
-		private long money;
+		private double money;
 		private String note;
 		private int count;
 		private String createtime;
@@ -38,16 +38,16 @@ public class GetRedPacketDetailResponse {
 		private String fromnickname;
 		private String fromusername;
 		private String fromheadico;
-		private long unpacksummoney;
+		private double unpacksummoney;
 		private int unpackcount;
 		private int tomemberid;
 		private int bestluckuserid;
-
-		public long getMoney() {
+		
+		public double getMoney() {
 			return money;
 		}
-
-		public void setMoney(long money) {
+		
+		public void setMoney(double money) {
 			this.money = money;
 		}
 
@@ -106,12 +106,12 @@ public class GetRedPacketDetailResponse {
 		public void setFromheadico(String fromheadico) {
 			this.fromheadico = fromheadico;
 		}
-
-		public long getUnpacksummoney() {
+		
+		public double getUnpacksummoney() {
 			return unpacksummoney;
 		}
-
-		public void setUnpacksummoney(long unpacksummoney) {
+		
+		public void setUnpacksummoney(double unpacksummoney) {
 			this.unpacksummoney = unpacksummoney;
 		}
 

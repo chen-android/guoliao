@@ -15,9 +15,9 @@ public class RedPacketReceiveData implements Parcelable {
 	private int count;
 	private int state;//1可领取  2 已领取  3 过期
 	private long userid;
-	private long unpackmoney;
+	private double unpackmoney;
 	private String createtime;
-	private long redpacketmoney;
+	private double redpacketmoney;
 	private String fromuser;
 	private String tomember;
 	private String fromuserico;
@@ -78,12 +78,12 @@ public class RedPacketReceiveData implements Parcelable {
 	public void setUserid(long userid) {
 		this.userid = userid;
 	}
-
-	public long getUnpackmoney() {
+	
+	public double getUnpackmoney() {
 		return unpackmoney;
 	}
-
-	public void setUnpackmoney(long unpackmoney) {
+	
+	public void setUnpackmoney(double unpackmoney) {
 		this.unpackmoney = unpackmoney;
 	}
 
@@ -94,12 +94,12 @@ public class RedPacketReceiveData implements Parcelable {
 	public void setCreatetime(String createtime) {
 		this.createtime = createtime;
 	}
-
-	public long getRedpacketmoney() {
+	
+	public double getRedpacketmoney() {
 		return redpacketmoney;
 	}
-
-	public void setRedpacketmoney(long redpacketmoney) {
+	
+	public void setRedpacketmoney(double redpacketmoney) {
 		this.redpacketmoney = redpacketmoney;
 	}
 
@@ -149,9 +149,9 @@ public class RedPacketReceiveData implements Parcelable {
 		dest.writeInt(this.count);
 		dest.writeInt(this.state);
 		dest.writeLong(this.userid);
-		dest.writeLong(this.unpackmoney);
+		dest.writeDouble(this.unpackmoney);
 		dest.writeString(this.createtime);
-		dest.writeLong(this.redpacketmoney);
+		dest.writeDouble(this.redpacketmoney);
 		dest.writeString(this.fromuser);
 		dest.writeString(this.tomember);
 		dest.writeString(this.fromuserico);
@@ -169,9 +169,9 @@ public class RedPacketReceiveData implements Parcelable {
 		this.count = in.readInt();
 		this.state = in.readInt();
 		this.userid = in.readLong();
-		this.unpackmoney = in.readLong();
+		this.unpackmoney = in.readDouble();
 		this.createtime = in.readString();
-		this.redpacketmoney = in.readLong();
+		this.redpacketmoney = in.readDouble();
 		this.fromuser = in.readString();
 		this.tomember = in.readString();
 		this.fromuserico = in.readString();

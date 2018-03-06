@@ -75,11 +75,11 @@ public class GGRedPacketMessageProvider extends IContainerItemProvider.MessagePr
 		if (var4.getMessageDirection() == Message.MessageDirection.SEND) {
 			var5.bri_bg.setBackgroundResource(R.drawable.bg_from_hongbao);
 			var5.tv_bri_target.setText("查看红包");
-			var5.tv_bri_name.setPadding(28, 0, 0, 0);
+//			var5.tv_bri_name.setPadding(28, 0, 0, 0);
 		} else {
 			var5.bri_bg.setBackgroundResource(R.drawable.bg_to_hongbao);
 			var5.tv_bri_target.setText("领取红包");
-			var5.tv_bri_name.setPadding(48, 0, 0, 0);
+//			var5.tv_bri_name.setPadding(48, 0, 0, 0);
 		}
 		String content = var3.getContent();
 		if (!TextUtils.isEmpty(content) && content.startsWith(GGRedPacketMessage.Companion.getCONTENT_PREFIX())) {

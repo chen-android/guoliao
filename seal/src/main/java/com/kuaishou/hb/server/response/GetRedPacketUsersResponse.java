@@ -32,15 +32,15 @@ public class GetRedPacketUsersResponse {
 		private int redpacketid;
 		private int userid;
 		private String unpacktime;
-		private long unpackmoney;
-		private long redpacketmoney;
+		private double unpackmoney;
+		private double redpacketmoney;
 		private String sendtime;
 		private String nickname;
 		private String username;
 		private String headico;
 		private int fromuserid;
 		private int type;
-		private long money;
+		private double money;
 		private String note;
 		private int count;
 		private int sort;
@@ -127,12 +127,12 @@ public class GetRedPacketUsersResponse {
 		public void setType(int type) {
 			this.type = type;
 		}
-
-		public long getMoney() {
+		
+		public double getMoney() {
 			return money;
 		}
-
-		public void setMoney(long money) {
+		
+		public void setMoney(double money) {
 			this.money = money;
 		}
 
@@ -175,20 +175,20 @@ public class GetRedPacketUsersResponse {
 		public void setTomemberid(int tomemberid) {
 			this.tomemberid = tomemberid;
 		}
-
-		public long getUnpackmoney() {
+		
+		public double getUnpackmoney() {
 			return unpackmoney;
 		}
-
-		public void setUnpackmoney(long unpackmoney) {
+		
+		public void setUnpackmoney(double unpackmoney) {
 			this.unpackmoney = unpackmoney;
 		}
-
-		public long getRedpacketmoney() {
+		
+		public double getRedpacketmoney() {
 			return redpacketmoney;
 		}
-
-		public void setRedpacketmoney(long redpacketmoney) {
+		
+		public void setRedpacketmoney(double redpacketmoney) {
 			this.redpacketmoney = redpacketmoney;
 		}
 

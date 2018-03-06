@@ -314,12 +314,12 @@ public class TransferRecordActivity extends BaseActivity {
 			String headUrl;
 			if (item.getFromuserid().equals(SharedPreferencesContext.getInstance().getUserId())) {
 				vh.title.setText(item.getOption() + " - " + item.getTouser());
-				vh.money.setText("- " + StringUtils.getFormatMoney(item.getMoney()) + "快豆");
+				vh.money.setText("- " + StringUtils.getFormatMoney(item.getMoney()));
 				vh.money.setTextColor(Color.BLACK);
 				headUrl = item.getTouserheadico();
 			} else {
 				vh.title.setText(item.getOption() + " - " + item.getFromuser());
-				vh.money.setText("+ " + StringUtils.getFormatMoney(item.getMoney()) + "快豆");
+				vh.money.setText("+ " + StringUtils.getFormatMoney(item.getMoney()));
 				vh.money.setTextColor(getResources().getColor(R.color.color_ffc000));
 				headUrl = item.getFromuserheadico();
 			}

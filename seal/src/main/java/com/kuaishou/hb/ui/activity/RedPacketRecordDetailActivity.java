@@ -45,7 +45,7 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 				typeTv.setText("群红包");
 			}
 			sendTitleTv.setText("发包人");
-			moneyTv.setText("+" + receiveData.getUnpackmoney() + "快豆");
+			moneyTv.setText("+" + receiveData.getUnpackmoney());
 			moneyTitleTv.setText("金额");
 			sendNameTv.setText(receiveData.getFromuser());
 			descriptionTv.setText(TextUtils.isEmpty(receiveData.getNote()) ? "暂无" : receiveData.getNote());
@@ -69,7 +69,7 @@ public class RedPacketRecordDetailActivity extends BaseActivity {
 				typeTv.setText("群红包");
 			}
 			sendTitleTv.setText("收包人");
-			moneyTv.setText("-" + sendData.getMoney() + "快豆");
+			moneyTv.setText("-" + sendData.getMoney());
 			moneyTitleTv.setText("付款金额");
 			sendNameTv.setText(sendData.getTomember());
 			descriptionTv.setText(TextUtils.isEmpty(sendData.getNote()) ? "暂无" : sendData.getNote());

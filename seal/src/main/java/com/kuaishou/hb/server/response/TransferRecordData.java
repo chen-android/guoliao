@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class TransferRecordData implements Parcelable {
 	private String fromuserid;
 	private String touserid;
-	private String money;
+	private double money;
 	private String time;
 	private int type;
 	private String option;
@@ -35,12 +35,12 @@ public class TransferRecordData implements Parcelable {
 	public void setTouserid(String touserid) {
 		this.touserid = touserid;
 	}
-
-	public String getMoney() {
+	
+	public double getMoney() {
 		return money;
 	}
-
-	public void setMoney(String money) {
+	
+	public void setMoney(double money) {
 		this.money = money;
 	}
 
@@ -117,7 +117,7 @@ public class TransferRecordData implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.fromuserid);
 		dest.writeString(this.touserid);
-		dest.writeString(this.money);
+		dest.writeDouble(this.money);
 		dest.writeString(this.time);
 		dest.writeInt(this.type);
 		dest.writeString(this.option);
@@ -134,7 +134,7 @@ public class TransferRecordData implements Parcelable {
 	protected TransferRecordData(Parcel in) {
 		this.fromuserid = in.readString();
 		this.touserid = in.readString();
-		this.money = in.readString();
+		this.money = in.readDouble();
 		this.time = in.readString();
 		this.type = in.readInt();
 		this.option = in.readString();

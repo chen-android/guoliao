@@ -405,6 +405,14 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
                         video.progress = 1
                         video.name = file.name
                         video.key = "a_" + System.currentTimeMillis().toString() + fileEx
+
+                        try {
+                            val media = MediaMetadataRetriever()
+                            media.setDataSource(file.absolutePath)
+                            video.duration = media.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong() / 1000
+                        } catch (exc: Exception) {
+
+                        }
                         this.adapter!!.addItem(video)
                         this.adapter!!.notifyDataSetChanged()
                         var intent = Intent(this, UploadVideoService::class.java)

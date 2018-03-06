@@ -21,7 +21,6 @@ import com.kuaishou.hb.server.network.http.HttpException;
 import com.kuaishou.hb.server.response.GetMoneyResponse;
 import com.kuaishou.hb.server.response.SendRedPacketResponse;
 import com.kuaishou.hb.server.utils.NToast;
-import com.kuaishou.hb.server.utils.StringUtils;
 import com.kuaishou.hb.server.widget.LoadDialog;
 import com.kuaishou.hb.ui.widget.PayPwdDialog;
 import com.kuaishou.hb.utils.SharedPreferencesContext;
@@ -42,6 +41,7 @@ import io.rong.imlib.model.Message;
 public class SendRedPackGroupActivity extends BaseActivity {
 	private static final int GET_MONEY = 938;
 	private static final int SEND_RED_PACKET = 270;
+	private static final double MIN_RED_PACK_MONEY = 0.01;
 	private EditText moneyEt;
 	private EditText countEt;
 	private EditText msgEt;
@@ -52,13 +52,13 @@ public class SendRedPackGroupActivity extends BaseActivity {
 	private String userId;
 	private String userName;
 	private String userHead;
-
+	
 	private PayPwdDialog dialog;
 	private String payPwd;
 	private int memCount;
 	private boolean isGroup;
 	private boolean isChatRoom;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,7 +69,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 		isGroup = getIntent().getBooleanExtra("isGroup", false);
 		isChatRoom = getIntent().getBooleanExtra("isChatRoom", false);
 	}
-
+	
 	private void initView() {
 		moneyEt = (EditText) findViewById(R.id.et_amount);
 		countEt = (EditText) findViewById(R.id.et_count);
@@ -82,35 +82,31 @@ public class SendRedPackGroupActivity extends BaseActivity {
 		moneyEt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+			
 			}
-
+			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+			
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (s.length() == 0) {
-					moneyTv.setText("0");
-				} else {
-					moneyTv.setText(StringUtils.getFormatMoney(s.toString() + "00"));
-				}
+				moneyTv.setText(s.toString());
 				checkCanSubmitClick();
 			}
 		});
 		countEt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+			
 			}
-
+			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+			
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
 				checkCanSubmitClick();
@@ -124,7 +120,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 					gCountTv.setText("本群一共有" + groupMembers.size() + "人");
 				}
 			}
-
+			
 			@Override
 			public void onError(String errString) {
 				LoadDialog.dismiss(mContext);
@@ -138,7 +134,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 				request(SEND_RED_PACKET, true);
 			}
 		});
-
+		
 		submitBt.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -159,17 +155,21 @@ public class SendRedPackGroupActivity extends BaseActivity {
 					}).show();
 					return;
 				}
-				if (Long.valueOf(moneyEt.getText().toString()) * 100 < Long.valueOf(countEt.getText().toString())) {
-					NToast.shortToast(mContext, "每个红包至少一个快豆哦~");
+				if (countEt.getText().length() == 0 || Integer.valueOf(countEt.getText().toString()) <= 0) {
+					NToast.shortToast(mContext, "红包个数必须大于0");
+					return;
+				}
+				if (Double.valueOf(moneyEt.getText().toString()) / Integer.valueOf(countEt.getText().toString()) < MIN_RED_PACK_MONEY) {
+					NToast.shortToast(mContext, "每个红包至少0.01快豆哦~");
 					return;
 				}
 				LoadDialog.show(mContext);
-				dialog.setMoney(Long.valueOf(moneyEt.getText().toString()) * 100 + "");
+				dialog.setMoney(Double.valueOf(moneyEt.getText().toString()));
 				request(GET_MONEY, true);
 			}
 		});
 	}
-
+	
 	private void checkCanSubmitClick() {
 		String money = moneyEt.getText().toString();
 		String count = countEt.getText().toString();
@@ -179,7 +179,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 			submitBt.setEnabled(false);
 		}
 	}
-
+	
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		switch (requestCode) {
@@ -193,14 +193,16 @@ public class SendRedPackGroupActivity extends BaseActivity {
 				if (isChatRoom) {
 					type = 3;
 				}
-				return action.sendRedPacket(Integer.valueOf(targetId), Long.valueOf(moneyEt.getText().toString()) * 100,
+				return action.sendRedPacket(Integer.valueOf(targetId), Double.valueOf(moneyEt.getText().toString()),
 						payPwd, TextUtils.isEmpty(msgEt.getText().toString()) ? "恭喜发财，大吉大利" : msgEt.getText().toString(),
 						1, type, Integer.valueOf(countEt.getText().toString()));
-
+			default:
+				break;
+			
 		}
 		return null;
 	}
-
+	
 	@Override
 	public void onSuccess(int requestCode, Object result) {
 		if (result != null) {
@@ -209,7 +211,7 @@ public class SendRedPackGroupActivity extends BaseActivity {
 					LoadDialog.dismiss(mContext);
 					GetMoneyResponse response = (GetMoneyResponse) result;
 					if (response.getCode() == 200) {
-						dialog.setRemain(response.getData().getMoney() + "");
+						dialog.setRemain(response.getData().getMoney());
 						dialog.show();
 					}
 					break;
@@ -233,14 +235,14 @@ public class SendRedPackGroupActivity extends BaseActivity {
 								new IRongCallback.ISendMessageCallback() {
 									@Override
 									public void onAttached(Message message) {
-
+									
 									}
-
+									
 									@Override
 									public void onSuccess(Message message) {
 										finish();
 									}
-
+									
 									@Override
 									public void onError(Message message, RongIMClient.ErrorCode errorCode) {
 										NToast.shortToast(mContext, message.getExtra());
@@ -253,6 +255,8 @@ public class SendRedPackGroupActivity extends BaseActivity {
 					} else if (redPacketResponse.getCode() == 66005) {
 						NToast.shortToast(mContext, "金额低于群最低限额");
 					}
+					break;
+				default:
 					break;
 			}
 		}

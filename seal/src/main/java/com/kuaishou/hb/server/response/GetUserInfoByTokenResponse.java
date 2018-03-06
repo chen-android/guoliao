@@ -35,8 +35,8 @@ public class GetUserInfoByTokenResponse {
 		private String email;
 		private String sort;
 		private String accounttype;
-		private String money;
-		private String lockmoney;
+		private double money;
+		private double lockmoney;
 		private String rebate;
 		private String sex;
 		private String whatsup;
@@ -112,20 +112,20 @@ public class GetUserInfoByTokenResponse {
 		public void setAccounttype(String accounttype) {
 			this.accounttype = accounttype;
 		}
-
-		public String getMoney() {
+		
+		public double getMoney() {
 			return money;
 		}
-
-		public void setMoney(String money) {
+		
+		public void setMoney(double money) {
 			this.money = money;
 		}
-
-		public String getLockmoney() {
+		
+		public double getLockmoney() {
 			return lockmoney;
 		}
-
-		public void setLockmoney(String lockmoney) {
+		
+		public void setLockmoney(double lockmoney) {
 			this.lockmoney = lockmoney;
 		}
 

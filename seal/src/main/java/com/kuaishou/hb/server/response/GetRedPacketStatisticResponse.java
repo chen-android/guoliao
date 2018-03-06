@@ -27,8 +27,8 @@ public class GetRedPacketStatisticResponse {
 	public static class ResultEntity {
 		private int id;
 		private int userid;
-		private String moneysend;
-		private String moneyreceive;
+		private double moneysend;
+		private double moneyreceive;
 		private String bestluckcount;
 		private String sendcount;
 		private String receivecount;
@@ -48,20 +48,20 @@ public class GetRedPacketStatisticResponse {
 		public void setUserid(int userid) {
 			this.userid = userid;
 		}
-
-		public String getMoneysend() {
+		
+		public double getMoneysend() {
 			return moneysend;
 		}
-
-		public void setMoneysend(String moneysend) {
+		
+		public void setMoneysend(double moneysend) {
 			this.moneysend = moneysend;
 		}
-
-		public String getMoneyreceive() {
+		
+		public double getMoneyreceive() {
 			return moneyreceive;
 		}
-
-		public void setMoneyreceive(String moneyreceive) {
+		
+		public void setMoneyreceive(double moneyreceive) {
 			this.moneyreceive = moneyreceive;
 		}
 
