@@ -29,6 +29,7 @@ import com.kuaishou.hb.server.response.GetFriendInfoByIDResponse;
 import com.kuaishou.hb.server.response.GetUserInfoByIdResponse;
 import com.kuaishou.hb.server.utils.ColorPhrase;
 import com.kuaishou.hb.server.utils.NToast;
+import com.kuaishou.hb.ui.AddFriendConfirmActivity;
 import com.kuaishou.hb.ui.widget.SinglePopWindow;
 import com.squareup.picasso.Picasso;
 

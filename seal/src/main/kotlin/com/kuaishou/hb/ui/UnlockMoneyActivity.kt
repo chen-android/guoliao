@@ -1,4 +1,4 @@
-package com.kuaishou.hb.ui.activity
+package com.kuaishou.hb.ui
 
 import android.os.Bundle
 import android.widget.ListView
@@ -8,6 +8,7 @@ import com.kuaishou.hb.R
 import com.kuaishou.hb.server.network.http.HttpException
 import com.kuaishou.hb.server.pinyin.SideBar
 import com.kuaishou.hb.server.response.GetGroupMemberResponse
+import com.kuaishou.hb.ui.activity.BaseActivity
 
 /**
  * 群主解除冻结

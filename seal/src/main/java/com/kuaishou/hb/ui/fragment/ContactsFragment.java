@@ -33,9 +33,9 @@ import com.kuaishou.hb.server.pinyin.CharacterParser;
 import com.kuaishou.hb.server.pinyin.PinyinComparator;
 import com.kuaishou.hb.server.pinyin.SideBar;
 import com.kuaishou.hb.server.widget.SelectableRoundedImageView;
-import com.kuaishou.hb.ui.activity.GroupListActivity;
+import com.kuaishou.hb.ui.GroupListActivity;
+import com.kuaishou.hb.ui.ServiceAssistantActivity;
 import com.kuaishou.hb.ui.activity.NewFriendListActivity;
-import com.kuaishou.hb.ui.activity.ServiceAssistantActivity;
 import com.kuaishou.hb.ui.activity.UserDetailActivity;
 import com.kuaishou.hb.ui.adapter.FriendListAdapter;
 

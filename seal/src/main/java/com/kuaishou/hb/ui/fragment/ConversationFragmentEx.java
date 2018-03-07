@@ -1,19 +1,17 @@
 package com.kuaishou.hb.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 
 import com.blankj.utilcode.util.EmptyUtils;
 import com.kuaishou.hb.model.GGRedPacketNotifyMessage;
 import com.kuaishou.hb.ui.activity.ReadReceiptDetailActivity;
 import com.kuaishou.hb.utils.SharedPreferencesContext;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -53,131 +51,117 @@ public class ConversationFragmentEx extends ConversationFragment {
 			super.onWarningDialog(msg);
 		}
 	}
-
+	
+	@Override
+	public MessageListAdapter onResolveAdapter(Context context) {
+		return new MessageListAdapter(getActivity()) {
+			@Override
+			public void add(UIMessage uiMessage) {
+				boolean show = false;
+				if (uiMessage.getContent() instanceof GGRedPacketNotifyMessage) {
+					GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) uiMessage.getContent();
+					String showuserids = content.getShowuserids();
+					if (EmptyUtils.isNotEmpty(showuserids)) {
+						String[] ids = showuserids.split(",");
+						for (String id : ids) {
+							if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
+								show = true;
+							}
+						}
+					}
+					if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
+						show = true;
+					}
+					if (!show) {
+						return;
+					}
+				}
+				super.add(uiMessage);
+			}
+			
+			@Override
+			public void add(UIMessage uiMessage, int position) {
+				boolean show = false;
+				if (uiMessage.getContent() instanceof GGRedPacketNotifyMessage) {
+					GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) uiMessage.getContent();
+					String showuserids = content.getShowuserids();
+					if (EmptyUtils.isNotEmpty(showuserids)) {
+						String[] ids = showuserids.split(",");
+						for (String id : ids) {
+							if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
+								show = true;
+							}
+						}
+					}
+					if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
+						show = true;
+					}
+					if (!show) {
+						return;
+					}
+				}
+				
+				super.add(uiMessage, position);
+			}
+			
+			@Override
+			public void addCollection(Collection<UIMessage> collection) {
+				Collection<UIMessage> list = new ArrayList<>();
+				for (UIMessage message : collection) {
+					boolean show = false;
+					if (message.getContent() instanceof GGRedPacketNotifyMessage) {
+						GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) message.getContent();
+						String showuserids = content.getShowuserids();
+						if (EmptyUtils.isNotEmpty(showuserids)) {
+							String[] ids = showuserids.split(",");
+							for (String id : ids) {
+								if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
+									show = true;
+								}
+							}
+						}
+						if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
+							show = true;
+						}
+						if (!show) {
+							return;
+						}
+					}
+				}
+				super.addCollection(list);
+			}
+			
+			@Override
+			public void addCollection(UIMessage... collection) {
+				Collection<UIMessage> list = new ArrayList<>();
+				for (UIMessage message : collection) {
+					boolean show = false;
+					if (message.getContent() instanceof GGRedPacketNotifyMessage) {
+						GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) message.getContent();
+						String showuserids = content.getShowuserids();
+						if (EmptyUtils.isNotEmpty(showuserids)) {
+							String[] ids = showuserids.split(",");
+							for (String id : ids) {
+								if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
+									show = true;
+								}
+							}
+						}
+						if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
+							show = true;
+						}
+						if (!show) {
+							return;
+						}
+					}
+				}
+				super.addCollection(list);
+			}
+		};
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = super.onCreateView(inflater, container, savedInstanceState);
-		if (!hasReflect) {
-			//反射替换系统的messageAdapter  拦截不要的消息
-			MessageListAdapter messageListAdapter = new MessageListAdapter(getActivity()) {
-				@Override
-				public void add(UIMessage uiMessage) {
-					boolean show = false;
-					if (uiMessage.getContent() instanceof GGRedPacketNotifyMessage) {
-						GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) uiMessage.getContent();
-						String showuserids = content.getShowuserids();
-						if (EmptyUtils.isNotEmpty(showuserids)) {
-							String[] ids = showuserids.split(",");
-							for (String id : ids) {
-								if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
-									show = true;
-								}
-							}
-						}
-						if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
-							show = true;
-						}
-						if (!show) {
-							return;
-						}
-					}
-					super.add(uiMessage);
-				}
-
-				@Override
-				public void add(UIMessage uiMessage, int position) {
-					boolean show = false;
-					if (uiMessage.getContent() instanceof GGRedPacketNotifyMessage) {
-						GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) uiMessage.getContent();
-						String showuserids = content.getShowuserids();
-						if (EmptyUtils.isNotEmpty(showuserids)) {
-							String[] ids = showuserids.split(",");
-							for (String id : ids) {
-								if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
-									show = true;
-								}
-							}
-						}
-						if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
-							show = true;
-						}
-						if (!show) {
-							return;
-						}
-					}
-
-					super.add(uiMessage, position);
-				}
-
-				@Override
-				public void addCollection(Collection<UIMessage> collection) {
-					Collection<UIMessage> list = new ArrayList<>();
-					for (UIMessage message : collection) {
-						boolean show = false;
-						if (message.getContent() instanceof GGRedPacketNotifyMessage) {
-							GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) message.getContent();
-							String showuserids = content.getShowuserids();
-							if (EmptyUtils.isNotEmpty(showuserids)) {
-								String[] ids = showuserids.split(",");
-								for (String id : ids) {
-									if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
-										show = true;
-									}
-								}
-							}
-							if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
-								show = true;
-							}
-							if (!show) {
-								return;
-							}
-						}
-					}
-					super.addCollection(list);
-				}
-
-				@Override
-				public void addCollection(UIMessage... collection) {
-					Collection<UIMessage> list = new ArrayList<>();
-					for (UIMessage message : collection) {
-						boolean show = false;
-						if (message.getContent() instanceof GGRedPacketNotifyMessage) {
-							GGRedPacketNotifyMessage content = (GGRedPacketNotifyMessage) message.getContent();
-							String showuserids = content.getShowuserids();
-							if (EmptyUtils.isNotEmpty(showuserids)) {
-								String[] ids = showuserids.split(",");
-								for (String id : ids) {
-									if (id.equals(SharedPreferencesContext.getInstance().getUserId())) {
-										show = true;
-									}
-								}
-							}
-							if (SharedPreferencesContext.getInstance().getUserId().equals(content.getTouserid())) {
-								show = true;
-							}
-							if (!show) {
-								return;
-							}
-						}
-					}
-					super.addCollection(list);
-				}
-			};
-			try {
-				Field field1 = this.getClass().getSuperclass().getDeclaredField("mListAdapter");
-				field1.setAccessible(true);
-				field1.set(this, messageListAdapter);
-
-				Field field = this.getClass().getSuperclass().getDeclaredField("mList");
-				field.setAccessible(true);
-				Object o = field.get(this);
-				Method setAdapter = o.getClass().getMethod("setAdapter", ListAdapter.class);
-				setAdapter.invoke(o, messageListAdapter);
-				hasReflect = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return view;
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 }

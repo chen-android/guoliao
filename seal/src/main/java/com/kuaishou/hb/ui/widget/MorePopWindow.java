@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.kuaishou.hb.R;
-import com.kuaishou.hb.ui.activity.SearchFriendActivity;
+import com.kuaishou.hb.ui.SearchFriendActivity;
 import com.kuaishou.hb.ui.activity.SelectFriendsActivity;
 
 

@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	tools:context="com.kuaishou.hb.ui.activity.ServiceAssistantActivity">
+	tools:context="com.kuaishou.hb.ui.ServiceAssistantActivity">
 	
 	<ListView
 		android:id="@+id/service_assist_lv"

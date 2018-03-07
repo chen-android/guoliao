@@ -59,7 +59,7 @@ public class AccountSettingActivity extends BaseActivity implements View.OnClick
 					public void executeEvent() {
 						File file = new File(Environment.getExternalStorageDirectory().getPath() + getPackageName());
 						deleteFile(file);
-
+						
 						NToast.shortToast(mContext, "清除成功");
 					}
 

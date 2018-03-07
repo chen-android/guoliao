@@ -6,7 +6,7 @@
 	android:layout_height="match_parent"
 	android:orientation="vertical"
 	android:padding="@dimen/middle_space"
-	tools:context="com.kuaishou.hb.ui.activity.AddFriendConfirmActivity">
+	tools:context="com.kuaishou.hb.ui.AddFriendConfirmActivity">
 	
 	<TextView
 		android:layout_width="match_parent"

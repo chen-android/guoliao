@@ -1,4 +1,4 @@
-package com.kuaishou.hb.ui.activity
+package com.kuaishou.hb.ui
 
 import android.app.AlertDialog
 import android.content.Context
@@ -18,6 +18,8 @@ import com.kuaishou.hb.server.network.http.HttpException
 import com.kuaishou.hb.server.response.GetUserInfoByPhoneResponse
 import com.kuaishou.hb.server.utils.NToast
 import com.kuaishou.hb.server.widget.LoadDialog
+import com.kuaishou.hb.ui.activity.BaseActivity
+import com.kuaishou.hb.ui.activity.MyAccountActivity
 import com.kuaishou.hb.ui.adapter.BaseAdapter
 import com.kuaishou.hb.utils.SharedPreferencesContext
 import com.kuaishou.hb.utils.transformation.RoundedTransformation

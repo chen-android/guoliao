@@ -1,4 +1,4 @@
-package com.kuaishou.hb.ui.activity
+package com.kuaishou.hb.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.kuaishou.hb.db.Friend
 import com.kuaishou.hb.server.response.GetFriendListResponse
 import com.kuaishou.hb.server.widget.LoadDialog
 import com.kuaishou.hb.server.widget.SelectableRoundedImageView
+import com.kuaishou.hb.ui.activity.BaseActivity
 import io.rong.imageloader.core.ImageLoader
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation

@@ -50,6 +50,7 @@ android {
         main {
             jni.srcDirs = []
             jniLibs.srcDirs = ['libs']
+            java.srcDirs += 'src/main/kotlin'
         }
     }
     packagingOptions {

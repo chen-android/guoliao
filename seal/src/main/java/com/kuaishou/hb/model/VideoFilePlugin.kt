@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 
 import com.kuaishou.hb.R
-import com.kuaishou.hb.ui.activity.VideoSendActivity
+import com.kuaishou.hb.ui.VideoSendActivity
 
 import io.rong.imkit.RongExtension
 import io.rong.imkit.plugin.IPluginModule

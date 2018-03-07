@@ -187,7 +187,8 @@
 			android:layout_width="60dp"
 			android:layout_height="60dp"
 			android:src="@drawable/icon_qq"
-			android:layout_marginLeft="40dp"/>
+			android:layout_marginLeft="40dp"
+			android:visibility="gone"/>
 	</LinearLayout>
 	
 	

@@ -21,6 +21,7 @@ import com.kuaishou.hb.server.utils.CommonUtils;
 import com.kuaishou.hb.server.utils.NToast;
 import com.kuaishou.hb.server.widget.DialogWithYesOrNoUtils;
 import com.kuaishou.hb.server.widget.LoadDialog;
+import com.kuaishou.hb.ui.SearchFriendActivity;
 import com.kuaishou.hb.ui.adapter.NewFriendListAdapter;
 
 import java.text.ParseException;

@@ -1,4 +1,4 @@
-package com.kuaishou.hb.ui.activity
+package com.kuaishou.hb.ui
 
 import android.app.Activity
 import android.content.ComponentName
@@ -26,6 +26,7 @@ import com.kuaishou.hb.server.response.BaseResponse
 import com.kuaishou.hb.server.response.VideoLimitResponse
 import com.kuaishou.hb.server.response.VideoListResponse
 import com.kuaishou.hb.server.widget.LoadDialog
+import com.kuaishou.hb.ui.activity.BaseActivity
 import com.kuaishou.hb.utils.CommonUtils
 import com.kuaishou.hb.utils.StrongHandler
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -391,7 +392,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 
                     val file = File(CommonUtils.getRealFilePath(this, uri))
                     if (file.exists()) {
-                        val fileEx = file.name.substring(file.name.indexOf(".", 0, false))
+                        val fileEx = file.name.substring(file.name.indexOf("", 0, false))
                         if (fileEx != ".mp4") {
                             ToastUtils.showShort("仅限mp4格式的视频")
                             return

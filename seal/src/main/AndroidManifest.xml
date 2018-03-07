@@ -78,7 +78,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".ui.activity.GroupListActivity"
+			android:name=".ui.GroupListActivity"
 			android:screenOrientation="portrait"/>
 		<activity
 			android:name=".ui.activity.PrivateChatDetailActivity"
@@ -179,7 +179,7 @@
 		
 		<!-- 搜索好友 -->
 		<activity
-			android:name=".ui.activity.SearchFriendActivity"
+			android:name=".ui.SearchFriendActivity"
 			android:screenOrientation="portrait"/>
 		<!-- 新的朋友列表 -->
 		<activity
@@ -248,8 +248,8 @@
 			</intent-filter>
 		</activity>
 		
-		<!-- 会话页面 -->
 		<activity android:name=".ui.activity.DoubleChatRoomActivity"/>
+		<!-- 会话页面 -->
 		<activity
 			android:name=".ui.activity.ConversationActivity"
 			android:launchMode="singleTop"
@@ -583,7 +583,7 @@
 			android:launchMode="singleTop">
 		</activity>
 		<activity
-			android:name=".ui.activity.UnlockMoneyActivity"
+			android:name=".ui.UnlockMoneyActivity"
 			android:screenOrientation="portrait">
 		</activity>
 		<activity android:name=".ui.activity.UpdateSignActivity">
@@ -600,13 +600,13 @@
 		</activity>
 		<activity android:name=".ui.activity.ShareWebActivity">
 		</activity>
-		<activity android:name=".ui.activity.AddFriendConfirmActivity">
+		<activity android:name=".ui.AddFriendConfirmActivity">
 		</activity>
 		<activity
-			android:name=".ui.activity.ServiceAssistantActivity"
+			android:name=".ui.ServiceAssistantActivity"
 			android:label="@string/title_activity_service_assistant">
 		</activity>
-		<activity android:name=".ui.activity.VideoSendActivity">
+		<activity android:name=".ui.VideoSendActivity">
 		</activity>
 		
 		<service

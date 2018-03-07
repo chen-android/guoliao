@@ -1,4 +1,4 @@
-package com.kuaishou.hb.ui.activity
+package com.kuaishou.hb.ui
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,6 +19,7 @@ import com.kuaishou.hb.db.Groups
 import com.kuaishou.hb.server.broadcast.BroadcastManager
 import com.kuaishou.hb.server.pinyin.PinyinGroupComparator
 import com.kuaishou.hb.server.widget.SelectableRoundedImageView
+import com.kuaishou.hb.ui.activity.BaseActivity
 import io.rong.imageloader.core.ImageLoader
 import io.rong.imkit.RongIM
 import java.util.*

@@ -1,4 +1,4 @@
-package com.kuaishou.hb.ui.activity
+package com.kuaishou.hb.ui
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,7 @@ import com.kuaishou.hb.R
 import com.kuaishou.hb.server.response.FriendInvitationResponse
 import com.kuaishou.hb.server.utils.NToast
 import com.kuaishou.hb.server.widget.LoadDialog
+import com.kuaishou.hb.ui.activity.BaseActivity
 import com.kuaishou.hb.utils.SharedPreferencesContext
 import kotlinx.android.synthetic.main.activity_add_friend_confirm.*
 
