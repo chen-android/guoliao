@@ -17,7 +17,7 @@
 			android:layout_alignParentLeft="true"
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="14dp"
-			android:text="果聊"
+			android:text="快手红包"
 			android:textColor="@color/white"
 			android:textSize="18sp"
 			/>
