@@ -42,8 +42,8 @@ android {
         config {
             storeFile file("keystore.jks")
             storePassword "xGtJ4RjAzX"
-            keyAlias "guoliaokey"
-            keyPassword "xGtJ4RjAzX"
+            keyAlias "kuaishouhongbaokey"
+            keyPassword "WJY6DK3NltqvDgkf"
         }
     }
     sourceSets {
