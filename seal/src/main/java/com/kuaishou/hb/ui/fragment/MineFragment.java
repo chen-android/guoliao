@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
@@ -29,12 +30,15 @@ import com.kuaishou.hb.ui.activity.ImageReviewActivity;
 import com.kuaishou.hb.ui.activity.MyAccountActivity;
 import com.kuaishou.hb.ui.activity.MyWalletActivity;
 import com.kuaishou.hb.ui.activity.ShareWebActivity;
+import com.kuaishou.hb.ui.widget.BuyVideoDialog;
 import com.squareup.picasso.Picasso;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.utilities.PromptPopupDialog;
 import io.rong.imlib.model.CSCustomServiceInfo;
 import io.rong.imlib.model.UserInfo;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 /**
  * Created by AMing on 16/6/21.
@@ -54,7 +58,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View mView = inflater.inflate(R.layout.seal_mine_fragment, container, false);
-		isDebug = getContext().getSharedPreferences("config", getContext().MODE_PRIVATE).getBoolean("isDebug", false);
+		isDebug = getContext().getSharedPreferences("config", Context.MODE_PRIVATE).getBoolean("isDebug", false);
 		initViews(mView);
 		initData();
 		BroadcastManager.getInstance(getActivity()).addAction(GGConst.CHANGEINFO, new BroadcastReceiver() {
@@ -120,6 +124,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 		LinearLayout mMineShare = (LinearLayout) mView.findViewById(R.id.my_share);
 		LinearLayout mMineUrl = (LinearLayout) mView.findViewById(R.id.mine_url);
 		LinearLayout mMineXN = (LinearLayout) mView.findViewById(R.id.mine_xiaoneng);
+		RelativeLayout mMineBuyVideo = (RelativeLayout) mView.findViewById(R.id.mine_buy_video);
 		if (isDebug) {
 			mMineXN.setVisibility(View.VISIBLE);
 		} else {
@@ -132,6 +137,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 		mMineUrl.setOnClickListener(this);
 		mView.findViewById(R.id.my_wallet).setOnClickListener(this);
 		mMineShare.setOnClickListener(this);
+		mMineBuyVideo.setOnClickListener(this);
 	}
 
 	@Override
@@ -171,6 +177,17 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 					}
 				});
 				urlDialog.show();
+				break;
+			case R.id.mine_buy_video:
+				BuyVideoDialog dialog = BuyVideoDialog.Companion.getInstance(100.65, 5.5);
+				dialog.setOnConfirmListener(new Function1<Double, Unit>() {
+					@Override
+					public Unit invoke(Double price) {
+						ToastUtils.showShort(price.toString());
+						return null;
+					}
+				});
+				dialog.show(getActivity().getSupportFragmentManager(), "buy_video_dialog");
 				break;
 			default:
 				break;

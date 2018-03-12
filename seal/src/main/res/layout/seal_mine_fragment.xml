@@ -125,6 +125,36 @@
 	
 	</LinearLayout>
 	
+	<RelativeLayout
+		android:id="@+id/mine_buy_video"
+		android:layout_width="match_parent"
+		android:layout_height="45.5dp"
+		android:layout_marginTop="20dp"
+		android:background="@drawable/btn_list_item_bg"
+		android:paddingRight="@dimen/middle_space">
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="14dp"
+			android:drawableLeft="@drawable/icon_video"
+			android:layout_centerVertical="true"
+			android:drawablePadding="14sp"
+			android:textColor="@color/text_color"
+			android:textSize="16sp"
+			android:text="购买视频空间"/>
+		
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:text="@string/video_account"
+			android:layout_centerVertical="true"
+			android:drawablePadding="@dimen/small_space"/>
+	</RelativeLayout>
+	
 	<LinearLayout
 		android:id="@+id/mine_service"
 		android:layout_width="match_parent"

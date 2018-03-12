@@ -22,10 +22,10 @@
 		
 		<!-- imlib config begin -->
 		<!--正式    tdrvipkst7ox5-->
-		<!--开发    k51hidwqkexcb-->
+		<!--开发    vnroth0kv4t6o-->
 		<meta-data
 			android:name="RONG_CLOUD_APP_KEY"
-			android:value="tdrvipkst7ox5"/>
+			android:value="vnroth0kv4t6o"/>
 		
 		<service
 			android:name="io.rong.imlib.ipc.RongService"

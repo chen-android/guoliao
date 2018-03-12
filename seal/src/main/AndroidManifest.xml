@@ -420,10 +420,10 @@
 			android:value="e09af6a2b26c02086e9216bd07c960ae"/>
 		<meta-data
 			android:name="UMENG_APPKEY"
-			android:value="577b2b55e0f55afbcb0026c6"/>
+			android:value="5aa62d488f4a9d0ea9000152"/>
 		<meta-data
 			android:name="UMENG_CHANNEL"
-			android:value="RongCloudApp"/>
+			android:value="KuaiShouHongBaoApp"/>
 		
 		<!-- 第三方的推送 权限 广播 和服务 -->
 		
@@ -603,8 +603,7 @@
 		<activity android:name=".ui.AddFriendConfirmActivity">
 		</activity>
 		<activity
-			android:name=".ui.ServiceAssistantActivity"
-			android:label="@string/title_activity_service_assistant">
+			android:name=".ui.ServiceAssistantActivity">
 		</activity>
 		<activity android:name=".ui.VideoSendActivity">
 		</activity>

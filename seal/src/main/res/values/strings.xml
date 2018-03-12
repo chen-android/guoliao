@@ -510,6 +510,12 @@
 	<string name="to_buttom">到底了噢～</string>
 	<string name="loading">加载中...</string>
 	<string name="waiting">请稍后...</string>
-	<string name="title_activity_add_friend_confirm">AddFriendConfirmActivity</string>
-	<string name="title_activity_service_assistant">ServiceAssistantActivity</string>
+	
+	<string name="video_account">当前空间:%1$d</string>
+	<string name="buy_video_title">购买视频空间</string>
+	<string name="buy_video_count">购买数量:</string>
+	<string name="buy_video_amount">支付快豆:</string>
+	<string name="btn_confirm_pay">确认支付</string>
+
+
 </resources>

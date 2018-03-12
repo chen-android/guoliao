@@ -75,6 +75,8 @@
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="48dp"
 			android:layout_marginRight="14dp"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:drawablePadding="@dimen/small_space"
 			android:textColor="#999"
 			android:textSize="16sp"/>
 	
@@ -114,6 +116,8 @@
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="48dp"
 			android:layout_marginRight="14dp"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:drawablePadding="@dimen/small_space"
 			android:textColor="#999"
 			android:textSize="16sp"/>
 	
@@ -151,6 +155,8 @@
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="14dp"
 			android:layout_marginRight="14dp"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:drawablePadding="@dimen/small_space"
 			android:textColor="#999"
 			android:textSize="16sp"/>
 	
@@ -188,6 +194,8 @@
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="14dp"
 			android:layout_marginRight="14dp"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:drawablePadding="@dimen/small_space"
 			android:textColor="#999"
 			android:textSize="16sp"/>
 	
@@ -220,6 +228,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:drawablePadding="@dimen/small_space"
 			android:layout_marginLeft="@dimen/large_space"
 			tools:text="家里空间水电费拉链机付了款按时间段开了房就按了斯柯达费脑子，美女，陈小女主线程，名男女装，想差距阿斯顿击缶奥德赛佛山的举报撒旦法"
 			android:maxLines="3"
