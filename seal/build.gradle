@@ -1,128 +1,128 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 // 默认版本号
-ext.appVersionCode = 122
+ext.appVersionCode = 130
 // 默认版本名
-ext.appVersionName = "1.2.2"
+ext.appVersionName = "1.3.0"
 // 默认apk输出路径
 ext.appReleaseDir = "/release-apk"
 // 默认正式包后缀名
 ext.appSuffixName = "_release.apk"
 
 def getDate() {
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMdd')
-    return formattedDate
+	def date = new Date()
+	def formattedDate = date.format('yyyyMMdd')
+	return formattedDate
 }
 
 def getTime() {
-    def date = new Date()
-    def formattedDate = date.format('HHmm')
-    return formattedDate
+	def date = new Date()
+	def formattedDate = date.format('HHmm')
+	return formattedDate
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '26.0.2'
+	compileSdkVersion 23
+	buildToolsVersion '26.0.2'
 
-    defaultConfig {
-        applicationId "com.kuaishou.hb"
-        minSdkVersion 16
-        targetSdkVersion 23
-        versionCode appVersionCode
-        versionName appVersionName
+	defaultConfig {
+		applicationId "com.kuaishou.hb"
+		minSdkVersion 16
+		targetSdkVersion 23
+		versionCode appVersionCode
+		versionName appVersionName
 
-        multiDexEnabled true
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
-    }
+		multiDexEnabled true
+		ndk {
+			abiFilters "armeabi-v7a", "x86"
+		}
+	}
 
-    signingConfigs {
-        config {
-            storeFile file("keystore.jks")
-            storePassword "xGtJ4RjAzX"
-            keyAlias "kuaishouhongbaokey"
-            keyPassword "WJY6DK3NltqvDgkf"
-        }
-    }
-    sourceSets {
-        main {
-            jni.srcDirs = []
-            jniLibs.srcDirs = ['libs']
-            java.srcDirs += 'src/main/kotlin'
-        }
-    }
-    packagingOptions {
-        exclude 'AndroidManifest.xml'
-    }
+	signingConfigs {
+		config {
+			storeFile file("keystore.jks")
+			storePassword "xGtJ4RjAzX"
+			keyAlias "kuaishouhongbaokey"
+			keyPassword "WJY6DK3NltqvDgkf"
+		}
+	}
+	sourceSets {
+		main {
+			jni.srcDirs = []
+			jniLibs.srcDirs = ['libs']
+			java.srcDirs += 'src/main/kotlin'
+		}
+	}
+	packagingOptions {
+		exclude 'AndroidManifest.xml'
+	}
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            signingConfig signingConfigs.config //for release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            minifyEnabled false
-            signingConfig signingConfigs.config //for release
-        }
-    }
+	buildTypes {
+		release {
+			minifyEnabled false
+			signingConfig signingConfigs.config //for release
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+		debug {
+			minifyEnabled false
+			signingConfig signingConfigs.config //for release
+		}
+	}
 
-    applicationVariants.all { variant ->
-        if (variant.buildType.name == "release") {
-            variant.outputs.all { output ->
-                //开始输出,自定义输出路径
-                output.outputFileName = new File("v" + appVersionName + "_" + getDate() + "_" + getTime() + appSuffixName)
-            }
-        }
-    }
+	applicationVariants.all { variant ->
+		if (variant.buildType.name == "release") {
+			variant.outputs.all { output ->
+				//开始输出,自定义输出路径
+				output.outputFileName = new File("v" + appVersionName + "_" + getDate() + "_" + getTime() + appSuffixName)
+			}
+		}
+	}
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
+	lintOptions {
+		checkReleaseBuilds false
+		abortOnError false
+	}
+	dexOptions {
+		javaMaxHeapSize "4g"
+	}
 
-    greendao {
-        schemaVersion 1
-    }
+	greendao {
+		schemaVersion 1
+	}
 
 }
 repositories {
-    flatDir {
-        dirs 'libs'
-    }
+	flatDir {
+		dirs 'libs'
+	}
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':Recognizer')
-    compile project(':contactcard')
-    compile project(':sticker')
-    compile project(':IMKit')
-    compile project(':CallKit')
-    compile project(':umengshare')
-    //    compile project(':RedPacket')
-    compile files('libs/pinyin4j-2.5.0.jar')
-    compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.facebook.stetho:stetho:1.4.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'com.lovedise:permissiongen:0.0.6'
-    compile 'com.blankj:utilcode:1.7.1'
-    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+	compile fileTree(include: ['*.jar'], dir: 'libs')
+	compile project(':Recognizer')
+	compile project(':contactcard')
+	compile project(':sticker')
+	compile project(':IMKit')
+	compile project(':CallKit')
+	compile project(':umengshare')
+	//    compile project(':RedPacket')
+	compile files('libs/pinyin4j-2.5.0.jar')
+	compile(name: 'HMS-SDK-2.4.0.300', ext: 'aar')
+	compile 'com.android.support:appcompat-v7:23.3.0'
+	compile 'com.android.support:support-v4:23.3.0'
+	compile 'com.android.support:multidex:1.0.1'
+	compile 'com.facebook.stetho:stetho:1.4.1'
+	compile 'com.squareup.picasso:picasso:2.5.2'
+	compile 'com.android.support.constraint:constraint-layout:1.0.2'
+	compile 'org.greenrobot:greendao:3.2.2'
+	compile 'com.lovedise:permissiongen:0.0.6'
+	compile 'com.blankj:utilcode:1.7.1'
+	compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.5'
+	compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+	compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+	compile 'com.android.support:recyclerview-v7:23.3.0'
+	compile 'com.android.support:design:23.3.0'
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 apply plugin: 'com.google.gms.google-services'
 

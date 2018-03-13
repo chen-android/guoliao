@@ -27,27 +27,10 @@
 			android:layout_width="0dip"
 			android:layout_height="@dimen/input_height"
 			android:layout_weight="1"
-			android:background="@null"
-			android:textCursorDrawable="@drawable/selector_cursor"
-			android:gravity="right|center_vertical"
-			android:inputType="number"
-			android:digits="0123456789"/>
-
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="00"
-			android:textColor="@color/black"
-			android:textSize="16sp"/>
-		
-		<TextView
-			style="@style/text_black_16"
-			android:layout_width="wrap_content"
-			android:layout_height="match_parent"
-			android:layout_marginLeft="@dimen/base_padding"
-			android:layout_marginRight="@dimen/base_padding"
-			android:gravity="center_vertical"
-			android:text="快豆"/>
+			android:inputType="numberDecimal"
+			android:hint="红包金额"
+			android:gravity="right"
+			android:textCursorDrawable="@drawable/selector_cursor"/>
 	</LinearLayout>
 	
 	<EditText

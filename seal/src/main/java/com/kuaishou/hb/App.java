@@ -64,8 +64,8 @@ public class App extends MultiDexApplication {
 				return defaultInspectorModulesBuilder.finish();
 			}
 		});
-
-		PlatformConfig.setWeixin("wx0da4cc3e5489d38e", "76ac3b24ad657d11ba34160106457c6a");
+		
+		PlatformConfig.setWeixin("wxb142990f0ab9b6e4", "175e0b0e678ca6f401a410890cb0e791");
 		PlatformConfig.setQQZone("1106453231", "GFidPnZtmuRY8Is2");
 		UMShareAPI.get(this);
 

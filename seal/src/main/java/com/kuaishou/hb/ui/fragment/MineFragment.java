@@ -22,7 +22,12 @@ import com.kuaishou.hb.GGConst;
 import com.kuaishou.hb.R;
 import com.kuaishou.hb.SealUserInfoManager;
 import com.kuaishou.hb.server.BaseAction;
+import com.kuaishou.hb.server.SealAction;
 import com.kuaishou.hb.server.broadcast.BroadcastManager;
+import com.kuaishou.hb.server.network.async.AsyncTaskManager;
+import com.kuaishou.hb.server.network.async.OnDataListener;
+import com.kuaishou.hb.server.network.http.HttpException;
+import com.kuaishou.hb.server.response.ConfigResponse;
 import com.kuaishou.hb.server.widget.SelectableRoundedImageView;
 import com.kuaishou.hb.ui.activity.AccountSettingActivity;
 import com.kuaishou.hb.ui.activity.FeedBackActivity;
@@ -31,6 +36,7 @@ import com.kuaishou.hb.ui.activity.MyAccountActivity;
 import com.kuaishou.hb.ui.activity.MyWalletActivity;
 import com.kuaishou.hb.ui.activity.ShareWebActivity;
 import com.kuaishou.hb.ui.widget.BuyVideoDialog;
+import com.kuaishou.hb.ui.widget.NewPayPwdDialog;
 import com.squareup.picasso.Picasso;
 
 import io.rong.imkit.RongIM;
@@ -67,47 +73,45 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 				updateUserInfo();
 			}
 		});
-//		compareVersion();
 		return mView;
 	}
-
-//	private void compareVersion() {
-//		AsyncTaskManager.getInstance(getActivity()).request(COMPARE_VERSION, new OnDataListener() {
-//			@Override
-//			public Object doInBackground(int requestCode, String parameter) throws HttpException {
-//				return new SealAction(getActivity()).getSealTalkVersion();
-//			}
-//
-//			@Override
-//			public void onSuccess(int requestCode, Object result) {
-//				if (result != null) {
-//					VersionResponse response = (VersionResponse) result;
-//					String[] s = response.getAndroid().getVersion().split("\\.");
-//					StringBuilder sb = new StringBuilder();
-//					for (int i = 0; i < s.length; i++) {
-//						sb.append(s[i]);
-//					}
-//
-//					String[] s2 = GGConst.SEALTALKVERSION.split("\\.");
-//					StringBuilder sb2 = new StringBuilder();
-//					for (int i = 0; i < s2.length; i++) {
-//						sb2.append(s2[i]);
-//					}
-//					if (Integer.parseInt(sb.toString()) > Integer.parseInt(sb2.toString())) {
-//						mNewVersionView.setVisibility(View.VISIBLE);
-//						url = response.getAndroid().getUrl();
-//						isHasNewVersion = true;
-//						BroadcastManager.getInstance(getActivity()).sendBroadcast(SHOW_RED);
-//					}
-//				}
-//			}
-//
-//			@Override
-//			public void onFailure(int requestCode, int state, Object result) {
-//
-//			}
-//		});
-//	}
+	
+	private void requestConfig() {
+		AsyncTaskManager.getInstance(getActivity()).request(COMPARE_VERSION, new OnDataListener() {
+			@Override
+			public Object doInBackground(int requestCode, String parameter) throws HttpException {
+				return new SealAction(getActivity()).getConfig();
+			}
+			
+			@Override
+			public void onSuccess(int requestCode, Object result) {
+				if (result != null) {
+					ConfigResponse c = (ConfigResponse) result;
+					BuyVideoDialog dialog = BuyVideoDialog.Companion.getInstance(c.getData().getVideoprice());
+					dialog.setOnConfirmListener(new Function1<Double, Unit>() {
+						@Override
+						public Unit invoke(Double price) {
+							NewPayPwdDialog dialog1 = NewPayPwdDialog.Companion.getInstance(price);
+							dialog1.setMInputCompletedListener(new Function1<String, Unit>() {
+								@Override
+								public Unit invoke(String s) {
+									ToastUtils.showShort(s);
+									return null;
+								}
+							});
+							return null;
+						}
+					});
+					dialog.show(getActivity().getSupportFragmentManager(), "buy_video_dialog");
+				}
+			}
+			
+			@Override
+			public void onFailure(int requestCode, int state, Object result) {
+			
+			}
+		});
+	}
 
 	private void initData() {
 		sp = getActivity().getSharedPreferences("config", Context.MODE_PRIVATE);
@@ -179,15 +183,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 				urlDialog.show();
 				break;
 			case R.id.mine_buy_video:
-				BuyVideoDialog dialog = BuyVideoDialog.Companion.getInstance(100.65, 5.5);
-				dialog.setOnConfirmListener(new Function1<Double, Unit>() {
-					@Override
-					public Unit invoke(Double price) {
-						ToastUtils.showShort(price.toString());
-						return null;
-					}
-				});
-				dialog.show(getActivity().getSupportFragmentManager(), "buy_video_dialog");
+				requestConfig();
 				break;
 			default:
 				break;

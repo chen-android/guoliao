@@ -122,7 +122,7 @@ public class SendRedPackPersonalActivity extends BaseActivity {
 	
 	private void checkCanSubmitClick() {
 		String money = moneyEt.getText().toString();
-		if (!TextUtils.isEmpty(money) && Long.valueOf(money) > 0) {
+		if (!TextUtils.isEmpty(money) && Double.valueOf(money) > 0) {
 			submitBt.setEnabled(true);
 		} else {
 			submitBt.setEnabled(false);

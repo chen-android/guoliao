@@ -27,6 +27,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 	private TextView couponTv;
 	private TextView transferRecordTv;
 	private TextView lockTv;
+	private TextView rechargeTv;
 	private TextView settingTv;
 	private SmartRefreshLayout srl;
 
@@ -45,6 +46,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 		lockTv = (TextView) findViewById(R.id.my_wallet_lock_money_tv);
 		transferRecordTv = (TextView) findViewById(R.id.my_wallet_transfer_record_tv);
 		settingTv = (TextView) findViewById(R.id.my_wallet_setting_tv);
+		rechargeTv = (TextView) findViewById(R.id.my_wallet_recharge_tv);
 		chineseMoneyTv = (TextView) findViewById(R.id.my_wallet_money_chinese_tv);
 		srl = (SmartRefreshLayout) findViewById(R.id.my_wallet_srl);
 		srl.setRefreshHeader(new ClassicsHeader(this));
@@ -60,6 +62,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 		transferRecordTv.setOnClickListener(this);
 		lockTv.setOnClickListener(this);
 		settingTv.setOnClickListener(this);
+		rechargeTv.setOnClickListener(this);
 	}
 
 	@Override
@@ -100,6 +103,8 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 			}
 		} else if (v == transferRecordTv) {
 			startActivity(new Intent(this, TransferRecordActivity.class));
+		} else if (v == rechargeTv) {
+		
 		}
 	}
 }

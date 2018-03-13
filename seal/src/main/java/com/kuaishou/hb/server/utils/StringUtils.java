@@ -31,7 +31,7 @@ public class StringUtils {
 	}
 	
 	public static String getFormatMoney(double money) {
-		DecimalFormat df = new DecimalFormat("###,###,###.00");
+		DecimalFormat df = new DecimalFormat("###,###,##0.00");
 		return df.format(money);
 	}
 

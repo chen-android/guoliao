@@ -33,14 +33,14 @@
 	<permission
 		android:name="com.kuaishou.hb.permission.MIPUSH_RECEIVE"
 		android:protectionLevel="signature"/>
-
+	
 	<uses-permission android:name="com.kuaishou.hb.permission.MIPUSH_RECEIVE"/>
 	<!-- ⼩米 配置结束 < -->
 	<!-- GCM 配置开始 < -->
 	<permission
 		android:name="com.kuaishou.hb.permission.C2D_MESSAGE"
 		android:protectionLevel="signature"/>
-
+	
 	<uses-permission android:name="com.kuaishou.hb.permission.C2D_MESSAGE"/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 	
@@ -247,7 +247,6 @@
 					android:scheme="rong"/>
 			</intent-filter>
 		</activity>
-		
 		<activity android:name=".ui.activity.DoubleChatRoomActivity"/>
 		<!-- 会话页面 -->
 		<activity
@@ -538,7 +537,7 @@
 			android:permission="com.google.android.c2dm.permission.SEND">
 			<intent-filter>
 				<action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-
+				
 				<category android:name="com.kuaishou.hb"/>
 				<!-- 替换为自己的packagename < -->
 			</intent-filter>
@@ -590,7 +589,7 @@
 		</activity>
 		<activity android:name=".ui.activity.ImageReviewActivity">
 		</activity>
-		<activity android:name=".ui.activity.RechargeActivity">
+		<activity android:name=".ui.activity.TransferActivity">
 		</activity>
 		<activity android:name=".ui.activity.TransferRecordActivity">
 		</activity>
@@ -602,8 +601,7 @@
 		</activity>
 		<activity android:name=".ui.AddFriendConfirmActivity">
 		</activity>
-		<activity
-			android:name=".ui.ServiceAssistantActivity">
+		<activity android:name=".ui.ServiceAssistantActivity">
 		</activity>
 		<activity android:name=".ui.VideoSendActivity">
 		</activity>
@@ -611,6 +609,9 @@
 		<service
 			android:name=".server.UploadVideoService"
 			android:exported="false"/>
+		
+		<activity android:name=".ui.RechargeActivity">
+		</activity>
 	</application>
 
 </manifest>

@@ -1,106 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.constraint.ConstraintLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	tools:context="com.kuaishou.hb.ui.RechargeActivity">
 	
-	<LinearLayout
-
+	<android.support.constraint.ConstraintLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical"
-		android:padding="20dp"
-		tools:context="com.kuaishou.hb.ui.activity.RechargeActivity">
-
-		<com.kuaishou.hb.server.widget.SelectableRoundedImageView
-			android:id="@+id/recharge_head_iv"
-			android:layout_width="64dp"
-			android:layout_height="64dp"
-			android:layout_gravity="center_horizontal"
-			android:layout_marginTop="30dp"
-			android:scaleType="centerCrop"
-			app:sriv_left_bottom_corner_radius="3dip"
-			app:sriv_left_top_corner_radius="3dip"
-			app:sriv_right_bottom_corner_radius="3dip"
-			app:sriv_right_top_corner_radius="3dip"/>
-		
-		<TextView
-			android:id="@+id/recharge_username_iv"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:textSize="16sp"
-			tools:text="用户名"/>
-		
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/large_space"
-			android:text="转账快豆"
-			android:textColor="@color/black"
-			android:textSize="16sp"/>
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="@dimen/input_height"
-			android:layout_marginTop="10dp"
-			android:orientation="horizontal">
-			
-			<EditText
-				android:id="@+id/recharge_money_et"
-				style="@style/text_black_16"
-				android:layout_width="0dip"
-				android:layout_height="@dimen/input_height"
-				android:layout_weight="1"
-				android:inputType="numberDecimal"
-				android:hint="转账金额"
-				android:textCursorDrawable="@drawable/selector_cursor"/>
-		</LinearLayout>
-		
-		<EditText
-			android:id="@+id/recharge_note_et"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/middle_space"
-			android:hint="转账附言（20个字以内）"
-			android:inputType="text"
-			android:maxLength="20"
-			/>
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/base_padding"
-			android:gravity="center">
-			
-			<ImageView
-				android:layout_width="38dp"
-				android:layout_height="38dp"
-				android:layout_marginRight="10dp"
-				android:layout_marginTop="2dp"
-				android:background="@drawable/icon_guobi"/>
-			
-			<TextView
-				android:id="@+id/tv_amount"
-				style="@style/text_black_28"
-				android:layout_width="wrap_content"
-				android:layout_height="@dimen/actionbar_height"
-				android:gravity="center"
-				android:text="0"
-				android:textStyle="normal"
-				android:typeface="serif"/>
-		
-		</LinearLayout>
-		
-		<Button
-			android:id="@+id/recharge_bt"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="20dp"
-			android:background="@drawable/selector_common_btn"
-			android:text="转账"
-			android:textColor="@color/white"/>
-	</LinearLayout>
-</ScrollView>
+		android:layout_height="match_parent">
+	
+	</android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

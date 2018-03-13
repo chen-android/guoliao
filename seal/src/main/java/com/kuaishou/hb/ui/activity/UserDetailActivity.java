@@ -262,7 +262,7 @@ public class UserDetailActivity extends BaseActivity implements View.OnClickList
 	}
 
 	public void startRecharge(View view) {
-		Intent intent = new Intent(this, RechargeActivity.class);
+		Intent intent = new Intent(this, TransferActivity.class);
 		intent.putExtra("friend", mFriend);
 		startActivity(intent);
 	}

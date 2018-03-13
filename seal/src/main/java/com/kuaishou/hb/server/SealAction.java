@@ -42,6 +42,7 @@ import com.kuaishou.hb.server.response.BaseResponse;
 import com.kuaishou.hb.server.response.ChatroomListResponse;
 import com.kuaishou.hb.server.response.CheckPhoneResponse;
 import com.kuaishou.hb.server.response.CheckRedPacketCountResponse;
+import com.kuaishou.hb.server.response.ConfigResponse;
 import com.kuaishou.hb.server.response.CreateGroupResponse;
 import com.kuaishou.hb.server.response.DeleteFriendResponse;
 import com.kuaishou.hb.server.response.DeleteGroupMemberResponse;
@@ -1973,6 +1974,29 @@ public class SealAction extends BaseAction {
 		ChatroomListResponse q = null;
 		if (!TextUtils.isEmpty(result)) {
 			q = jsonToBean(result, ChatroomListResponse.class);
+		}
+		return q;
+	}
+	
+	/**
+	 * 获取充值汇率等
+	 *
+	 * @throws HttpException
+	 */
+	public ConfigResponse getConfig() throws HttpException {
+		String url = getURL("GetConfig.aspx");
+		String json = JsonMananger.beanToJson(new BaseTokenRequest());
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		ConfigResponse q = null;
+		if (!TextUtils.isEmpty(result)) {
+			q = jsonToBean(result, ConfigResponse.class);
 		}
 		return q;
 	}

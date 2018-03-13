@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.blankj.utilcode.util.KeyboardUtils
 import com.kuaishou.hb.R
 import com.kuaishou.hb.server.utils.StringUtils
 import kotlinx.android.synthetic.main.dialog_buy_video.view.*
@@ -20,17 +21,15 @@ class BuyVideoDialog : DialogFragment() {
 	lateinit var rootView: View
 	private lateinit var confirmListener: (Double) -> Unit
 
-	private var balance: Double = 0.0
+	//	private var balance: Double = 0.0
 	private var price: Double = 0.0
 	private var videoCount: Int = 0
 
 	companion object {
-		private const val KEY_BALANCE: String = "balance"
 		private const val KEY_PRICE: String = "price"
-		fun getInstance(balance: Double, price: Double): BuyVideoDialog {
+		fun getInstance(price: Double): BuyVideoDialog {
 			return BuyVideoDialog().apply {
 				this.arguments = Bundle().apply {
-					this.putDouble(KEY_BALANCE, balance)
 					this.putDouble(KEY_PRICE, price)
 				}
 			}
@@ -39,7 +38,8 @@ class BuyVideoDialog : DialogFragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
-		balance = arguments.getDouble(KEY_BALANCE)
+		setStyle(DialogFragment.STYLE_NO_TITLE, 0)
+//		balance = arguments.getDouble(KEY_BALANCE)
 		price = arguments.getDouble(KEY_PRICE)
 	}
 
@@ -50,7 +50,6 @@ class BuyVideoDialog : DialogFragment() {
 	}
 
 	private fun init() {
-		rootView.balance_tv.setText("余额${StringUtils.getFormatMoney(balance)}")
 		rootView.close_bt.setOnClickListener {
 			this.dismiss()
 		}
@@ -76,6 +75,7 @@ class BuyVideoDialog : DialogFragment() {
 		})
 		rootView.confirm_bt.setOnClickListener {
 			confirmListener(videoCount * price)
+			KeyboardUtils.hideSoftInput(activity)
 			this.dismiss()
 		}
 	}

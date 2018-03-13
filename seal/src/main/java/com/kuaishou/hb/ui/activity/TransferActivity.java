@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
-public class RechargeActivity extends BaseActivity {
+public class TransferActivity extends BaseActivity {
 
 	private static final int REQUEST_RECHARGE = 66;
 	private static final int REQUEST_REMAIN_MONEY = 234;
@@ -55,7 +55,7 @@ public class RechargeActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recharge);
+		setContentView(R.layout.activity_transfer);
 		setTitle("转账");
 		mFriend = getIntent().getParcelableExtra("friend");
 		if (mFriend == null) {
@@ -73,19 +73,19 @@ public class RechargeActivity extends BaseActivity {
 			public void onInputComplete(String pwd) {
 				payPwd = pwd;
 				dialog.dismiss();
-				LoadDialog.show(RechargeActivity.this);
+				LoadDialog.show(TransferActivity.this);
 				request(REQUEST_RECHARGE, true);
 			}
 		});
 	}
 
 	private void initView() {
-		headIv = (SelectableRoundedImageView) findViewById(R.id.recharge_head_iv);
-		nameTv = (TextView) findViewById(R.id.recharge_username_iv);
-		moneyEt = (EditText) findViewById(R.id.recharge_money_et);
+		headIv = (SelectableRoundedImageView) findViewById(R.id.transfer_head_iv);
+		nameTv = (TextView) findViewById(R.id.transfer_username_iv);
+		moneyEt = (EditText) findViewById(R.id.transfer_money_et);
 		moneyTv = (TextView) findViewById(R.id.tv_amount);
-		noteEt = (EditText) findViewById(R.id.recharge_note_et);
-		submitBt = (Button) findViewById(R.id.recharge_bt);
+		noteEt = (EditText) findViewById(R.id.transfer_note_et);
+		submitBt = (Button) findViewById(R.id.transfer_bt);
 		moneyEt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -123,7 +123,7 @@ public class RechargeActivity extends BaseActivity {
 					}).show();
 					return;
 				}
-				LoadDialog.show(RechargeActivity.this);
+				LoadDialog.show(TransferActivity.this);
 				request(REQUEST_REMAIN_MONEY);
 			}
 		});
@@ -171,7 +171,7 @@ public class RechargeActivity extends BaseActivity {
 					String to = SealUserInfoManager.getInstance().getDiaplayName(mFriend) + "(ID:" + mFriend.getFriendid() + ")";
 					String money = StringUtils.getFormatMoney(Double.valueOf(moneyEt.getText().toString()));
 					String date = TimeUtils.date2String(new Date());
-					new RechargeSuccessDialog(RechargeActivity.this, from, to, money, date).show();
+					new RechargeSuccessDialog(TransferActivity.this, from, to, money, date).show();
 				} else if (response1.getCode() == 68001) {
 					NToast.shortToast(mContext, "余额不足");
 				} else if (response1.getCode() == 66002) {

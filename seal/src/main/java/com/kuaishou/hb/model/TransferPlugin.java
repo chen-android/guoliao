@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.kuaishou.hb.R;
 import com.kuaishou.hb.SealUserInfoManager;
-import com.kuaishou.hb.ui.activity.RechargeActivity;
+import com.kuaishou.hb.ui.activity.TransferActivity;
 
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.plugin.IPluginModule;
@@ -46,7 +46,7 @@ public class TransferPlugin implements IPluginModule {
 	@Override
 	public void onClick(Fragment fragment, RongExtension rongExtension) {
 		if (rongExtension.getConversationType() == Conversation.ConversationType.PRIVATE) {
-			Intent var3 = new Intent(rongExtension.getContext(), RechargeActivity.class);
+			Intent var3 = new Intent(rongExtension.getContext(), TransferActivity.class);
 			var3.putExtra("friend", SealUserInfoManager.getInstance().getFriendByID(rongExtension.getTargetId()));
 			rongExtension.startActivityForPluginResult(var3, 52, this);
 		}

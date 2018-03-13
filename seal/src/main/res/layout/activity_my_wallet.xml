@@ -69,6 +69,20 @@
 			android:text="我的红包"/>
 		
 		<TextView
+			android:id="@+id/my_wallet_recharge_tv"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="1dp"
+			android:background="@color/white"
+			android:drawableLeft="@drawable/icon_recharge"
+			android:drawablePadding="@dimen/middle_space"
+			android:drawableRight="@drawable/icon_right_arrow_gray"
+			android:gravity="center_vertical"
+			android:padding="15dp"
+			android:text="充值快豆"
+			/>
+		
+		<TextView
 			android:id="@+id/my_wallet_transfer_record_tv"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -79,7 +93,7 @@
 			android:drawableRight="@drawable/icon_right_arrow_gray"
 			android:gravity="center_vertical"
 			android:padding="15dp"
-			android:text="我的账单"
+			android:text="交易记录"
 			/>
 		
 		<TextView
@@ -106,6 +120,7 @@
 			android:drawableRight="@drawable/icon_right_arrow_gray"
 			android:gravity="center_vertical"
 			android:padding="15dp"
-			android:text="安全设置"/>
+			android:text="安全设置"
+			android:visibility="gone"/>
 	</LinearLayout>
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>
