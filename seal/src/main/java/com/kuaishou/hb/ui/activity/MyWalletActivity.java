@@ -9,6 +9,7 @@ import com.kuaishou.hb.R;
 import com.kuaishou.hb.server.network.http.HttpException;
 import com.kuaishou.hb.server.response.GetMoneyResponse;
 import com.kuaishou.hb.server.utils.StringUtils;
+import com.kuaishou.hb.ui.RechargeActivity;
 import com.kuaishou.hb.utils.SharedPreferencesContext;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -104,7 +105,7 @@ public class MyWalletActivity extends BaseActivity implements View.OnClickListen
 		} else if (v == transferRecordTv) {
 			startActivity(new Intent(this, TransferRecordActivity.class));
 		} else if (v == rechargeTv) {
-		
+			startActivity(new Intent(this, RechargeActivity.class));
 		}
 	}
 }

@@ -516,6 +516,5 @@
 	<string name="buy_video_count">购买数量:</string>
 	<string name="buy_video_amount">支付快豆:</string>
 	<string name="btn_confirm_pay">确认支付</string>
-
-
+	<string name="recharge_price_type">%1$d快豆\n{售价:%2$d元}</string>
 </resources>

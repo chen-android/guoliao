@@ -65,7 +65,7 @@ class BuyVideoDialog : DialogFragment() {
 				videoCount = s.toString().toIntOrNull() ?: 0
 				if (videoCount <= 0) {
 					rootView.confirm_bt.isEnabled = false
-					rootView.pay_amount_tv.text = ""
+					rootView.pay_amount_tv.text = "0快豆"
 				} else {
 					rootView.confirm_bt.isEnabled = true
 					rootView.pay_amount_tv.text = "${StringUtils.getFormatMoney(videoCount * price)}快豆"

@@ -27,7 +27,7 @@ class NewPayPwdDialog : DialogFragment() {
 
 	private var price: Double = 0.0
 	private var balance: Double = 0.0
-	private var pwdList: Array<TextView> = emptyArray()
+	private var pwdList: Array<TextView?> = arrayOfNulls(6)
 	private var pwdBuilder: StringBuilder = StringBuilder()
 	var mInputCompletedListener: (String) -> Unit = {}
 
@@ -107,7 +107,7 @@ class NewPayPwdDialog : DialogFragment() {
 
 	private fun refreshPwdView() {
 		for (i in 0 until 6) {
-			pwdList[i].text = if (i < pwdBuilder.length) "●" else ""
+			pwdList[i]?.text = if (i < pwdBuilder.length) "●" else ""
 		}
 	}
 

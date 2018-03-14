@@ -99,6 +99,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 									return null;
 								}
 							});
+							dialog1.show(getActivity().getSupportFragmentManager(), "pay_pwd_dialog");
 							return null;
 						}
 					});
