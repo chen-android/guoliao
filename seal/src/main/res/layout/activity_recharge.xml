@@ -1,191 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/linearLayout3"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/background"
 	android:orientation="vertical"
 	tools:context="com.kuaishou.hb.ui.RechargeActivity">
 	
-	<android.support.constraint.ConstraintLayout
-		android:id="@+id/constraintLayout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:background="@color/white"
-		android:padding="@dimen/small_space">
-		
-		<TextView
-			android:id="@+id/textView4"
-			android:layout_width="wrap_content"
-			android:layout_height="19dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginLeft="8dp"
-			android:layout_marginTop="8dp"
-			android:text="请选择充值金额"
-			android:textColor="@color/black"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"/>
-		
-		<CheckedTextView
-			android:id="@+id/recharge_ctv1"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginLeft="8dp"
-			android:layout_marginTop="16dp"
-			android:background="@drawable/selector_blue_gray_5r_border_checked_btn"
-			android:checked="false"
-			android:padding="@dimen/middle_space"
-			android:text="10快豆\n售价10元"
-			android:textAlignment="center"
-			android:textColor="@color/selector_blue_black_checked_color"
-			app:layout_constraintEnd_toStartOf="@+id/guideline3"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/textView4"/>
-		
-		<CheckedTextView
-			android:id="@+id/recharge_ctv2"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginLeft="8dp"
-			android:background="@drawable/selector_blue_gray_5r_border_checked_btn"
-			android:padding="@dimen/middle_space"
-			android:text="20快豆\n售价20元"
-			android:textAlignment="center"
-			android:textColor="@color/selector_blue_black_checked_color"
-			app:layout_constraintEnd_toStartOf="@+id/guideline4"
-			app:layout_constraintStart_toStartOf="@+id/guideline3"
-			app:layout_constraintTop_toTopOf="@+id/recharge_ctv1"/>
-		
-		<CheckedTextView
-			android:id="@+id/recharge_ctv3"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginLeft="8dp"
-			android:background="@drawable/selector_blue_gray_5r_border_checked_btn"
-			android:padding="@dimen/middle_space"
-			android:text="30快豆\n售价30元"
-			android:textAlignment="center"
-			android:textColor="@color/selector_blue_black_checked_color"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_weight="1"
-			app:layout_constraintStart_toStartOf="@+id/guideline4"
-			app:layout_constraintTop_toTopOf="@+id/recharge_ctv2"/>
-		
-		<android.support.constraint.Guideline
-			android:id="@+id/guideline3"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_percent="0.33"/>
-		
-		<android.support.constraint.Guideline
-			android:id="@+id/guideline4"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			app:layout_constraintGuide_percent="0.67"/>
-		
-		<CheckedTextView
-			android:id="@+id/recharge_ctv4"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginTop="8dp"
-			android:background="@drawable/selector_blue_gray_5r_border_checked_btn"
-			android:padding="@dimen/middle_space"
-			android:text="100快豆\n售价100元"
-			android:textAlignment="center"
-			android:textColor="@color/selector_blue_black_checked_color"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toStartOf="@+id/guideline3"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/recharge_ctv1"/>
-		
-		<CheckedTextView
-			android:id="@+id/recharge_ctv5"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginTop="8dp"
-			android:background="@drawable/selector_blue_gray_5r_border_checked_btn"
-			android:padding="@dimen/middle_space"
-			android:text="1000快豆\n售价10000元"
-			android:textAlignment="center"
-			android:textColor="@color/selector_blue_black_checked_color"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toStartOf="@+id/guideline4"
-			app:layout_constraintStart_toStartOf="@+id/guideline3"
-			app:layout_constraintTop_toBottomOf="@+id/recharge_ctv2"/>
-		
-		<CheckedTextView
-			android:id="@+id/recharge_ctv6"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
-			android:layout_marginEnd="8dp"
-			android:layout_marginRight="16dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginTop="8dp"
-			android:background="@drawable/selector_blue_gray_5r_border_checked_btn"
-			android:padding="@dimen/middle_space"
-			android:text="100快豆\n售价100元"
-			android:textAlignment="center"
-			android:textColor="@color/selector_blue_black_checked_color"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintStart_toStartOf="@+id/guideline4"
-			app:layout_constraintTop_toBottomOf="@+id/recharge_ctv3"/>
 	
-	</android.support.constraint.ConstraintLayout>
-	
-	<LinearLayout
+	<android.support.design.widget.TabLayout
+		android:id="@+id/recharge_tl"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:paddingTop="8dp"
-		android:paddingBottom="8dp"
-		android:paddingLeft="13dp"
-		android:paddingRight="13dp"
-		android:background="@color/white"
-		android:layout_marginTop="1dp">
+		android:layout_height="55dp">
 		
-		<TextView
+		<android.support.design.widget.TabItem
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="金额:"
-			android:textColor="@color/black"/>
+			android:text="Left"/>
 		
-		<EditText
-			android:id="@+id/recharge_money_et"
-			android:layout_width="match_parent"
+		<android.support.design.widget.TabItem
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="@dimen/middle_space"
-			android:background="@color/white"
-			android:hint="请输入充值金额"
-			android:inputType="number"
-			android:padding="@dimen/small_space"/>
-	</LinearLayout>
+			android:text="Center"/>
+	</android.support.design.widget.TabLayout>
 	
-	<Button
-		android:id="@+id/recharge_confirm_bt"
+	<android.support.v4.view.ViewPager
+		android:id="@+id/recharge_vp"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/large_space"
-		android:background="@drawable/selector_blue_round_enable_btn"
-		android:text="确认充值"
-		android:textColor="@color/selector_white_gray_enable_color"/>
+		android:layout_height="match_parent"/>
 </LinearLayout>
