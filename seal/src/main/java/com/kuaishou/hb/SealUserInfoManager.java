@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -1629,7 +1630,7 @@ public class SealUserInfoManager implements OnDataListener {
 		 *
 		 * @param t 已声明的类型。
 		 */
-		public abstract void onSuccess(T t);
+		public abstract void onSuccess(@Nullable T t);
 
 		/**
 		 * 错误时回调。

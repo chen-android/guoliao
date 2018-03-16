@@ -13,8 +13,8 @@ import java.util.List;
  * Company RongCloud
  */
 public class BaseAction {
-	private static final String BASE_URL = "http://121.43.190.83:7654";
-	//	private static final String BASE_URL = "http://47.92.72.63:5689";
+	//	private static final String BASE_URL = "http://121.43.190.83:7654";
+	private static final String BASE_URL = "http://47.98.56.166:7654";
 	private static final String DOMAIN = BASE_URL + "/API/";
 	protected Context mContext;
 	protected SyncHttpClient httpManager;

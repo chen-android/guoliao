@@ -99,6 +99,7 @@ import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1352,10 +1353,10 @@ public class SealAction extends BaseAction {
 	 * @return
 	 * @throws HttpException
 	 */
-	public BaseResponse deleteVideo(String id) throws HttpException {
+	public BaseResponse deleteVideo(ArrayList<String> id) throws HttpException {
 		String url = getURL("RemoveVideo.aspx");
-
-		Map<String, String> map = new HashMap<>(2);
+		
+		Map<String, Object> map = new HashMap<>(2);
 		map.put("videoid", id);
 		map.put("token", SharedPreferencesContext.getInstance().getToken());
 		String json = JSON.toJSONString(map);

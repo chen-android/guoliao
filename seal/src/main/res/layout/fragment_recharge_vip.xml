@@ -1,0 +1,248 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.kuaishou.hb.ui.fragment.RechargeVipFragment"
+                android:background="@color/background">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:layout_above="@+id/recharge_vip_refresh_bt">
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="horizontal"
+			android:paddingLeft="@dimen/middle_space"
+			android:paddingRight="@dimen/middle_space"
+			android:paddingTop="@dimen/middle_space">
+			
+			<LinearLayout
+				android:id="@+id/recharge_vip1_ll"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="match_parent"
+				android:gravity="center_horizontal"
+				android:orientation="vertical"
+				android:background="@color/white"
+				android:elevation="5dp"
+				android:padding="@dimen/middle_space">
+				
+				<ImageView
+					android:id="@+id/recharge_vip1_head_iv"
+					android:layout_width="80dp"
+					android:layout_height="70dp"
+					android:scaleType="centerCrop"
+					tools:src="@drawable/about_seal"/>
+				
+				<TextView
+					
+					android:id="@+id/recharge_vip1_name_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:ellipsize="end"
+					android:textSize="16sp"
+					tools:text="说了肯德基"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip1_content_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					android:layout_marginTop="@dimen/small_space"
+					android:textSize="12sp"
+					tools:text="死定了卡积分来看聚少离多减肥啦时间到了发就拉屎戴反了阿里dk"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip1_contact_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/shape_border_blue_5r"
+					android:textSize="13sp"
+					android:paddingLeft="30dp"
+					android:paddingRight="30dp"
+					android:paddingTop="5dp"
+					android:paddingBottom="5dp"
+					android:textColor="@color/title_bar_color"
+					android:text="与我联系"/>
+			</LinearLayout>
+			
+			<LinearLayout
+				android:id="@+id/recharge_vip2_ll"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="match_parent"
+				android:gravity="center_horizontal"
+				android:orientation="vertical"
+				android:background="@color/white"
+				android:elevation="5dp"
+				android:layout_marginLeft="@dimen/middle_space"
+				android:padding="@dimen/middle_space">
+				
+				<ImageView
+					android:id="@+id/recharge_vip2_head_iv"
+					android:layout_width="80dp"
+					android:layout_height="70dp"
+					android:scaleType="centerCrop"
+					tools:src="@drawable/about_seal"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip2_name_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:ellipsize="end"
+					android:textSize="16sp"
+					tools:text="说了肯德基"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip2_content_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					android:layout_marginTop="@dimen/small_space"
+					android:textSize="12sp"
+					tools:text="死定了卡积分来看聚少离多减肥啦时间到了发就拉屎戴反了阿里dk"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip2_contact_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/shape_border_blue_5r"
+					android:textSize="13sp"
+					android:paddingLeft="30dp"
+					android:paddingRight="30dp"
+					android:paddingTop="5dp"
+					android:paddingBottom="5dp"
+					android:textColor="@color/title_bar_color"
+					android:text="与我联系"/>
+			</LinearLayout>
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:orientation="horizontal"
+			android:paddingLeft="@dimen/middle_space"
+			android:paddingRight="@dimen/middle_space"
+			android:paddingTop="@dimen/middle_space">
+			
+			<LinearLayout
+				android:id="@+id/recharge_vip3_ll"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="match_parent"
+				android:gravity="center_horizontal"
+				android:orientation="vertical"
+				android:background="@color/white"
+				android:elevation="5dp"
+				android:padding="@dimen/middle_space">
+				
+				<ImageView
+					android:id="@+id/recharge_vip3_head_iv"
+					android:layout_width="80dp"
+					android:layout_height="70dp"
+					android:scaleType="centerCrop"
+					tools:src="@drawable/about_seal"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip3_name_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:ellipsize="end"
+					android:textSize="16sp"
+					tools:text="说了肯德基"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip3_content_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					android:layout_marginTop="@dimen/small_space"
+					android:textSize="12sp"
+					tools:text="死定了卡积分来看聚少离多减肥啦时间到了发就拉屎戴反了阿里dk"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip3_contact_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/shape_border_blue_5r"
+					android:textSize="13sp"
+					android:paddingLeft="30dp"
+					android:paddingRight="30dp"
+					android:paddingTop="5dp"
+					android:paddingBottom="5dp"
+					android:textColor="@color/title_bar_color"
+					android:text="与我联系"/>
+			</LinearLayout>
+			
+			<LinearLayout
+				android:id="@+id/recharge_vip4_ll"
+				android:layout_width="0dp"
+				android:layout_weight="1"
+				android:layout_height="match_parent"
+				android:gravity="center_horizontal"
+				android:orientation="vertical"
+				android:background="@color/white"
+				android:elevation="5dp"
+				android:layout_marginLeft="@dimen/middle_space"
+				android:padding="@dimen/middle_space">
+				
+				<ImageView
+					android:id="@+id/recharge_vip4_head_iv"
+					android:layout_width="80dp"
+					android:layout_height="70dp"
+					android:scaleType="centerCrop"
+					tools:src="@drawable/about_seal"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip4_name_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:maxLines="1"
+					android:ellipsize="end"
+					android:textSize="16sp"
+					tools:text="说了肯德基"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip4_content_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_weight="1"
+					android:layout_marginTop="@dimen/small_space"
+					android:textSize="12sp"
+					tools:text="死定了卡积分来看聚少离多减肥啦时间到了发就拉屎戴反了阿里dk"/>
+				
+				<TextView
+					android:id="@+id/recharge_vip4_contact_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="@drawable/shape_border_blue_5r"
+					android:textSize="13sp"
+					android:paddingLeft="30dp"
+					android:paddingRight="30dp"
+					android:paddingTop="5dp"
+					android:paddingBottom="5dp"
+					android:textColor="@color/title_bar_color"
+					android:text="与我联系"/>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+	
+	<Button
+		android:id="@+id/recharge_vip_refresh_bt"
+		android:layout_width="match_parent"
+		android:layout_height="40dp"
+		android:layout_alignParentBottom="true"
+		android:background="@drawable/shape_bg_blue_5r"
+		android:layout_margin="@dimen/large_space"
+		android:text="换一批"
+		android:textSize="13sp"
+		android:textColor="@color/white"/>
+</RelativeLayout>

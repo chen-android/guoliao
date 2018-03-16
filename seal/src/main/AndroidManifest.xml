@@ -610,7 +610,9 @@
 			android:name=".server.UploadVideoService"
 			android:exported="false"/>
 		
-		<activity android:name=".ui.RechargeActivity">
+		<activity
+			android:name=".ui.RechargeActivity"
+			android:theme="@style/AppCompatTheme">
 		</activity>
 	</application>
 

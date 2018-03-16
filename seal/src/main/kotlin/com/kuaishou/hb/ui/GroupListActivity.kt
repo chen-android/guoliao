@@ -55,32 +55,34 @@ class GroupListActivity : BaseActivity() {
 
     private fun initData() {
         SealUserInfoManager.getInstance().getGroups(object : SealUserInfoManager.ResultCallback<List<Groups>>() {
-            override fun onSuccess(groupsList: List<Groups>) {
-                mList = groupsList as MutableList
-                Collections.sort(mList!!, PinyinGroupComparator())
-                if (mList != null && mList!!.size > 0) {
-                    adapter = GroupAdapter(mContext, mList)
-                    mGroupListView!!.adapter = adapter
-                    mNoGroups!!.visibility = View.GONE
-                    mTextView!!.visibility = View.VISIBLE
-                    mTextView!!.text = getString(R.string.ac_group_list_group_number, mList!!.size)
-                    mGroupListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-                        val bean = adapter!!.getItem(position) as Groups?
-                        RongIM.getInstance().startGroupChat(this@GroupListActivity, bean!!.groupid, bean.groupname)
-                    }
-                    mSearch!!.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+	        override fun onSuccess(groupsList: List<Groups>?) {
+		        groupsList?.let {
+			        mList = groupsList as MutableList
+			        Collections.sort(mList!!, PinyinGroupComparator())
+			        if (mList!!.size > 0) {
+				        adapter = GroupAdapter(mContext, mList)
+				        mGroupListView!!.adapter = adapter
+				        mNoGroups!!.visibility = View.GONE
+				        mTextView!!.visibility = View.VISIBLE
+				        mTextView!!.text = getString(R.string.ac_group_list_group_number, mList!!.size)
+				        mGroupListView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+					        val bean = adapter!!.getItem(position) as Groups?
+					        RongIM.getInstance().startGroupChat(this@GroupListActivity, bean!!.groupid, bean.groupname)
+				        }
+				        mSearch!!.addTextChangedListener(object : TextWatcher {
+					        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
-                        }
+					        }
 
-                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                            filterData(s.toString())
-                        }
+					        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+						        filterData(s.toString())
+					        }
 
-                        override fun afterTextChanged(s: Editable) {}
-                    })
-                } else {
-                    mNoGroups!!.visibility = View.VISIBLE
+					        override fun afterTextChanged(s: Editable) {}
+				        })
+			        } else {
+				        mNoGroups!!.visibility = View.VISIBLE
+			        }
                 }
             }
 

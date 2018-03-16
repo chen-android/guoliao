@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -8,8 +8,9 @@
 	
 	<com.scwang.smartrefresh.layout.SmartRefreshLayout
 		android:id="@+id/videoSendSrl"
+		android:layout_above="@+id/videoSendBottomRl"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="match_parent">
 		
 		<android.support.v7.widget.RecyclerView
 			android:id="@+id/videoSendRv"
@@ -20,8 +21,49 @@
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_gravity="center"
 		android:text="暂无内容"
+		android:layout_centerInParent="true"
 		android:visibility="gone"
 		/>
-</FrameLayout>
+	
+	<RelativeLayout
+		android:id="@+id/videoSendBottomRl"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:padding="@dimen/middle_space">
+		
+		<CheckedTextView
+			android:id="@+id/videoSendSelectAllTv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="全选"
+			android:layout_centerVertical="true"
+			android:textColor="@color/text_black_color"
+			android:drawableLeft="@drawable/de_pic_checkbox"
+			android:drawablePadding="@dimen/small_space"
+			android:button="null"
+			android:checked="false"/>
+		
+		<TextView
+			android:id="@+id/videoSendDelTv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="删除"
+			android:layout_centerInParent="true"
+			android:textColor="@color/text_black_color"/>
+		
+		<TextView
+			android:id="@+id/videoSendSendTv"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:text="发送"
+			android:background="@drawable/shape_bg_blue_5r"
+			android:textColor="@color/white"
+			android:paddingLeft="@dimen/middle_space"
+			android:paddingRight="@dimen/middle_space"
+			android:paddingTop="@dimen/small_space"
+			android:paddingBottom="@dimen/small_space"/>
+	</RelativeLayout>
+</RelativeLayout>

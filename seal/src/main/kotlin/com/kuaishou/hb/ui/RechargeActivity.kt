@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import com.kuaishou.hb.R
 import com.kuaishou.hb.ui.activity.BaseActivity
 import com.kuaishou.hb.ui.fragment.RechargeFragment
+import com.kuaishou.hb.ui.fragment.RechargeVipFragment
 import kotlinx.android.synthetic.main.activity_recharge.*
 
 class RechargeActivity : BaseActivity() {
@@ -21,9 +22,9 @@ class RechargeActivity : BaseActivity() {
 		recharge_vp.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
 			override fun getItem(position: Int): Fragment {
 				return if (position == 0) {
-					RechargeFragment.newInstance("", "")
+					RechargeFragment.newInstance()
 				} else {
-					RechargeFragment.newInstance("", "")
+					RechargeVipFragment.newInstance()
 				}
 			}
 

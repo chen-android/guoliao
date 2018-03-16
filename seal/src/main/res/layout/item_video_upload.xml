@@ -12,7 +12,8 @@
 		android:layout_height="wrap_content"
 		android:gravity="center_vertical"
 		android:orientation="horizontal"
-		android:padding="@dimen/middle_space">
+		android:padding="@dimen/middle_space"
+		android:descendantFocusability="blocksDescendants">
 		
 		<RelativeLayout
 			android:layout_width="80dp"
@@ -36,11 +37,10 @@
 				android:visibility="gone"/>
 		</RelativeLayout>
 		
-		<LinearLayout
+		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="@dimen/middle_space"
-			android:orientation="vertical">
+			android:layout_marginLeft="@dimen/middle_space">
 			
 			<TextView
 				android:id="@+id/upload_video_name_tv"
@@ -57,12 +57,14 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="@dimen/small_space"
+				android:layout_below="@+id/upload_video_name_tv"
 				tools:text="时长 02:05"/>
 			
 			<RelativeLayout
 				android:id="@+id/upload_video_progress_rl"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_below="@+id/upload_video_duration_tv"
 				tools:visibility="visible">
 				
 				<ProgressBar
@@ -85,8 +87,16 @@
 					android:text="上传中..."
 					android:textSize="12sp"/>
 			</RelativeLayout>
+			
+			<CheckBox
+				android:id="@+id/upload_video_cb"
+				style="@style/MyCheckBox"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_margin="@dimen/middle_space"/>
 		
-		</LinearLayout>
+		</RelativeLayout>
 	</LinearLayout>
 	
 	<Button

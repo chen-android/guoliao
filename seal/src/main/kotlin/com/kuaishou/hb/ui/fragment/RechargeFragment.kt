@@ -16,16 +16,6 @@ import kotlinx.android.synthetic.main.fragment_recharge.view.*
  */
 class RechargeFragment : Fragment() {
 	private lateinit var rootView: View
-	private var mParam1: String? = null
-	private var mParam2: String? = null
-
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		if (arguments != null) {
-			mParam1 = arguments.getString(ARG_PARAM1)
-			mParam2 = arguments.getString(ARG_PARAM2)
-		}
-	}
 
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View? {
@@ -96,13 +86,6 @@ class RechargeFragment : Fragment() {
 		private val ARG_PARAM1 = "param1"
 		private val ARG_PARAM2 = "param2"
 
-		fun newInstance(param1: String, param2: String): RechargeFragment {
-			val fragment = RechargeFragment()
-			val args = Bundle()
-			args.putString(ARG_PARAM1, param1)
-			args.putString(ARG_PARAM2, param2)
-			fragment.arguments = args
-			return fragment
-		}
+		fun newInstance(): RechargeFragment = RechargeFragment()
 	}
 }

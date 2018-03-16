@@ -1,5 +1,7 @@
 package com.kuaishou.hb.server.response
 
+import com.kuaishou.hb.server.BaseSelectLinstener
+
 /**
  * Created by chenshuai12619 on 2018-01-04.
  */
@@ -8,7 +10,7 @@ class VideoListResponse {
     var message: String? = null
     var data: MutableList<VideoData>? = null
 
-    class VideoData {
+    class VideoData : BaseSelectLinstener() {
         var id: String? = null
         var userid: String? = null
         var url: String? = null
