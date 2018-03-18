@@ -42,6 +42,7 @@ public class PhotoUtils {
 	public static final int INTENT_SELECT = 4;
 
 	public static final String CROP_FILE_NAME = "crop_file.jpg";
+	public static final String TAKE_FILE_NAME = "take_file.jpg";
 
 	/**
 	 * PhotoUtils对象
@@ -66,7 +67,7 @@ public class PhotoUtils {
 
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, buildUri(activity));
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, buildUriForTakePic(activity));
 			if (!isIntentAvailable(activity, intent)) {
 				return;
 			}
@@ -112,6 +113,14 @@ public class PhotoUtils {
 			return Uri.fromFile(Environment.getExternalStorageDirectory()).buildUpon().appendPath(CROP_FILE_NAME).build();
 		} else {
 			return Uri.fromFile(activity.getCacheDir()).buildUpon().appendPath(CROP_FILE_NAME).build();
+		}
+	}
+
+	private Uri buildUriForTakePic(Activity activity) {
+		if (CommonUtils.checkSDCard()) {
+			return Uri.fromFile(Environment.getExternalStorageDirectory()).buildUpon().appendPath(TAKE_FILE_NAME).build();
+		} else {
+			return Uri.fromFile(activity.getCacheDir()).buildUpon().appendPath(TAKE_FILE_NAME).build();
 		}
 	}
 
@@ -166,8 +175,8 @@ public class PhotoUtils {
 		switch (requestCode) {
 			//拍照
 			case INTENT_TAKE:
-				if (new File(buildUri(activity).getPath()).exists()) {
-					if (corp(activity, buildUri(activity))) {
+				if (new File(buildUriForTakePic(activity).getPath()).exists()) {
+					if (corp(activity, buildUriForTakePic(activity))) {
 						return;
 					}
 					onPhotoResultListener.onPhotoCancel();

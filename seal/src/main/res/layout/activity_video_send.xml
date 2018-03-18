@@ -42,7 +42,7 @@
 			android:textColor="@color/text_black_color"
 			android:drawableLeft="@drawable/de_pic_checkbox"
 			android:drawablePadding="@dimen/small_space"
-			android:button="null"
+			android:button="@null"
 			android:checked="false"/>
 		
 		<TextView
