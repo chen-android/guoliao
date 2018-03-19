@@ -40,6 +40,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
+import java.util.regex.Pattern
 
 class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 
@@ -359,7 +360,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 				} else {
 
 					item.isSelected = !item.isSelected
-					this.notifyItemChanged(holder.adapterPosition)
+					this.notifyItemChanged(holder.adapterPosition, "check_status")
 					resetCheckStatus()
 				}
 			})
@@ -470,8 +471,9 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 
 					val file = File(CommonUtils.getRealFilePath(this, uri))
 					if (file.exists()) {
-						val fileEx = file.name.substring(file.name.indexOf("", 0, false))
-						if (fileEx != ".mp4") {
+						val p = Pattern.compile("[^/]*(.mp4)$")
+						val m1 = p.matcher(file.name)
+						if (m1.find().not()) {
 							ToastUtils.showShort("仅限mp4格式的视频")
 							return
 						}
@@ -483,7 +485,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 						video.url = file.absolutePath
 						video.progress = 1
 						video.name = file.name
-						video.key = "a_" + System.currentTimeMillis().toString() + fileEx
+						video.key = "a_" + System.currentTimeMillis().toString() + m1.group().substring(1)
 
 						try {
 							val media = MediaMetadataRetriever()

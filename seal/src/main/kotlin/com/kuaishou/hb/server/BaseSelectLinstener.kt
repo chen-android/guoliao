@@ -7,7 +7,7 @@ package com.kuaishou.hb.server
 abstract class BaseSelectLinstener {
 	/** 是否选中 */
 	var isSelected: Boolean = false
-		get() = isSelectable && isSelected
+		get() = isSelectable && field
 		set(value) {
 			field = value && isSelectable
 		}

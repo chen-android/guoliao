@@ -192,7 +192,7 @@ public class CommonUtils {
 					cursor.close();
 				}
 			} else {
-				if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+//				if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
 					final String docId = DocumentsContract.getDocumentId(uri);
 					final String[] split = docId.split(":");
 					final String type = split[0];
@@ -209,7 +209,7 @@ public class CommonUtils {
 					final String[] selectionArgs = new String[]{split[1]};
 
 					return getDataColumn(context, contentUri, selection, selectionArgs);
-				}
+//				}
 			}
 		}
 		return data;
