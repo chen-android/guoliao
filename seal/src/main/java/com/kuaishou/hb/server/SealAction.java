@@ -1375,6 +1375,36 @@ public class SealAction extends BaseAction {
 		}
 		return response;
 	}
+	
+	/**
+	 * 购买视频限制数
+	 *
+	 * @param count
+	 * @param pwd
+	 * @return
+	 * @throws HttpException
+	 */
+	public BaseResponse buyVideoLimit(int count, String pwd) throws HttpException {
+		String url = getURL("BuyVideoLimit.aspx");
+		Map<String, Object> map = new HashMap<>(2);
+		map.put("buynum", count);
+		map.put("token", SharedPreferencesContext.getInstance().getToken());
+		map.put("paypwd", pwd);
+		String json = JSON.toJSONString(map);
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		BaseResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, BaseResponse.class);
+		}
+		return response;
+	}
 
 	/**
 	 * 根据userId去服务器查询好友信息

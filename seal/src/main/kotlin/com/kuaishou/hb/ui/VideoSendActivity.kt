@@ -139,7 +139,7 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 				it.forEach {
 					it.isSelected = tv.isChecked
 				}
-				adapter!!.notifyDataSetChanged()
+				adapter!!.notifyItemRangeChanged(0, adapter!!.itemCount, "check_all")
 			}
 		}
 
@@ -239,6 +239,15 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 						this.adapter!!.notifyItemRangeRemoved(removeIndex, this.adapter!!.videoList!!.size)
 						removeIndex = -1
 						ToastUtils.showShort("删除成功")
+					} else {
+						var newList = mutableListOf<VideoListResponse.VideoData>()
+						this.adapter!!.videoList!!.forEach {
+							if (it.isSelected.not()) {
+								newList.add(it)
+							}
+						}
+						this.adapter!!.videoList = newList
+						this.adapter!!.notifyDataSetChanged()
 					}
 				} else {
 					ToastUtils.showShort(result.message)
@@ -323,13 +332,15 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 					item.isSelectable = false
 				}
 			} else {
-				/**正在上传的项目*/
-				holder.pbRl!!.visibility = View.VISIBLE
-				holder.pb!!.progress = item.progress
-				item.isSelectable = false
+
 				if (item.progress == 100) {
 					holder.tip!!.text = "完成"
 					item.isSelectable = true
+				} else {
+					/**正在上传的项目*/
+					holder.pbRl!!.visibility = View.VISIBLE
+					holder.pb!!.progress = item.progress
+					item.isSelectable = false
 				}
 			}
 			holder.cb!!.isChecked = item.isSelected
@@ -372,10 +383,6 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 				val progress = videoData.progress
 				holder!!.pb!!.progress = progress
 				holder!!.tip!!.setTextColor(resources.getColor(R.color.rc_text_color_primary))
-				if (progress == 100) {
-					holder!!.tip!!.text = "完成"
-					videoData.isSelectable = true
-				}
 				if (progress <= 0) {
 					holder.pbRl!!.visibility = View.GONE
 					videoData.isSelectable = true
@@ -385,8 +392,13 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 						holder!!.tip!!.setTextColor(resources.getColor(R.color.red))
 					}
 				} else {
-					videoData.isSelectable = false
-					holder.pbRl!!.visibility = View.VISIBLE
+					if (progress == 100) {
+						holder!!.tip!!.text = "完成"
+						videoData.isSelectable = true
+					} else {
+						videoData.isSelectable = false
+						holder.pbRl!!.visibility = View.VISIBLE
+					}
 				}
 				holder.cb!!.visibility = if (videoData.isSelectable) View.VISIBLE else View.GONE
 				holder.cb!!.isChecked = videoData.isSelected
@@ -449,17 +461,18 @@ class VideoSendActivity : BaseActivity(), StrongHandler.HandleMessageListener {
 	private fun resetCheckStatus() {
 		var checkedAll = true
 		adapter!!.videoList?.let {
-			run loop@{
-				it.forEach {
-					if (it.isSelectable) {
-						if (it.isSelected.not()) {
-							checkedAll = false
-							return@loop
-						}
+			var selectNumber = 0
+			it.forEach {
+				if (it.isSelectable) {
+					if (it.isSelected.not()) {
+						checkedAll = false
+					} else {
+						selectNumber++
 					}
 				}
 			}
 			videoSendSelectAllTv.isChecked = checkedAll
+			videoSendSendTv.text = if (selectNumber == 0) "发送" else "发送($selectNumber)"
 		}
 	}
 

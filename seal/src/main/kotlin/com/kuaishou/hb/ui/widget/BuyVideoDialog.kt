@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.dialog_buy_video.view.*
 class BuyVideoDialog : DialogFragment() {
 
 	lateinit var rootView: View
-	private lateinit var confirmListener: (Double) -> Unit
+	private lateinit var confirmListener: (Double, Int) -> Unit
 
 	//	private var balance: Double = 0.0
 	private var price: Double = 0.0
@@ -74,13 +74,13 @@ class BuyVideoDialog : DialogFragment() {
 
 		})
 		rootView.confirm_bt.setOnClickListener {
-			confirmListener(videoCount * price)
+			confirmListener(videoCount * price, videoCount)
 			KeyboardUtils.hideSoftInput(activity)
 			this.dismiss()
 		}
 	}
 
-	fun setOnConfirmListener(listener: (Double) -> Unit) {
+	fun setOnConfirmListener(listener: (Double, Int) -> Unit) {
 		this.confirmListener = listener
 	}
 }

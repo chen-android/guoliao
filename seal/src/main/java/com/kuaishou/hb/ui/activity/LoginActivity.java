@@ -329,6 +329,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 						editor.putString(GGConst.GUOGUO_LOGIN_SEX, sex);
 						editor.putString(GGConst.GUOGUO_LOGING_PHONE, data.getUsername());
 						editor.putString(GGConst.GUOGUO_LOGIN_WHATSUP, data.getWhatsup());
+						editor.putInt(GGConst.GUOGUO_LOGIN_VIDEOLIMIT, data.getVideolimit());
 						editor.apply();
 						RongIM.getInstance().refreshUserInfoCache(new UserInfo(data.getId(), nickName, Uri.parse(portraitUri)));
 					}

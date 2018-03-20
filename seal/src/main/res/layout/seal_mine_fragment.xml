@@ -146,6 +146,7 @@
 			android:text="购买视频空间"/>
 		
 		<TextView
+			android:id="@+id/mine_video_limit_tv"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"

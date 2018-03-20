@@ -17,6 +17,7 @@ public class GGConst {
 	public static final String GUOGUO_LOGIN_TOKEN = "loginToken";
 	public static final String GUOGUO_LOGIN_NAME = "loginnickname";
 	public static final String GUOGUO_LOGIN_WHATSUP = "loginwhatsup";
+	public static final String GUOGUO_LOGIN_VIDEOLIMIT = "videolimit";
 	public static final String GUOGUO_LOGING_PORTRAIT = "loginPortrait";
 	public static final String GUOGUO_LOGING_PHONE = "loginphone";
 	public static final String GUOGUO_LOGING_PASSWORD = "loginpassword";

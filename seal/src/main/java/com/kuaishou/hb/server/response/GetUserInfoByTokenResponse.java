@@ -40,6 +40,7 @@ public class GetUserInfoByTokenResponse {
 		private String rebate;
 		private String sex;
 		private String whatsup;
+		private int videolimit;
 
 		public String getId() {
 			return id;
@@ -151,6 +152,14 @@ public class GetUserInfoByTokenResponse {
 
 		public void setWhatsup(String whatsup) {
 			this.whatsup = whatsup;
+		}
+		
+		public int getVideolimit() {
+			return videolimit;
+		}
+		
+		public void setVideolimit(int videolimit) {
+			this.videolimit = videolimit;
 		}
 	}
 }

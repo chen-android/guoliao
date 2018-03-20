@@ -27,6 +27,7 @@ import com.kuaishou.hb.server.broadcast.BroadcastManager;
 import com.kuaishou.hb.server.network.async.AsyncTaskManager;
 import com.kuaishou.hb.server.network.async.OnDataListener;
 import com.kuaishou.hb.server.network.http.HttpException;
+import com.kuaishou.hb.server.response.BaseResponse;
 import com.kuaishou.hb.server.response.ConfigResponse;
 import com.kuaishou.hb.server.widget.SelectableRoundedImageView;
 import com.kuaishou.hb.ui.activity.AccountSettingActivity;
@@ -45,18 +46,21 @@ import io.rong.imlib.model.CSCustomServiceInfo;
 import io.rong.imlib.model.UserInfo;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+import kotlin.jvm.functions.Function2;
 
 /**
  * Created by AMing on 16/6/21.
  * Company RongCloud
  */
 public class MineFragment extends Fragment implements View.OnClickListener {
-	private static final int COMPARE_VERSION = 54;
+	private static final int GET_CONFIG = 54;
+	private static final int BUY_VIDEO = 23;
 	public static final String SHOW_RED = "SHOW_RED";
 	private SharedPreferences sp;
 	private SelectableRoundedImageView imageView;
 	private TextView mName;
 	private TextView mId;
+	private TextView videoLimitTv;
 	private boolean isDebug;
 //	private SendMessageToWX.Req req;
 
@@ -77,7 +81,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 	}
 	
 	private void requestConfig() {
-		AsyncTaskManager.getInstance(getActivity()).request(COMPARE_VERSION, new OnDataListener() {
+		AsyncTaskManager.getInstance(getActivity()).request(GET_CONFIG, new OnDataListener() {
 			@Override
 			public Object doInBackground(int requestCode, String parameter) throws HttpException {
 				return new SealAction(getActivity()).getConfig();
@@ -88,14 +92,40 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 				if (result != null) {
 					ConfigResponse c = (ConfigResponse) result;
 					BuyVideoDialog dialog = BuyVideoDialog.Companion.getInstance(c.getData().getVideoprice());
-					dialog.setOnConfirmListener(new Function1<Double, Unit>() {
+					dialog.setOnConfirmListener(new Function2<Double, Integer, Unit>() {
 						@Override
-						public Unit invoke(Double price) {
+						public Unit invoke(Double price, final Integer count) {
 							NewPayPwdDialog dialog1 = NewPayPwdDialog.Companion.getInstance(price);
 							dialog1.setMInputCompletedListener(new Function1<String, Unit>() {
 								@Override
-								public Unit invoke(String s) {
-									ToastUtils.showShort(s);
+								public Unit invoke(final String s) {
+									AsyncTaskManager.getInstance(getActivity()).request(BUY_VIDEO, new OnDataListener() {
+										@Override
+										public Object doInBackground(int requestCode, String parameter) throws HttpException {
+											return new SealAction(getActivity()).buyVideoLimit(count, s);
+										}
+										
+										@Override
+										public void onSuccess(int requestCode, Object result) {
+											if (result != null) {
+												BaseResponse br = ((BaseResponse) result);
+												if (br.getCode() == 200) {
+													ToastUtils.showShort("购买成功");
+													int oldNum = sp.getInt(GGConst.GUOGUO_LOGIN_VIDEOLIMIT, 0);
+													int newNum = oldNum + count;
+													sp.edit().putInt(GGConst.GUOGUO_LOGIN_VIDEOLIMIT, newNum).apply();
+													videoLimitTv.setText(getString(R.string.video_account, newNum));
+												} else {
+													ToastUtils.showShort(br.getMessage());
+												}
+											}
+										}
+										
+										@Override
+										public void onFailure(int requestCode, int state, Object result) {
+										
+										}
+									});
 									return null;
 								}
 							});
@@ -123,6 +153,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 		imageView = (SelectableRoundedImageView) mView.findViewById(R.id.mine_header);
 		mId = (TextView) mView.findViewById(R.id.mine_userid);
 		mName = (TextView) mView.findViewById(R.id.mine_name);
+		videoLimitTv = (TextView) mView.findViewById(R.id.mine_video_limit_tv);
 		LinearLayout mUserProfile = (LinearLayout) mView.findViewById(R.id.start_user_profile);
 		LinearLayout mMineSetting = (LinearLayout) mView.findViewById(R.id.mine_setting);
 		LinearLayout mMineService = (LinearLayout) mView.findViewById(R.id.mine_service);
@@ -200,6 +231,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 		String userId = sp.getString(GGConst.GUOGUO_LOGIN_ID, "");
 		String username = sp.getString(GGConst.GUOGUO_LOGIN_NAME, "");
 		String userPortrait = sp.getString(GGConst.GUOGUO_LOGING_PORTRAIT, "");
+		int videoLimit = sp.getInt(GGConst.GUOGUO_LOGIN_VIDEOLIMIT, 0);
 		mName.setText(username);
 		mId.setText("用户ID: " + userId);
 		if (!TextUtils.isEmpty(userId)) {
@@ -218,6 +250,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 					getActivity().overridePendingTransition(0, 0);
 				}
 			});
+			
+			videoLimitTv.setText(getString(R.string.video_account, videoLimit));
 		}
 	}
 
