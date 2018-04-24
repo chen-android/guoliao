@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.31'
     repositories {
         jcenter()
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.1'
         // just for GCM.
         classpath 'com.google.gms:google-services:2.0.0-alpha3'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
