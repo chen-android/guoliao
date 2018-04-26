@@ -395,6 +395,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 							});
 						}
 					} else if (loginR.getCode() == 61003) {
+						/*新用户*/
 						Intent intent = new Intent(this, RegisterActivity.class);
 						intent.putExtra("unionid", unionid);
 						startActivity(intent);

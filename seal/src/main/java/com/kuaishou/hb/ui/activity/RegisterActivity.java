@@ -86,6 +86,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 		mGetCode.setClickable(true);
 		mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
+		if (!TextUtils.isEmpty(unionid)) {
+			mPasswordEdit.setVisibility(View.GONE);
+		}
 
 	}
 
@@ -248,6 +251,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 					} else if (rres.getCode() == 600) {
 						Toast.makeText(mContext, "服务器繁忙，请稍后。", Toast.LENGTH_SHORT).show();
 					}
+					break;
+				default:
 					break;
 			}
 		}
