@@ -23,6 +23,7 @@ import com.kuaishou.hb.server.response.RegisterResponse;
 import com.kuaishou.hb.server.response.SendCodeResponse;
 import com.kuaishou.hb.server.response.VerifyCodeResponse;
 import com.kuaishou.hb.server.utils.AMUtils;
+import com.kuaishou.hb.server.utils.MD5;
 import com.kuaishou.hb.server.utils.NToast;
 import com.kuaishou.hb.server.utils.downtime.DownTimer;
 import com.kuaishou.hb.server.utils.downtime.DownTimerListener;
@@ -35,19 +36,20 @@ import com.kuaishou.hb.server.widget.LoadDialog;
  */
 @SuppressWarnings("deprecation")
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, DownTimerListener {
-
+	
 	private static final int CHECK_PHONE = 1;
 	private static final int SEND_CODE = 2;
 	private static final int VERIFY_CODE = 3;
 	private static final int REGISTER = 4;
 	private static final int REGISTER_BACK = 1001;
+	boolean isBright = true;
 	private ImageView mImgBackground;
 	private ClearWriteEditText mPhoneEdit, mCodeEdit, mPasswordEdit;
 	private Button mGetCode, mConfirm;
 	private String mPhone, mCode, mNickName, mPassword, mCodeToken;
 	private boolean isRequestCode = false;
 	private String unionid;//从微信登陆过来
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,23 +58,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 		unionid = getIntent().getStringExtra("unionid");
 		initView();
 	}
-
+	
 	private void initView() {
 		mPhoneEdit = (ClearWriteEditText) findViewById(R.id.reg_phone);
 		mCodeEdit = (ClearWriteEditText) findViewById(R.id.reg_code);
 		mPasswordEdit = (ClearWriteEditText) findViewById(R.id.reg_password);
 		mGetCode = (Button) findViewById(R.id.reg_getcode);
 		mConfirm = (Button) findViewById(R.id.reg_button);
-
+		
 		mGetCode.setOnClickListener(this);
 		mGetCode.setClickable(false);
 		mConfirm.setOnClickListener(this);
-
+		
 		TextView goLogin = (TextView) findViewById(R.id.reg_login);
 		TextView goForget = (TextView) findViewById(R.id.reg_forget);
 		goLogin.setOnClickListener(this);
 		goForget.setOnClickListener(this);
-
+		
 		mImgBackground = (ImageView) findViewById(R.id.rg_img_backgroud);
 		new Handler().postDelayed(new Runnable() {
 			@Override
@@ -81,24 +83,24 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 				mImgBackground.startAnimation(animation);
 			}
 		}, 200);
-
+		
 		addEditTextListener();
-
+		
 		mGetCode.setClickable(true);
 		mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
 		if (!TextUtils.isEmpty(unionid)) {
 			mPasswordEdit.setVisibility(View.GONE);
 		}
-
+		
 	}
-
+	
 	private void addEditTextListener() {
 		mPhoneEdit.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+			
 			}
-
+			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				mPhone = s.toString().trim();
@@ -114,36 +116,41 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 //                    mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
 //                }
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
-
+			
 			}
 		});
 		mCodeEdit.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+			
 			}
-
+			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 5) {
 					AMUtils.onInactive(mContext, mCodeEdit);
+					if (!TextUtils.isEmpty(unionid)) {
+						mConfirm.setClickable(true);
+						mConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
+						return;
+					}
 				}
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
-
+			
 			}
 		});
 		mPasswordEdit.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+			
 			}
-
+			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() > 5) {
@@ -154,15 +161,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 					mConfirm.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
 				}
 			}
-
+			
 			@Override
 			public void afterTextChanged(Editable s) {
-
+			
 			}
 		});
 	}
-
-
+	
 	@Override
 	public Object doInBackground(int requestCode, String id) throws HttpException {
 		switch (requestCode) {
@@ -177,7 +183,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 		}
 		return super.doInBackground(requestCode, id);
 	}
-
+	
 	@Override
 	public void onSuccess(int requestCode, Object result) {
 		if (result != null) {
@@ -204,7 +210,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 						NToast.shortToast(mContext, R.string.message_frequency);
 					}
 					break;
-
+				
 				case VERIFY_CODE:
 					VerifyCodeResponse vcres = (VerifyCodeResponse) result;
 					switch (vcres.getCode()) {
@@ -227,15 +233,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 							NToast.shortToast(mContext, R.string.captcha_overdue);
 							LoadDialog.dismiss(mContext);
 							break;
+						default:
+							break;
 					}
 					break;
-
+				
 				case REGISTER:
 					RegisterResponse rres = (RegisterResponse) result;
 					LoadDialog.dismiss(mContext);
 					if (rres.getCode() == 200) {
 						NToast.shortToast(mContext, R.string.register_success);
-						BroadcastManager.getInstance(mContext).sendBroadcast("login_success", new LoginSuccessBroa(mPhone, mPassword, rres.getData().getUserId()));
+						BroadcastManager.getInstance(mContext).sendBroadcast("login_success", new LoginSuccessBroa(mPhone, mPassword, rres.getData().getUserId(), unionid));
 //						Intent data = new Intent();
 //						data.putExtra("phone", mPhone);
 //						data.putExtra("password", mPassword);
@@ -257,7 +265,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 			}
 		}
 	}
-
+	
 	@Override
 	public void onFailure(int requestCode, int state, Object result) {
 		switch (requestCode) {
@@ -277,12 +285,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 				break;
 		}
 	}
-
+	
 	@Override
 	public android.support.v4.app.FragmentManager getSupportFragmentManager() {
 		return null;
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -306,8 +314,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 			case R.id.reg_button:
 				mPhone = mPhoneEdit.getText().toString().trim();
 				mCode = mCodeEdit.getText().toString().trim();
-				mPassword = mPasswordEdit.getText().toString().trim();
-
+				if (TextUtils.isEmpty(unionid)) {
+					mPassword = mPasswordEdit.getText().toString().trim();
+				} else {
+					mPassword = MD5.encrypt(System.currentTimeMillis() + "");
+				}
+				
 				if (TextUtils.isEmpty(mPhone)) {
 					NToast.shortToast(mContext, getString(R.string.phone_number_is_null));
 					mPhoneEdit.setShakeAnimation();
@@ -328,21 +340,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 					mPasswordEdit.setShakeAnimation();
 					return;
 				}
-
+				
 				if (!isRequestCode) {
 					NToast.shortToast(mContext, getString(R.string.not_send_code));
 					return;
 				}
-
+				
 				LoadDialog.show(mContext);
 				request(REGISTER, true);
-
+				
+				break;
+			default:
 				break;
 		}
 	}
-
-	boolean isBright = true;
-
+	
 	@Override
 	public void onTick(long millisUntilFinished) {
 		mGetCode.setText(String.valueOf(millisUntilFinished / 1000) + "s");
@@ -350,7 +362,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 		mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_gray));
 		isBright = false;
 	}
-
+	
 	@Override
 	public void onFinish() {
 		mGetCode.setText(R.string.get_code);
@@ -358,5 +370,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 		mGetCode.setBackgroundDrawable(getResources().getDrawable(R.drawable.rs_select_btn_blue));
 		isBright = true;
 	}
-
+	
 }

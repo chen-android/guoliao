@@ -135,7 +135,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 					String phone = object.getString("phone");
 					String password = object.getString("pwd");
 					String id = object.getString("userId");
+					String unionid = object.getString("unionid");
 					if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(id)) {
+						if (TextUtils.isEmpty(unionid)) {
+							phoneString = phone;
+							passwordString = password;
+							
+							LoadDialog.show(mContext);
+							editor.putBoolean("exit", false);
+							editor.apply();
+							request(LOGIN, true);
+							return;
+						}
 						mPhoneEdit.setText(phone);
 						mPasswordEdit.setText(password);
 						editor.putString(GGConst.GUOGUO_LOGING_PHONE, phone);
@@ -217,7 +228,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 				LoadDialog.show(mContext);
 				editor.putBoolean("exit", false);
 				editor.apply();
-				String oldPhone = sp.getString(GGConst.GUOGUO_LOGING_PHONE, "");
 				request(LOGIN, true);
 				break;
 			case R.id.de_login_register:
