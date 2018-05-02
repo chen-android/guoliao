@@ -137,14 +137,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 					String id = object.getString("userId");
 					String unionid = object.getString("unionid");
 					if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(id)) {
-						if (TextUtils.isEmpty(unionid)) {
-							phoneString = phone;
-							passwordString = password;
-							
-							LoadDialog.show(mContext);
-							editor.putBoolean("exit", false);
-							editor.apply();
-							request(LOGIN, true);
+						if (!TextUtils.isEmpty(unionid)) {
+							LoginActivity.this.unionid = unionid;
+							request(WX_LOGIN);
 							return;
 						}
 						mPhoneEdit.setText(phone);
