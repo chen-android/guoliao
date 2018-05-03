@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.Gravity
+import android.view.View
 import android.widget.TextView
 import com.kuaishou.hb.R
 import com.kuaishou.hb.ui.activity.BaseActivity
@@ -27,9 +28,9 @@ class RechargeActivity : BaseActivity() {
 		recharge_vp.adapter = object : FragmentPagerAdapter(supportFragmentManager) {
 			override fun getItem(position: Int): Fragment {
 				return if (position == 0) {
-					RechargeFragment.newInstance()
-				} else {
 					RechargeVipFragment.newInstance()
+				} else {
+					RechargeFragment.newInstance()
 				}
 			}
 
@@ -37,19 +38,27 @@ class RechargeActivity : BaseActivity() {
 		}
 		recharge_tl.setupWithViewPager(recharge_vp)
 		val tabLeft = recharge_tl.getTabAt(0)
-		tabLeft?.customView = TextView(this).apply {
-			this.gravity = Gravity.CENTER
-			this.text = "VIP专用充值"
-			this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_recharge_tab_vip, 0, 0, 0)
-			this.compoundDrawablePadding = 10
+
+		tabLeft?.customView = View.inflate(this, R.layout.tab_item_recharge, null).apply {
+			this.findViewById(R.id.tab_item_tv).apply {
+				this as TextView
+				this.gravity = Gravity.CENTER
+				this.text = "VIP专用充值"
+				this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_recharge_tab_vip, 0, 0, 0)
+				this.compoundDrawablePadding = 10
+			}
 		}
 
 		val tabRight = recharge_tl.getTabAt(1)
-		tabRight?.customView = TextView(this).apply {
-			this.gravity = Gravity.CENTER
-			this.text = "在线充值"
-			this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_recharge_tabchong_selected, 0, 0, 0)
-			this.compoundDrawablePadding = 10
+
+		tabRight?.customView = View.inflate(this, R.layout.tab_item_recharge, null).apply {
+			this.findViewById(R.id.tab_item_tv).apply {
+				this as TextView
+				this.gravity = Gravity.CENTER
+				this.text = "在线充值"
+				this.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_recharge_tabchong_selected, 0, 0, 0)
+				this.compoundDrawablePadding = 10
+			}
 		}
 	}
 

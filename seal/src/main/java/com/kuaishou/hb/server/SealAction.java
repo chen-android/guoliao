@@ -65,6 +65,7 @@ import com.kuaishou.hb.server.response.GetUserInfoByPhoneResponse;
 import com.kuaishou.hb.server.response.GetUserInfoByTokenResponse;
 import com.kuaishou.hb.server.response.GetUserInfosResponse;
 import com.kuaishou.hb.server.response.GetVersionResponse;
+import com.kuaishou.hb.server.response.GetVipUserListResponse;
 import com.kuaishou.hb.server.response.JoinGroupResponse;
 import com.kuaishou.hb.server.response.LockMoneyListResponse;
 import com.kuaishou.hb.server.response.LoginResponse;
@@ -1227,6 +1228,31 @@ public class SealAction extends BaseAction {
 		GetFriendListResponse response = null;
 		if (!TextUtils.isEmpty(result)) {
 			response = jsonToBean(result, GetFriendListResponse.class);
+		}
+		return response;
+	}
+	
+	/**
+	 * 获取vip客服列表
+	 *
+	 * @throws HttpException
+	 */
+	public GetVipUserListResponse getVIPUserList() throws HttpException {
+		String url = getURL("GetVipUserList.aspx");
+		
+		String json = JsonMananger.beanToJson(new BaseTokenRequest());
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		
+		GetVipUserListResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, GetVipUserListResponse.class);
 		}
 		return response;
 	}
