@@ -55,6 +55,7 @@ import com.kuaishou.hb.server.response.GetGroupInfoResponse;
 import com.kuaishou.hb.server.response.GetGroupMemberResponse;
 import com.kuaishou.hb.server.response.GetGroupResponse;
 import com.kuaishou.hb.server.response.GetMoneyResponse;
+import com.kuaishou.hb.server.response.GetRechargePathResponse;
 import com.kuaishou.hb.server.response.GetRedPacketDetailResponse;
 import com.kuaishou.hb.server.response.GetRedPacketStatisticResponse;
 import com.kuaishou.hb.server.response.GetRedPacketUsersResponse;
@@ -1228,6 +1229,34 @@ public class SealAction extends BaseAction {
 		GetFriendListResponse response = null;
 		if (!TextUtils.isEmpty(result)) {
 			response = jsonToBean(result, GetFriendListResponse.class);
+		}
+		return response;
+	}
+	
+	/**
+	 * 获取充值地址
+	 *
+	 * @throws HttpException
+	 */
+	public GetRechargePathResponse getRechargePath(float money) throws HttpException {
+		String url = getURL("GetOrder.aspx");
+		
+		Map<String, Object> map = new HashMap<>(2);
+		map.put("money", money);
+		map.put("token", SharedPreferencesContext.getInstance().getToken());
+		String json = JSON.toJSONString(map);
+		StringEntity entity = null;
+		try {
+			entity = new StringEntity(json, ENCODING);
+			entity.setContentType(CONTENT_TYPE);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String result = httpManager.post(mContext, url, entity, CONTENT_TYPE);
+		
+		GetRechargePathResponse response = null;
+		if (!TextUtils.isEmpty(result)) {
+			response = jsonToBean(result, GetRechargePathResponse.class);
 		}
 		return response;
 	}

@@ -176,7 +176,7 @@
 			android:layout_marginLeft="@dimen/middle_space"
 			android:background="@color/white"
 			android:hint="请输入充值金额"
-			android:inputType="number"
+			android:inputType="numberDecimal"
 			android:padding="@dimen/small_space"/>
 	</LinearLayout>
 	

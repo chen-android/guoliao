@@ -1,5 +1,6 @@
 package com.kuaishou.hb.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,8 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import com.blankj.utilcode.util.SizeUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.kuaishou.hb.R
+import com.kuaishou.hb.server.SealAction
+import com.kuaishou.hb.server.network.async.AsyncTaskManager
+import com.kuaishou.hb.server.network.async.OnDataListener
+import com.kuaishou.hb.server.response.GetRechargePathResponse
 import com.kuaishou.hb.server.utils.ColorPhrase
+import com.kuaishou.hb.ui.activity.SealWebActivity
 import kotlinx.android.synthetic.main.fragment_recharge.view.*
 
 /**
@@ -49,6 +56,33 @@ class RechargeFragment : Fragment() {
 		rootView.recharge_ctv4.setOnClickListener(onClickListener)
 		rootView.recharge_ctv5.setOnClickListener(onClickListener)
 		rootView.recharge_ctv6.setOnClickListener(onClickListener)
+
+		rootView.recharge_confirm_bt.setOnClickListener {
+			val money = rootView.recharge_money_et.text.toString().toFloat()
+			if (money > 0) {
+				AsyncTaskManager.getInstance(activity).request(1, object : OnDataListener {
+					override fun doInBackground(requestCode: Int, parameter: String?): Any {
+						return SealAction(activity).getRechargePath(money)
+					}
+
+					override fun onSuccess(requestCode: Int, result: Any?) {
+						result?.let {
+							it as GetRechargePathResponse
+							var intent = Intent(activity, SealWebActivity::class.java)
+							intent.putExtra("url", it.data.payUrl)
+							startActivity(intent)
+						}
+					}
+
+					override fun onFailure(requestCode: Int, state: Int, result: Any?) {
+						ToastUtils.showShort("服务器开小差，请稍后重试")
+					}
+
+				})
+			} else {
+				ToastUtils.showShort("金额无效")
+			}
+		}
 	}
 
 	private var onClickListener = View.OnClickListener {
