@@ -1,28 +1,37 @@
 package com.kuaishou.hb.ui.fragment
 
-import android.content.Intent
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
+import com.base.bj.paysdk.domain.TrPayResult
+import com.base.bj.paysdk.utils.TrPay
 import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.kuaishou.hb.GGConst.GUOGUO_LOGIN_ID
 import com.kuaishou.hb.R
 import com.kuaishou.hb.server.SealAction
 import com.kuaishou.hb.server.network.async.AsyncTaskManager
 import com.kuaishou.hb.server.network.async.OnDataListener
 import com.kuaishou.hb.server.response.GetRechargePathResponse
 import com.kuaishou.hb.server.utils.ColorPhrase
-import com.kuaishou.hb.ui.activity.SealWebActivity
 import kotlinx.android.synthetic.main.fragment_recharge.view.*
+
 
 /**
  *
  */
 class RechargeFragment : Fragment() {
 	private lateinit var rootView: View
+	private lateinit var sp: SharedPreferences
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		sp = activity.getSharedPreferences("config", Context.MODE_PRIVATE)
+	}
 
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View? {
@@ -68,9 +77,25 @@ class RechargeFragment : Fragment() {
 					override fun onSuccess(requestCode: Int, result: Any?) {
 						result?.let {
 							it as GetRechargePathResponse
-							var intent = Intent(activity, SealWebActivity::class.java)
-							intent.putExtra("url", it.data.payUrl)
-							startActivity(intent)
+//							var intent = Intent(Intent.ACTION_VIEW, Uri.parse(it.data.payUrl))
+//							startActivity(intent)
+							TrPay.getInstance(activity).callPay("充值${money}元", it.data.orderid, money.toLong(), "", "API/ChackOrder.aspx", sp.getString(GUOGUO_LOGIN_ID, "")) { context, outtradeno, resultCode, resultString, payType, amount, tradename ->
+								/**
+								 * 支付完成回调
+								 * @param context        上下文
+								 * @param outtradeno   商户系统订单号
+								 * @param resultCode   支付状态(RESULT_CODE_SUCC：支付成功、RESULT_CODE_FAIL：支付失败)
+								 * @param resultString  支付结果
+								 * @param payType      支付类型（1：支付宝 2：微信 3：银联）
+								 * @param amount       支付金额
+								 * @param tradename   商品名称
+								 */
+								if (resultCode == TrPayResult.RESULT_CODE_SUCC.id) {
+									//支付成功逻辑处理
+								} else if (resultCode == TrPayResult.RESULT_CODE_FAIL.id) {
+									//支付失败逻辑处理
+								}
+							}
 						}
 					}
 
@@ -79,6 +104,7 @@ class RechargeFragment : Fragment() {
 					}
 
 				})
+
 			} else {
 				ToastUtils.showShort("金额无效")
 			}

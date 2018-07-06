@@ -63,19 +63,19 @@ class RechargeVipFragment : Fragment() {
 							vipList[i].let {
 								it.visibility = View.VISIBLE
 								var vip = vips[i]
-								it.findViewById(R.id.recharge_vip1_head_iv).apply {
+								it.getChildAt(0).apply {
 									this as ImageView
 									Picasso.with(activity).load(vip.headico).into(this)
 								}
-								it.findViewById(R.id.recharge_vip1_name_tv).apply {
+								it.getChildAt(1).apply {
 									this as TextView
 									this.text = vip.nickname
 								}
-								it.findViewById(R.id.recharge_vip1_content_tv).apply {
+								it.getChildAt(2).apply {
 									this as TextView
 									this.text = vip.whatsup
 								}
-								it.findViewById(R.id.recharge_vip1_contact_tv).setOnClickListener {
+								it.getChildAt(3).setOnClickListener {
 									RongIM.getInstance().startPrivateChat(activity, vip.userid, vip.nickname)
 								}
 							}
@@ -92,7 +92,6 @@ class RechargeVipFragment : Fragment() {
 
 		})
 	}
-
 
 	companion object {
 		fun newInstance(): RechargeVipFragment = RechargeVipFragment()

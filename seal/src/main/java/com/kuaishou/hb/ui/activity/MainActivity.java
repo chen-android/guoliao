@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.base.bj.paysdk.utils.TrPay;
 import com.kuaishou.hb.R;
 import com.kuaishou.hb.db.Friend;
 import com.kuaishou.hb.server.HomeWatcherReceiver;
@@ -87,6 +88,7 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		EventBus.getDefault().register(this);
+		TrPay.getInstance(this).initPaySdk("43ef569ab3d9445ab63db92633d86535", "local");
 		mContext = this;
 		isDebug = getSharedPreferences("config", MODE_PRIVATE).getBoolean("isDebug", false);
 		initPermission();
