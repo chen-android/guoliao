@@ -16,6 +16,7 @@ import com.kuaishou.hb.db.GroupMember;
 import com.kuaishou.hb.db.Groups;
 import com.kuaishou.hb.message.module.SealExtensionModule;
 import com.kuaishou.hb.model.GGRedPacketNotifyMessage;
+import com.kuaishou.hb.model.PaySuccessNotifyMessage;
 import com.kuaishou.hb.server.broadcast.BroadcastManager;
 import com.kuaishou.hb.server.event.UpdateFriendDeal;
 import com.kuaishou.hb.server.network.http.HttpException;
@@ -81,6 +82,8 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 	public static final String UPDATE_GROUP_NAME = "update_group_name";
 	public static final String UPDATE_GROUP_MEMBER = "update_group_member";
 	public static final String GROUP_DISMISS = "group_dismiss";
+	public static final String PAY_SUCCESS = "pay_success";
+	public static final String PAY_FAIL = "pay_fail";
 
 	private Context mContext;
 
@@ -373,6 +376,13 @@ public class SealAppContext implements RongIM.ConversationListBehaviorListener,
 				} else {
 					return true;
 				}
+			}
+		} else if (messageContent instanceof PaySuccessNotifyMessage) {
+			PaySuccessNotifyMessage paySuccessNotifyMessage = ((PaySuccessNotifyMessage) messageContent);
+			if ("Success".equals(paySuccessNotifyMessage.getContent())) {
+				BroadcastManager.getInstance(mContext).sendBroadcast(PAY_SUCCESS);
+			} else {
+				BroadcastManager.getInstance(mContext).sendBroadcast(PAY_FAIL);
 			}
 		}
 		return false;

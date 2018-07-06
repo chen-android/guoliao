@@ -21,6 +21,7 @@ import com.kuaishou.hb.message.provider.TestMessageProvider;
 import com.kuaishou.hb.model.GGRedPacketMessage;
 import com.kuaishou.hb.model.GGRedPacketNotifyMessage;
 import com.kuaishou.hb.model.GGVideoFileMessage;
+import com.kuaishou.hb.model.PaySuccessNotifyMessage;
 import com.kuaishou.hb.server.utils.NLog;
 import com.kuaishou.hb.stetho.RongDatabaseDriver;
 import com.kuaishou.hb.stetho.RongDatabaseFilesProvider;
@@ -108,6 +109,7 @@ public class App extends MultiDexApplication {
 				RongIM.registerMessageType(GGVideoFileMessage.class);
 				RongIM.registerMessageTemplate(new TestMessageProvider());
 				RongIM.registerMessageType(GGRedPacketNotifyMessage.class);
+				RongIM.registerMessageType(PaySuccessNotifyMessage.class);
 				RongIM.registerMessageTemplate(new RedPacketNotificationMessageProvider());
 
 				RongIM.getInstance().registerConversationTemplate(new SealConversationProvider());
